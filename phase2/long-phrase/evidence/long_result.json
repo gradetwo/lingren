@@ -1,0 +1,108 @@
+{
+ "summaries": {
+  "base": {
+   "out": "/content/soulx_long/base.wav",
+   "sr": 24000,
+   "duration_s": 23.3,
+   "f0_shift_semitones": 0
+  },
+  "ps_p4": {
+   "out": "/content/soulx_long/ps_p4.wav",
+   "sr": 24000,
+   "duration_s": 23.3,
+   "f0_shift_semitones": 4
+  },
+  "tr_p4": {
+   "out": "/content/soulx_long/tr_p4.wav",
+   "sr": 24000,
+   "duration_s": 23.3,
+   "f0_shift_semitones": 0
+  },
+  "ps_m3": {
+   "out": "/content/soulx_long/ps_m3.wav",
+   "sr": 24000,
+   "duration_s": 23.3,
+   "f0_shift_semitones": -3
+  },
+  "tr_m3": {
+   "out": "/content/soulx_long/tr_m3.wav",
+   "sr": 24000,
+   "duration_s": 23.3,
+   "f0_shift_semitones": 0
+  },
+  "take1": {
+   "out": "/content/soulx_long/take1.wav",
+   "sr": 24000,
+   "duration_s": 23.3,
+   "f0_shift_semitones": 0
+  }
+ },
+ "score_total_s": 23.31,
+ "n_notes": 55,
+ "durations": {
+  "base": 23.3,
+  "ps_p4": 23.3,
+  "tr_p4": 23.3,
+  "ps_m3": 23.3,
+  "tr_m3": 23.3,
+  "take1": 23.3
+ },
+ "env_corr": {
+  "ps_p4_vs_tr_p4": 0.9966,
+  "ps_m3_vs_tr_m3": 0.9989,
+  "base_vs_ps_p4": 0.9268,
+  "base_vs_tr_p4": 0.9294
+ },
+ "f0_global_median_hz": {
+  "base": 197.7,
+  "ps_p4": 254.9,
+  "tr_p4": 257.9,
+  "ps_m3": 167.2,
+  "tr_m3": 167.2,
+  "take1": 196.6
+ },
+ "f0_global_cents_vs_base": {
+  "base": 0.0,
+  "ps_p4": 440.0,
+  "tr_p4": 460.0,
+  "ps_m3": -290.0,
+  "tr_m3": -290.0,
+  "take1": -10.0
+ },
+ "per_note_p4": {
+  "n_notes": 55,
+  "median_abs_cents": 0.0,
+  "p90_abs_cents": 10.0,
+  "max_abs_cents": 19.6
+ },
+ "per_note_m3": {
+  "n_notes": 55,
+  "median_abs_cents": 0.0,
+  "p90_abs_cents": 10.0,
+  "max_abs_cents": 30.5
+ },
+ "base_slack_cents": {
+  "n": 55,
+  "median": 4.9,
+  "p90_abs": 42.9,
+  "max_abs": 74.6
+ },
+ "base_boundary_score_mode": {
+  "n": 52,
+  "recall": 0.9455,
+  "median_abs_ms": 53.6,
+  "p90_abs_ms": 146.3,
+  "max_abs_ms": 293.3,
+  "median_signed_ms": 21.0
+ },
+ "base_boundary_n_candidates": 86,
+ "takes_gate_soulx": {
+  "bit_identical": false,
+  "envelope_corr": 0.9008,
+  "f0_diff_cents": 14.73,
+  "onset_diff_ms": 21.33,
+  "f0_available": true,
+  "passed": true,
+  "fail_reasons": []
+ }
+}

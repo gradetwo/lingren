@@ -1,0 +1,35 @@
+{
+ "score_s": 25.6,
+ "output_s": 23.36,
+ "duration_ratio": 0.9125,
+ "duration_diff_s": -2.24,
+ "alignment_rescaled": {
+  "n": 60,
+  "recall": 1.0,
+  "median_abs_ms": 1217.0,
+  "p90_abs_ms": 2247.4,
+  "max_abs_ms": 2487.7,
+  "median_signed_ms": -1217.0
+ },
+ "n_candidates": 119,
+ "measured_span_s": 21.932,
+ "score_span_s": 24.44,
+ "total_drift_ms": -2487.7,
+ "sp": {
+  "n_spans": 15,
+  "candidates_inside_sp_spans": 14,
+  "median_sp_rms": 0.05519,
+  "median_syllable_rms": 0.15601,
+  "sp_to_syllable_rms_ratio": 0.354
+ },
+ "take1_s": 23.52,
+ "takes_gate_vr": {
+  "bit_identical": false,
+  "envelope_corr": 0.5553,
+  "f0_diff_cents": 67.02,
+  "onset_diff_ms": 42.67,
+  "f0_available": true,
+  "passed": true,
+  "fail_reasons": []
+ }
+}

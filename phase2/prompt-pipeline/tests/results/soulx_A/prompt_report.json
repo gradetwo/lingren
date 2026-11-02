@@ -1,0 +1,58 @@
+{
+  "input": {
+    "path": "/home/hatch/workspace/svs-api-service/phase1/colab_logs/soulx_A.wav",
+    "decoder": "soundfile",
+    "sample_rate_hz": 24000,
+    "channels_note": "mixed to mono for analysis",
+    "duration_s": 2.0,
+    "peak_dbfs": -15.13,
+    "rms_dbfs": -27.67,
+    "clipped_fraction": 0.0
+  },
+  "trim": {
+    "start_s": 0.0,
+    "end_s": 2.0,
+    "duration_s": 2.0,
+    "head_trimmed_s": 0.0,
+    "tail_trimmed_s": 0.0
+  },
+  "window_metrics": {
+    "peak_dbfs": -15.13,
+    "rms_dbfs": -27.67,
+    "clipped_fraction": 0.0,
+    "snr_estimate_db": 20.0,
+    "snr_note": "median loud-half window frame RMS vs median sub--45dBFS window frame RMS; null when no quiet frames exist",
+    "scope_note": "pitch, gaps, SNR, peak, RMS and clipping are all measured on the VR window, not the whole file"
+  },
+  "pitch": {
+    "voiced_fraction": 0.8481012658227848,
+    "mean_confidence": 0.864771942568077,
+    "median_f0_hz": 334.59241831008217,
+    "f0_semitone_std": 1.571,
+    "median_voiced_run_s": 0.45,
+    "n_frames": 79
+  },
+  "internal_silence_gaps": [],
+  "vr_window": {
+    "start_s": 0.0,
+    "end_s": 2.0,
+    "duration_s": 2.0
+  },
+  "vr_ready": true,
+  "loudness_suggestion": {
+    "target_peak_dbfs": -3.0,
+    "target_rms_dbfs": -18.0,
+    "suggested_gain_db": 9.67,
+    "apply": true
+  },
+  "warnings": [],
+  "rejects": [],
+  "verdict": "accept",
+  "soulx_ready": false,
+  "soulx_note": "no annotation supplied: template only, soulx_ready=false (voice still registers, SoulX synth fails loudly without prompt_meta)",
+  "upload": {
+    "file": "prompt_window.wav (the VR window slice; normalized.wav with --write-normalized)",
+    "prompt_meta": null,
+    "post_v1_voices": "multipart: file=<audio>, prompt_meta=<file> when present; without prompt_meta the voice registers with soulx_ready=false"
+  }
+}

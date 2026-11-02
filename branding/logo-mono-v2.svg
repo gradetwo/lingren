@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" role="img" aria-label="伶人 LOGO v2 单色版">
+  <title>伶人 logo v2 mono</title>
+  <g fill="#1C1A17">
+    <rect x="33" y="120" width="15" height="56" rx="7"/>
+    <rect x="59" y="104" width="15" height="72" rx="7"/>
+    <rect x="85" y="84" width="15" height="92" rx="7"/>
+    <rect x="111" y="100" width="15" height="76" rx="7"/>
+    <rect x="137" y="116" width="15" height="60" rx="7"/>
+  </g>
+  <g fill="#1C1A17">
+    <path d="M 103 30 Q 114 32 115 44 Q 110 78 96 112 Q 86 138 64 157 Q 60 160 62 151 Q 76 130 88 100 Q 98 66 99 46 Q 99 34 103 30 Z"/>
+    <path d="M 106 40 Q 116 40 119 52 Q 130 86 142 122 Q 150 144 157 157 Q 160 162 154 159 Q 144 152 136 138 Q 124 110 114 76 Q 108 56 106 40 Z"/>
+  </g>
+  <text x="230" y="118" font-family="Noto Serif CJK SC, Songti SC, serif" font-size="92" font-weight="700" letter-spacing="4" fill="#1C1A17">伶人</text>
+  <text x="234" y="162" font-family="DejaVu Sans, Helvetica, Arial, sans-serif" font-size="26" letter-spacing="8" fill="#1C1A17">LINGREN · SVS</text>
+</svg>

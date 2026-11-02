@@ -1,0 +1,29 @@
+# Named tunnel config TEMPLATE for the lingren SVS service.
+#
+# DO NOT copy this file as config.yml and run it unchanged: the three
+# <...> placeholders must be replaced with real values first, and the
+# credentials file only exists after `cloudflared tunnel create`.
+#
+# This tunnel is INDEPENDENT of the existing SSH tunnel
+# (bigbangbang.wangda.today). Never point this file at the SSH tunnel's
+# credentials, and never edit the SSH tunnel's own config.
+#
+# Setup steps (see SETUP.md):
+#   1. cloudflared tunnel login          # browser OAuth, Cloudflare acct
+#   2. cloudflared tunnel create lingren-svs
+#        -> writes ~/.cloudflared/<TUNNEL-ID>.json (the credentials file)
+#   3. Add a DNS record: <hostname> CNAME <TUNNEL-ID>.cfargotunnel.com
+#        (or: cloudflared tunnel route dns lingren-svs <hostname>)
+#   4. Copy this file to ~/.cloudflared/config-svs.yml with real values.
+#   5. Run: cloudflared tunnel --config ~/.cloudflared/config-svs.yml run lingren-svs
+#        (wrapper: run-named-tunnel.sh)
+
+tunnel: <TUNNEL-ID-from-step-2>
+credentials-file: /home/<user>/.cloudflared/<TUNNEL-ID-from-step-2>.json
+
+ingress:
+  # The SVS API only. Nothing else on this host is exposed by this tunnel.
+  - hostname: <HOSTNAME-e.g.-svs.wangda.today>
+    service: http://localhost:8000
+  # Catch-all: refuse anything that is not the SVS hostname.
+  - service: http_status:404

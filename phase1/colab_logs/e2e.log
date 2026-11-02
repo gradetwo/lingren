@@ -1,0 +1,43 @@
++ cd /content
++ rm -rf lingren_service svs_data
++ python3 -m zipfile -e lingren_service.zip lingren_service
++ pip install -q fastapi uvicorn pydantic python-multipart
+++ head -1
+++ ls /root/.cache/huggingface/hub/models--Soul-AILab--SoulX-Singer/snapshots/40493ad90286056c7a9095035164434a79daa8c9/model.pt
++ MODEL=/root/.cache/huggingface/hub/models--Soul-AILab--SoulX-Singer/snapshots/40493ad90286056c7a9095035164434a79daa8c9/model.pt
++ export SVS_DATA_DIR=/content/svs_data
++ SVS_DATA_DIR=/content/svs_data
++ export SOULX_REPO=/content/soulx
++ SOULX_REPO=/content/soulx
++ export SOULX_MODEL_PATH=/root/.cache/huggingface/hub/models--Soul-AILab--SoulX-Singer/snapshots/40493ad90286056c7a9095035164434a79daa8c9/model.pt
++ SOULX_MODEL_PATH=/root/.cache/huggingface/hub/models--Soul-AILab--SoulX-Singer/snapshots/40493ad90286056c7a9095035164434a79daa8c9/model.pt
++ export SOULX_CONFIG=/content/soulx/soulxsinger/config/soulxsinger.yaml
++ SOULX_CONFIG=/content/soulx/soulxsinger/config/soulxsinger.yaml
++ export SOULX_PHONESET=/content/soulx/soulxsinger/utils/phoneme/phone_set.json
++ SOULX_PHONESET=/content/soulx/soulxsinger/utils/phoneme/phone_set.json
++ export SOULX_DEVICE=cuda
++ SOULX_DEVICE=cuda
++ export SOULX_FP16=1
++ SOULX_FP16=1
++ cd /content/lingren_service
++ echo 15371
++ nohup python3 -m uvicorn app.main:app --port 8000
+++ seq 1 60
++ for i in $(seq 1 60)
++ curl -s http://127.0.0.1:8000/health
++ sleep 2
++ for i in $(seq 1 60)
++ curl -s http://127.0.0.1:8000/health
++ echo HEALTH_OK
+HEALTH_OK
++ break
++ curl -s http://127.0.0.1:8000/health
+{"status":"ok","voices":0}+ python3 -u /content/colab_e2e.py
+voice: 0d5c387d9663 soulx_ready: True
+job: 65805e28ff194368
+final status: completed error: None
+E2E_RESULT {"job_id": "65805e28ff194368", "status": "completed", "error": null, "takes_completed": 2, "receipt_takes": [{"take": 0, "seed": 0, "attempts": 1, "duration_s": 2.0, "f0_shift": 0}, {"take": 1, "seed": 1, "attempts": 1, "duration_s": 2.0, "f0_shift": 0}], "gate_pairwise": [{"take": 1, "attempt": 0, "vs_accepted": [{"bit_identical": false, "envelope_corr": 0.834, "f0_diff_cents": 2.72, "onset_diff_ms": 21.33, "f0_available": true, "passed": true, "fail_reasons": []}]}], "audio_take0_bytes": 96044, "audio_take1_bytes": 96044}
+++ cat /content/uvicorn.pid
++ kill 15371
++ echo E2E_DONE
+E2E_DONE

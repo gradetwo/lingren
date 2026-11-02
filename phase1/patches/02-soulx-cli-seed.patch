@@ -1,0 +1,32 @@
+diff --git a/cli/inference.py b/cli/inference.py
+index 95c219d..abe3394 100644
+--- a/cli/inference.py
++++ b/cli/inference.py
+@@ -123,6 +123,14 @@ def process(args, config, model: torch.nn.Module):
+ 
+ 
+ def main(args, config):
++    if getattr(args, "seed", None) is not None:
++        import random
++        random.seed(args.seed)
++        np.random.seed(args.seed % (2 ** 32))
++        torch.manual_seed(args.seed)
++        if torch.cuda.is_available():
++            torch.cuda.manual_seed_all(args.seed)
++        print(f"RNG seeded: {args.seed}")
+     model = build_model(
+         model_path=args.model_path,
+         config=config,
+@@ -156,6 +164,12 @@ if __name__ == "__main__":
+         default=False,
+         help="Use FP16 inference (faster on GPU)",
+     )
++    parser.add_argument(
++        "--seed",
++        type=int,
++        default=None,
++        help="Seed torch/random/numpy RNGs (one take per process).",
++    )
+     args = parser.parse_args()
+     args.use_fp16 = args.fp16
+ 

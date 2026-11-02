@@ -1,0 +1,61 @@
+{
+  "input": {
+    "path": "tests/corpus/synth_bursts_4s.wav",
+    "decoder": "soundfile",
+    "sample_rate_hz": 48000,
+    "channels_note": "mixed to mono for analysis",
+    "duration_s": 3.6,
+    "peak_dbfs": -6.02,
+    "rms_dbfs": -10.79,
+    "clipped_fraction": 0.0
+  },
+  "trim": {
+    "start_s": 0.0,
+    "end_s": 3.6,
+    "duration_s": 3.6,
+    "head_trimmed_s": 0.0,
+    "tail_trimmed_s": 0.0
+  },
+  "window_metrics": {
+    "peak_dbfs": -6.02,
+    "rms_dbfs": -10.79,
+    "clipped_fraction": 0.0,
+    "snr_estimate_db": null,
+    "snr_note": "median loud-half window frame RMS vs median sub--45dBFS window frame RMS; null when no quiet frames exist",
+    "scope_note": "pitch, gaps, SNR, peak, RMS and clipping are all measured on the VR window, not the whole file"
+  },
+  "pitch": {
+    "voiced_fraction": 0.8321678321678322,
+    "mean_confidence": 0.7508818435395195,
+    "median_f0_hz": 330.4044758347476,
+    "f0_semitone_std": 3.409,
+    "median_voiced_run_s": 0.125,
+    "n_frames": 143
+  },
+  "internal_silence_gaps": [],
+  "vr_window": {
+    "start_s": 0.0,
+    "end_s": 3.6,
+    "duration_s": 3.6
+  },
+  "vr_ready": true,
+  "loudness_suggestion": {
+    "target_peak_dbfs": -3.0,
+    "target_rms_dbfs": -18.0,
+    "suggested_gain_db": -7.21,
+    "apply": true
+  },
+  "warnings": [
+    "speech_like: median voiced run 0.125s < 0.15s (short bursts, verify it is singing not speech)",
+    "snr_not_estimable: no sub--45dBFS frames inside trimmed region to use as a noise floor proxy"
+  ],
+  "rejects": [],
+  "verdict": "accept_with_warnings",
+  "soulx_ready": false,
+  "soulx_note": "no annotation supplied: template only, soulx_ready=false (voice still registers, SoulX synth fails loudly without prompt_meta)",
+  "upload": {
+    "file": "prompt_window.wav (the VR window slice; normalized.wav with --write-normalized)",
+    "prompt_meta": null,
+    "post_v1_voices": "multipart: file=<audio>, prompt_meta=<file> when present; without prompt_meta the voice registers with soulx_ready=false"
+  }
+}

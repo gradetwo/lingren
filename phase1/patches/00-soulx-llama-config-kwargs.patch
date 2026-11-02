@@ -1,0 +1,15 @@
+diff --git a/soulxsinger/models/modules/llama.py b/soulxsinger/models/modules/llama.py
+index f9fee9c..483b14a 100644
+--- a/soulxsinger/models/modules/llama.py
++++ b/soulxsinger/models/modules/llama.py
+@@ -129,7 +129,9 @@ class DiffLlama(LlamaModel):
+         dropout=0.1,
+         ffn_dropout=0.1,
+         attention_dropout=0.0,
+-        config=LlamaConfig(0, 256, 1024, 1, 1),
++        config=LlamaConfig(vocab_size=0, hidden_size=256,
++                           intermediate_size=1024, num_hidden_layers=1,
++                           num_attention_heads=1),
+     ):
+         super().__init__(config)
+ 

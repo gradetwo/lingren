@@ -1,0 +1,624 @@
+{
+ "soulx_total_s": 23.31,
+ "soulx_onsets": [
+  {
+   "lyric": "像",
+   "onset_s": 0.13,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "我",
+   "onset_s": 0.39,
+   "dur_s": 0.24
+  },
+  {
+   "lyric": "这",
+   "onset_s": 0.63,
+   "dur_s": 0.22
+  },
+  {
+   "lyric": "样",
+   "onset_s": 0.85,
+   "dur_s": 0.24
+  },
+  {
+   "lyric": "懦",
+   "onset_s": 1.09,
+   "dur_s": 0.33
+  },
+  {
+   "lyric": "懦",
+   "onset_s": 1.42,
+   "dur_s": 0.13
+  },
+  {
+   "lyric": "弱",
+   "onset_s": 1.55,
+   "dur_s": 0.24
+  },
+  {
+   "lyric": "的",
+   "onset_s": 1.79,
+   "dur_s": 0.22
+  },
+  {
+   "lyric": "人",
+   "onset_s": 2.01,
+   "dur_s": 0.46
+  },
+  {
+   "lyric": "人",
+   "onset_s": 2.47,
+   "dur_s": 0.69
+  },
+  {
+   "lyric": "凡",
+   "onset_s": 4.0,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "事",
+   "onset_s": 4.26,
+   "dur_s": 0.3
+  },
+  {
+   "lyric": "都",
+   "onset_s": 4.56,
+   "dur_s": 0.16
+  },
+  {
+   "lyric": "要",
+   "onset_s": 4.72,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "留",
+   "onset_s": 4.98,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "留",
+   "onset_s": 5.24,
+   "dur_s": 0.2
+  },
+  {
+   "lyric": "几",
+   "onset_s": 5.44,
+   "dur_s": 0.32
+  },
+  {
+   "lyric": "分",
+   "onset_s": 5.76,
+   "dur_s": 0.94
+  },
+  {
+   "lyric": "除",
+   "onset_s": 7.43,
+   "dur_s": 0.34
+  },
+  {
+   "lyric": "了",
+   "onset_s": 7.77,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "想",
+   "onset_s": 8.03,
+   "dur_s": 0.7
+  },
+  {
+   "lyric": "你",
+   "onset_s": 8.73,
+   "dur_s": 0.52
+  },
+  {
+   "lyric": "你",
+   "onset_s": 9.25,
+   "dur_s": 0.46
+  },
+  {
+   "lyric": "除",
+   "onset_s": 10.07,
+   "dur_s": 0.44
+  },
+  {
+   "lyric": "了",
+   "onset_s": 10.51,
+   "dur_s": 0.14
+  },
+  {
+   "lyric": "了",
+   "onset_s": 10.65,
+   "dur_s": 0.24
+  },
+  {
+   "lyric": "爱",
+   "onset_s": 10.89,
+   "dur_s": 0.64
+  },
+  {
+   "lyric": "你",
+   "onset_s": 11.53,
+   "dur_s": 0.47
+  },
+  {
+   "lyric": "你",
+   "onset_s": 12.0,
+   "dur_s": 0.51
+  },
+  {
+   "lyric": "我",
+   "onset_s": 13.61,
+   "dur_s": 0.28
+  },
+  {
+   "lyric": "什",
+   "onset_s": 13.89,
+   "dur_s": 0.38
+  },
+  {
+   "lyric": "么",
+   "onset_s": 14.27,
+   "dur_s": 0.32
+  },
+  {
+   "lyric": "什",
+   "onset_s": 14.59,
+   "dur_s": 0.32
+  },
+  {
+   "lyric": "么",
+   "onset_s": 14.91,
+   "dur_s": 0.38
+  },
+  {
+   "lyric": "都",
+   "onset_s": 15.29,
+   "dur_s": 0.32
+  },
+  {
+   "lyric": "愿",
+   "onset_s": 15.61,
+   "dur_s": 0.31
+  },
+  {
+   "lyric": "愿",
+   "onset_s": 15.92,
+   "dur_s": 0.19
+  },
+  {
+   "lyric": "像",
+   "onset_s": 16.74,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "我",
+   "onset_s": 17.0,
+   "dur_s": 0.24
+  },
+  {
+   "lyric": "这",
+   "onset_s": 17.24,
+   "dur_s": 0.22
+  },
+  {
+   "lyric": "样",
+   "onset_s": 17.46,
+   "dur_s": 0.24
+  },
+  {
+   "lyric": "懦",
+   "onset_s": 17.7,
+   "dur_s": 0.33
+  },
+  {
+   "lyric": "懦",
+   "onset_s": 18.03,
+   "dur_s": 0.13
+  },
+  {
+   "lyric": "弱",
+   "onset_s": 18.16,
+   "dur_s": 0.24
+  },
+  {
+   "lyric": "的",
+   "onset_s": 18.4,
+   "dur_s": 0.22
+  },
+  {
+   "lyric": "人",
+   "onset_s": 18.62,
+   "dur_s": 0.46
+  },
+  {
+   "lyric": "人",
+   "onset_s": 19.08,
+   "dur_s": 0.69
+  },
+  {
+   "lyric": "凡",
+   "onset_s": 20.61,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "事",
+   "onset_s": 20.87,
+   "dur_s": 0.3
+  },
+  {
+   "lyric": "都",
+   "onset_s": 21.17,
+   "dur_s": 0.16
+  },
+  {
+   "lyric": "要",
+   "onset_s": 21.33,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "留",
+   "onset_s": 21.59,
+   "dur_s": 0.26
+  },
+  {
+   "lyric": "留",
+   "onset_s": 21.85,
+   "dur_s": 0.2
+  },
+  {
+   "lyric": "几",
+   "onset_s": 22.05,
+   "dur_s": 0.32
+  },
+  {
+   "lyric": "分",
+   "onset_s": 22.37,
+   "dur_s": 0.94
+  }
+ ],
+ "soulx_sp_spans": [
+  {
+   "onset_s": 0.0,
+   "dur_s": 0.13
+  },
+  {
+   "onset_s": 3.16,
+   "dur_s": 0.84
+  },
+  {
+   "onset_s": 6.7,
+   "dur_s": 0.5
+  },
+  {
+   "onset_s": 7.2,
+   "dur_s": 0.23
+  },
+  {
+   "onset_s": 9.71,
+   "dur_s": 0.36
+  },
+  {
+   "onset_s": 12.51,
+   "dur_s": 1.1
+  },
+  {
+   "onset_s": 16.11,
+   "dur_s": 0.5
+  },
+  {
+   "onset_s": 16.61,
+   "dur_s": 0.13
+  },
+  {
+   "onset_s": 19.77,
+   "dur_s": 0.84
+  }
+ ],
+ "vr_score_s": 25.6,
+ "vr_onsets": [
+  {
+   "lyric": "假",
+   "onset_s": 0.0
+  },
+  {
+   "lyric": "如",
+   "onset_s": 0.2586
+  },
+  {
+   "lyric": "迷",
+   "onset_s": 0.5172
+  },
+  {
+   "lyric": "路",
+   "onset_s": 0.7759
+  },
+  {
+   "lyric": "了",
+   "onset_s": 1.0345
+  },
+  {
+   "lyric": "一",
+   "onset_s": 1.2931
+  },
+  {
+   "lyric": "定",
+   "onset_s": 1.681
+  },
+  {
+   "lyric": "把",
+   "onset_s": 3.2974
+  },
+  {
+   "lyric": "思",
+   "onset_s": 3.4267
+  },
+  {
+   "lyric": "念",
+   "onset_s": 3.6853
+  },
+  {
+   "lyric": "装",
+   "onset_s": 3.944
+  },
+  {
+   "lyric": "进",
+   "onset_s": 4.2026
+  },
+  {
+   "lyric": "漂",
+   "onset_s": 4.3966
+  },
+  {
+   "lyric": "流",
+   "onset_s": 4.7845
+  },
+  {
+   "lyric": "瓶",
+   "onset_s": 5.0431
+  },
+  {
+   "lyric": "假",
+   "onset_s": 6.4655
+  },
+  {
+   "lyric": "如",
+   "onset_s": 6.7241
+  },
+  {
+   "lyric": "迷",
+   "onset_s": 6.9828
+  },
+  {
+   "lyric": "路",
+   "onset_s": 7.2414
+  },
+  {
+   "lyric": "了",
+   "onset_s": 7.5
+  },
+  {
+   "lyric": "一",
+   "onset_s": 7.7586
+  },
+  {
+   "lyric": "定",
+   "onset_s": 8.1466
+  },
+  {
+   "lyric": "把",
+   "onset_s": 9.7629
+  },
+  {
+   "lyric": "思",
+   "onset_s": 9.8922
+  },
+  {
+   "lyric": "念",
+   "onset_s": 10.1509
+  },
+  {
+   "lyric": "装",
+   "onset_s": 10.4095
+  },
+  {
+   "lyric": "进",
+   "onset_s": 10.6681
+  },
+  {
+   "lyric": "漂",
+   "onset_s": 10.8621
+  },
+  {
+   "lyric": "流",
+   "onset_s": 11.25
+  },
+  {
+   "lyric": "瓶",
+   "onset_s": 11.5086
+  },
+  {
+   "lyric": "假",
+   "onset_s": 12.931
+  },
+  {
+   "lyric": "如",
+   "onset_s": 13.1897
+  },
+  {
+   "lyric": "迷",
+   "onset_s": 13.4483
+  },
+  {
+   "lyric": "路",
+   "onset_s": 13.7069
+  },
+  {
+   "lyric": "了",
+   "onset_s": 13.9655
+  },
+  {
+   "lyric": "一",
+   "onset_s": 14.2241
+  },
+  {
+   "lyric": "定",
+   "onset_s": 14.6121
+  },
+  {
+   "lyric": "把",
+   "onset_s": 16.2284
+  },
+  {
+   "lyric": "思",
+   "onset_s": 16.3578
+  },
+  {
+   "lyric": "念",
+   "onset_s": 16.6164
+  },
+  {
+   "lyric": "装",
+   "onset_s": 16.875
+  },
+  {
+   "lyric": "进",
+   "onset_s": 17.1336
+  },
+  {
+   "lyric": "漂",
+   "onset_s": 17.3276
+  },
+  {
+   "lyric": "流",
+   "onset_s": 17.7155
+  },
+  {
+   "lyric": "瓶",
+   "onset_s": 17.9741
+  },
+  {
+   "lyric": "假",
+   "onset_s": 19.3966
+  },
+  {
+   "lyric": "如",
+   "onset_s": 19.6552
+  },
+  {
+   "lyric": "迷",
+   "onset_s": 19.9138
+  },
+  {
+   "lyric": "路",
+   "onset_s": 20.1724
+  },
+  {
+   "lyric": "了",
+   "onset_s": 20.431
+  },
+  {
+   "lyric": "一",
+   "onset_s": 20.6897
+  },
+  {
+   "lyric": "定",
+   "onset_s": 21.0776
+  },
+  {
+   "lyric": "把",
+   "onset_s": 22.694
+  },
+  {
+   "lyric": "思",
+   "onset_s": 22.8233
+  },
+  {
+   "lyric": "念",
+   "onset_s": 23.0819
+  },
+  {
+   "lyric": "装",
+   "onset_s": 23.3405
+  },
+  {
+   "lyric": "进",
+   "onset_s": 23.5991
+  },
+  {
+   "lyric": "漂",
+   "onset_s": 23.7931
+  },
+  {
+   "lyric": "流",
+   "onset_s": 24.181
+  },
+  {
+   "lyric": "瓶",
+   "onset_s": 24.4397
+  }
+ ],
+ "vr_sp_spans": [
+  {
+   "onset_s": 1.5517,
+   "dur_s": 0.1293
+  },
+  {
+   "onset_s": 2.9095,
+   "dur_s": 0.3879
+  },
+  {
+   "onset_s": 5.9483,
+   "dur_s": 0.2586
+  },
+  {
+   "onset_s": 6.2069,
+   "dur_s": 0.2586
+  },
+  {
+   "onset_s": 8.0172,
+   "dur_s": 0.1293
+  },
+  {
+   "onset_s": 9.375,
+   "dur_s": 0.3879
+  },
+  {
+   "onset_s": 12.4138,
+   "dur_s": 0.2586
+  },
+  {
+   "onset_s": 12.6724,
+   "dur_s": 0.2586
+  },
+  {
+   "onset_s": 14.4828,
+   "dur_s": 0.1293
+  },
+  {
+   "onset_s": 15.8405,
+   "dur_s": 0.3879
+  },
+  {
+   "onset_s": 18.8793,
+   "dur_s": 0.2586
+  },
+  {
+   "onset_s": 19.1379,
+   "dur_s": 0.2586
+  },
+  {
+   "onset_s": 20.9483,
+   "dur_s": 0.1293
+  },
+  {
+   "onset_s": 22.306,
+   "dur_s": 0.3879
+  },
+  {
+   "onset_s": 25.3448,
+   "dur_s": 0.2586
+  }
+ ],
+ "vr_bpm": 58
+}

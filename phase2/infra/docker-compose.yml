@@ -1,0 +1,66 @@
+# lingren SVS API service -- Linux GPU host, one command up.
+# Run from the svs-api-service root with an explicit project directory
+# so ALL relative paths below (build context, ./models, ./data) resolve
+# against the root, not against phase2/infra/:
+#   cd ~/workspace/svs-api-service
+#   SVS_API_KEY=<key> docker compose -f phase2/infra/docker-compose.yml \
+#       --project-directory . up --build
+#
+# Weights layout on the host (./models, read-only in the container):
+#   ./models/soulx/model.pt            (SoulX, ~2.8 GB)
+#   ./models/soulx/                    (SoulX repo checkout is separate,
+#                                       see SOULX_REPO below)
+#   ./models/vocalrender/              (VocalRender weights, ~9.5 GB;
+#                                       adapter env names are set by the
+#                                       VR wiring line -- see README)
+# The ./models directory itself is NOT created by this file: create it
+# and fill it before `up`, or the service starts but synthesis fails
+# loudly on missing weights (honest, not silent).
+
+services:
+  svs:
+    build:
+      context: .
+      dockerfile: phase2/infra/Dockerfile
+    image: lingren-svs:phase2
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - "8000:8000"
+    volumes:
+      # Weights: read-only mount. Never COPY weights into the image.
+      - ./models:/models:ro
+      # SoulX repo checkout (patched per phase1/patches/00-02), read-only.
+      - ./soulx:/soulx:ro
+      # Service state (voices, jobs, receipts) persists across restarts.
+      - ./data:/app/data
+    environment:
+      # The :? form makes compose fail LOUDLY when the key is unset:
+      # a remote service without an API key must never start.
+      SVS_API_KEY: ${SVS_API_KEY:?set SVS_API_KEY before starting the service}
+      SVS_DATA_DIR: /app/data
+      SOULX_DEVICE: cuda
+      SOULX_FP16: "1"
+      # SoulX repo checkout (patched per phase1/patches/00-02), mounted
+      # at /soulx above. Adjust if your checkout lives elsewhere.
+      SOULX_REPO: /soulx
+      SOULX_MODEL_PATH: /models/soulx/model.pt
+      SOULX_CONFIG: /soulx/soulxsinger/config/soulxsinger.yaml
+      SOULX_PHONESET: /soulx/soulxsinger/utils/phoneme/phone_set.json
+    # Development override (NOT for production): replace the build
+    # block above with a bind mount of live code:
+    #   volumes:
+    #     - ../../phase1/service:/app
+    # and run `docker compose up` without --build. The image then
+    # serves whatever is in phase1/service at container start.
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 3

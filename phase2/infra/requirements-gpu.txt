@@ -1,0 +1,14 @@
+# GPU image requirements: phase1 service deps + torch (CUDA 12.4).
+# The phase1 service requirements.txt itself is intentionally NOT
+# duplicated here line-by-line by hand: keep the two files in sync
+# (fastapi, uvicorn, pydantic, numpy, scipy, soundfile, httpx) and add
+# only the torch line below, which the CPU/local service does not need.
+--extra-index-url https://download.pytorch.org/whl/cu124
+fastapi
+uvicorn
+pydantic
+numpy
+scipy
+soundfile
+httpx
+torch~=2.5

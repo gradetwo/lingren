@@ -1,0 +1,20 @@
+[SVS Single] Loading model from: /content/VocalRender/pretrained_models/VocalRender
+You are using the default legacy behaviour of the <class 'transformers.models.llama.tokenization_llama_fast.LlamaTokenizerFast'>. This is expected, and simply means that the `legacy` (previous) behavior will be used so nothing changes for you. If you want to use the new behaviour, set `legacy=False`. This should only be set if you understand what it means, and thoroughly read the reason why this was added as explained in https://github.com/huggingface/transformers/pull/24565 - if you loaded a llama tokenizer from a GGUF file you can ignore this message.
+/usr/local/lib/python3.13/dist-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+Running on device: cuda, dtype: bfloat16
+[SVS Single] Model loaded on cuda
+VR_LOAD_S 19.9 sr=48000
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793579650.745021   18945 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793579650.805960   18945 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793579653.086456   18945 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793579653.086982   18945 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+Added 0 SVS tokens to tokenizer
+VR_PROMPT_ENC_S 0.8 shape=(39, 4, 64)
+VR_TAKE 0 gen_s=6.98 dur_s=5.920 peak=0.9000
+VR_TAKE 1 gen_s=6.84 dur_s=6.080 peak=0.9000
+VR_TAKE 2 gen_s=6.95 dur_s=6.240 peak=0.9000
+VR_DRIVER_DONE

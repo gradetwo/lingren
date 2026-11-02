@@ -1,0 +1,12 @@
++ pip install -q omegaconf einops
++ python3 /content/colab_soulx_test.py
+RUN A ok: {'out': '/content/soulx_test/A.wav', 'sr': 24000, 'duration_s': 2.0, 'f0_shift_semitones': 0}
+RUN B ok: {'out': '/content/soulx_test/B.wav', 'sr': 24000, 'duration_s': 2.0, 'f0_shift_semitones': 0}
+RUN C ok: {'out': '/content/soulx_test/C.wav', 'sr': 24000, 'duration_s': 2.0, 'f0_shift_semitones': 0}
+RUN D ok: {'out': '/content/soulx_test/D.wav', 'sr': 24000, 'duration_s': 2.0, 'f0_shift_semitones': 0}
+RUN E ok: {'out': '/content/soulx_test/E.wav', 'sr': 24000, 'duration_s': 2.0, 'f0_shift_semitones': 3}
+RUN F ok: {'out': '/content/soulx_test/F.wav', 'sr': 24000, 'duration_s': 2.0, 'f0_shift_semitones': 4}
+RUN G ok: {'out': '/content/soulx_test/G.wav', 'sr': 24000, 'duration_s': 2.0, 'f0_shift_semitones': 0}
+SOULX_RESULT {"summaries": {"A": {"out": "/content/soulx_test/A.wav", "sr": 24000, "duration_s": 2.0, "f0_shift_semitones": 0}, "B": {"out": "/content/soulx_test/B.wav", "sr": 24000, "duration_s": 2.0, "f0_shift_semitones": 0}, "C": {"out": "/content/soulx_test/C.wav", "sr": 24000, "duration_s": 2.0, "f0_shift_semitones": 0}, "D": {"out": "/content/soulx_test/D.wav", "sr": 24000, "duration_s": 2.0, "f0_shift_semitones": 0}, "E": {"out": "/content/soulx_test/E.wav", "sr": 24000, "duration_s": 2.0, "f0_shift_semitones": 3}, "F": {"out": "/content/soulx_test/F.wav", "sr": 24000, "duration_s": 2.0, "f0_shift_semitones": 4}, "G": {"out": "/content/soulx_test/G.wav", "sr": 24000, "duration_s": 2.0, "f0_shift_semitones": 0}}, "A_B_bit_identical": true, "env_corr": {"A_C": 0.834, "A_D": 0.8489, "A_F": 0.7209, "A_G": 0.7284, "F_G": 0.9955}, "f0_median_hz": {"A": 335.4, "B": 335.4, "C": 334.4, "D": 334.4, "E": 397.7, "F": 433.7, "G": 431.2}, "f0_cents_vs_A": {"A": 0.0, "B": 0.0, "C": -5.0, "D": -5.0, "E": 295.0, "F": 445.0, "G": 435.0}}
++ echo SOULX_TEST_DONE
+SOULX_TEST_DONE

@@ -1,0 +1,98 @@
++ cd /content
++ nvidia-smi
++ head -12
+Mon Nov  2 02:06:19 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.82.07              Driver Version: 580.82.07      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L4                      Off |   00000000:00:03.0 Off |                    0 |
+| N/A   52C    P8             14W /   72W |       0MiB /  23034MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
++ git clone --depth 1 https://github.com/pymaster17/VocalRender vr
+Cloning into 'vr'...
++ git clone --depth 1 https://github.com/Soul-AILab/SoulX-Singer soulx
+Cloning into 'soulx'...
++ cd /content/vr
++ git apply /content/bundle/patches/03-vocalrender-cli-seed.patch
++ cd /content/soulx
++ git apply /content/bundle/patches/00-soulx-llama-config-kwargs.patch
++ git apply /content/bundle/patches/01-soulx-record-f0-shift.patch
++ git apply /content/bundle/patches/02-soulx-cli-seed.patch
++ cd /content
++ pip install -q transformers==4.46.3 tokenizers==0.20.3 argbind librosa soundfile scipy huggingface_hub fastapi uvicorn pydantic python-multipart httpx
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+gradio-client 2.7.2 requires huggingface-hub<3.0,>=1.16.0, but you have huggingface-hub 0.36.2 which is incompatible.
+diffusers 0.42.1 requires huggingface-hub<3.0,>=1.32.0, but you have huggingface-hub 0.36.2 which is incompatible.
+gradio 6.30.0 requires huggingface-hub<3.0,>=1.16.0, but you have huggingface-hub 0.36.2 which is incompatible.
++ echo '--- VR CLI args ---'
+--- VR CLI args ---
++ grep -n add_argument vr/scripts/infer_vocalrender_svs_single.py
++ head -30
+256:    parser.add_argument("--ckpt_dir", required=True,
+258:    parser.add_argument("--device", default="cuda")
+261:    parser.add_argument("--json_file", required=True,
+263:    parser.add_argument("--item_name", required=True,
+268:    parser.add_argument("--prompt_audio", required=True,
+270:    parser.add_argument("--prompt_max_frames", type=int, default=50,
+272:    parser.add_argument("--lyrics_only", action="store_true",
+276:    parser.add_argument("--cfg_value", type=float, default=2.0)
+277:    parser.add_argument("--inference_timesteps", type=int, default=10)
+278:    parser.add_argument("--max_len", type=int, default=2000)
+279:    parser.add_argument("--temperature", type=float, default=1.0)
+280:    parser.add_argument("--fsq_temperature", type=float, default=0.0)
+281:    parser.add_argument("--seed", type=int, default=None,
+285:    parser.add_argument("--output", default="svs_output.wav")
++ echo '--- VR json_file handling ---'
+--- VR json_file handling ---
++ grep -n 'json_file\|item_name' vr/scripts/infer_vocalrender_svs_single.py
++ head -20
+11:        "item_name": "2001000001",
+26:        --json_file Opencpop.json \\
+27:        --item_name 2001000001 \\
+158:        raise ValueError(f"Empty SVS prompt for '{entry.get('item_name', '?')}'")
+261:    parser.add_argument("--json_file", required=True,
+263:    parser.add_argument("--item_name", required=True,
+264:                        help="item_name of the entry to synthesize")
+299:    print(f"[SVS Single] Loading JSON: {args.json_file}", file=sys.stderr)
+300:    with open(args.json_file, "r", encoding="utf-8") as f:
+303:    # Build item_name → entry index for quick lookup
+306:        name = e.get("item_name")
+310:    entry = name_to_entry.get(args.item_name)
+312:        print(f"Error: item_name '{args.item_name}' not found", file=sys.stderr)
+317:    print(f"[SVS Single] Entry: {args.item_name}", file=sys.stderr)
++ echo '--- VR prompt audio ---'
+--- VR prompt audio ---
++ ls -la vr/examples/prompt_audio/
++ head
+total 1332
+drwxr-xr-x 2 root root   4096 Nov  2 02:06 .
+drwxr-xr-x 3 root root   4096 Nov  2 02:06 ..
+-rw-r--r-- 1 root root 543872 Nov  2 02:06 2003000081.wav
+-rw-r--r-- 1 root root 369680 Nov  2 02:06 2017000644.wav
+-rw-r--r-- 1 root root 470408 Nov  2 02:06 2044001666.wav
++ python3 -
+PROMPT /content/vr/examples/prompt_audio/2003000081.wav 6.166 s 44100 Hz
+PROMPT /content/vr/examples/prompt_audio/2017000644.wav 4.191 s 44100 Hz
+PROMPT /content/vr/examples/prompt_audio/2044001666.wav 5.333 s 44100 Hz
++ python3 -
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:15<00:15, 15.93s/it]Fetching 2 files: 100%|██████████| 2/2 [00:16<00:00,  6.76s/it]Fetching 2 files: 100%|██████████| 2/2 [00:16<00:00,  8.13s/it]
+SOULX_HF_DIR /root/.cache/huggingface/hub/models--Soul-AILab--SoulX-Singer/snapshots/40493ad90286056c7a9095035164434a79daa8c9
+SOULX_FILE /root/.cache/huggingface/hub/models--Soul-AILab--SoulX-Singer/snapshots/40493ad90286056c7a9095035164434a79daa8c9/model.pt
+SOULX_FILE /root/.cache/huggingface/hub/models--Soul-AILab--SoulX-Singer/snapshots/40493ad90286056c7a9095035164434a79daa8c9/model-svc.pt
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Fetching 6 files:  17%|█▋        | 1/6 [00:03<00:16,  3.38s/it]Fetching 6 files:  67%|██████▋   | 4/6 [00:24<00:12,  6.48s/it]Fetching 6 files: 100%|██████████| 6/6 [00:24<00:00,  4.16s/it]
+VR_HF_DIR /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a
+VR_CKPT_CANDIDATE /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a
+VR_CKPT_CANDIDATE /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a/VocalRender
+VR_FILE /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a/VocalRender/audiovae.pth
+VR_FILE /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a/VocalRender/model.safetensors
+VR_FILE /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a/VocalRender/chat_template.jinja
+VR_FILE /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a/VocalRender/config.json
+VR_FILE /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a/VocalRender/tokenizer.json
+VR_FILE /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a/VocalRender/tokenizer_config.json
++ echo SETUP_DONE
+SETUP_DONE

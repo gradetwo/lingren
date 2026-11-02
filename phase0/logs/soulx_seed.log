@@ -1,0 +1,17 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793579087.353217   16296 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793579087.424319   16296 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793579089.628799   16296 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793579089.629261   16296 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+Model initialized.
+Model parameters: 704.344578 M
+Model converted to FP16 (mel kept in FP32).
+Model checkpoint loaded.
+LOAD_S 12.2
+The attention layers in this model are transitioning from computing the RoPE embeddings internally through `position_ids` (2D tensor with the indexes of the tokens), to using externally computed `position_embeddings` (Tuple of tensors, containing cos and sin). In v4.46 `position_ids` will be removed and `position_embeddings` will be mandatory.
+SEED 0 synth_s=26.66 len_s=50.960 peak=0.5478
+SEED 1 synth_s=25.72 len_s=50.960 peak=0.5519
+SEED 2 synth_s=25.86 len_s=50.960 peak=0.4932
+SEED_DRIVER_DONE

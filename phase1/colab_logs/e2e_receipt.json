@@ -1,0 +1,104 @@
+{
+  "job_id": "65805e28ff194368",
+  "status": "completed",
+  "parts": {
+    "lead": {
+      "model": "soulx",
+      "takes": [
+        {
+          "take": 0,
+          "seed": 0,
+          "attempts": 1,
+          "audio_file": "lead_take0.wav",
+          "duration_s": 2.0,
+          "sample_rate": 24000,
+          "adapter_info": {
+            "adapter": "soulx",
+            "seed": 0,
+            "auto_shift": false,
+            "pitch_shift": 0,
+            "f0_shift_semitones": 0,
+            "duration_s": 2.0
+          },
+          "alignment": [
+            {
+              "score_onset_s": 0.0,
+              "measured_onset_s": 0.5973,
+              "deviation_ms": 597.3
+            },
+            {
+              "score_onset_s": 0.5,
+              "measured_onset_s": 1.0027,
+              "deviation_ms": 502.7
+            },
+            {
+              "score_onset_s": 1.0,
+              "measured_onset_s": null,
+              "deviation_ms": null
+            },
+            {
+              "score_onset_s": 1.5,
+              "measured_onset_s": 1.6,
+              "deviation_ms": 100.0
+            }
+          ]
+        },
+        {
+          "take": 1,
+          "seed": 1,
+          "attempts": 1,
+          "audio_file": "lead_take1.wav",
+          "duration_s": 2.0,
+          "sample_rate": 24000,
+          "adapter_info": {
+            "adapter": "soulx",
+            "seed": 1,
+            "auto_shift": false,
+            "pitch_shift": 0,
+            "f0_shift_semitones": 0,
+            "duration_s": 2.0
+          },
+          "alignment": [
+            {
+              "score_onset_s": 0.0,
+              "measured_onset_s": 0.0853,
+              "deviation_ms": 85.3
+            },
+            {
+              "score_onset_s": 0.5,
+              "measured_onset_s": 0.4267,
+              "deviation_ms": -73.3
+            },
+            {
+              "score_onset_s": 1.0,
+              "measured_onset_s": 0.9813,
+              "deviation_ms": -18.7
+            },
+            {
+              "score_onset_s": 1.5,
+              "measured_onset_s": null,
+              "deviation_ms": null
+            }
+          ]
+        }
+      ],
+      "gate_pairwise": [
+        {
+          "take": 1,
+          "attempt": 0,
+          "vs_accepted": [
+            {
+              "bit_identical": false,
+              "envelope_corr": 0.834,
+              "f0_diff_cents": 2.72,
+              "onset_diff_ms": 21.33,
+              "f0_available": true,
+              "passed": true,
+              "fail_reasons": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

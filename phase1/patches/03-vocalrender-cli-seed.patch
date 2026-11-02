@@ -1,0 +1,30 @@
+diff --git a/scripts/infer_vocalrender_svs_single.py b/scripts/infer_vocalrender_svs_single.py
+index 207837a..d16d15f 100644
+--- a/scripts/infer_vocalrender_svs_single.py
++++ b/scripts/infer_vocalrender_svs_single.py
+@@ -278,6 +278,9 @@ def parse_args():
+     parser.add_argument("--max_len", type=int, default=2000)
+     parser.add_argument("--temperature", type=float, default=1.0)
+     parser.add_argument("--fsq_temperature", type=float, default=0.0)
++    parser.add_argument("--seed", type=int, default=None,
++                        help="Seed torch/random/numpy RNGs before "
++                        "generation (one take per process).")
+ 
+     parser.add_argument("--output", default="svs_output.wav")
+ 
+@@ -358,6 +361,15 @@ def main():
+         prompt_audio_feats=[prompt_audio_feats],
+     )
+ 
++    if args.seed is not None:
++        import random
++        import numpy as np
++        random.seed(args.seed)
++        np.random.seed(args.seed % (2 ** 32))
++        torch.manual_seed(args.seed)
++        if torch.cuda.is_available():
++            torch.cuda.manual_seed_all(args.seed)
++        print(f"[SVS Single] RNG seeded: {args.seed}", file=sys.stderr)
+     with torch.no_grad():
+         audio_tensors = model.generate_batch(**gen_kwargs)
+ 

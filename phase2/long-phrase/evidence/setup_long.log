@@ -1,0 +1,40 @@
++ cd /content
++ git clone --depth 1 https://github.com/Soul-AILab/SoulX-Singer soulx
+Cloning into 'soulx'...
++ git clone --depth 1 https://github.com/pymaster17/VocalRender vr
+Cloning into 'vr'...
++ pip install -q transformers==4.46.3 tokenizers==0.20.3 argbind librosa soundfile scipy huggingface_hub
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+gradio-client 2.7.2 requires huggingface-hub<3.0,>=1.16.0, but you have huggingface-hub 0.36.2 which is incompatible.
+diffusers 0.42.1 requires huggingface-hub<3.0,>=1.32.0, but you have huggingface-hub 0.36.2 which is incompatible.
+gradio 6.30.0 requires huggingface-hub<3.0,>=1.16.0, but you have huggingface-hub 0.36.2 which is incompatible.
++ cp /content/patches/01-soulx-record-f0-shift.patch /tmp/p01.patch
++ cp /content/patches/02-soulx-cli-seed.patch /tmp/p02.patch
++ cp /content/patches/03-vocalrender-cli-seed.patch /tmp/p03.patch
++ cd /content/soulx
++ git apply --check /tmp/p01.patch
++ git apply /tmp/p01.patch
++ echo SOULX_P01_OK
+SOULX_P01_OK
++ cd /content/soulx
++ git apply --check /tmp/p02.patch
++ git apply /tmp/p02.patch
++ echo SOULX_P02_OK
+SOULX_P02_OK
++ cd /content/vr
++ git apply --check /tmp/p03.patch
++ git apply /tmp/p03.patch
++ echo VR_P03_OK
+VR_P03_OK
++ cd /content
++ python3 -
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:14<00:14, 14.86s/it]Fetching 2 files: 100%|██████████| 2/2 [00:22<00:00, 10.52s/it]Fetching 2 files: 100%|██████████| 2/2 [00:22<00:00, 11.17s/it]
+SOULX_HF_DIR /root/.cache/huggingface/hub/models--Soul-AILab--SoulX-Singer/snapshots/40493ad90286056c7a9095035164434a79daa8c9
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Fetching 6 files:  17%|█▋        | 1/6 [00:04<00:20,  4.04s/it]Fetching 6 files:  67%|██████▋   | 4/6 [00:26<00:13,  6.75s/it]Fetching 6 files: 100%|██████████| 6/6 [00:26<00:00,  4.36s/it]
+VR_HF_DIR /root/.cache/huggingface/hub/models--pymaster--VocalRender/snapshots/c2ba9d06f39fa0731b96f0258d3df33cc1bda35a
++ nvidia-smi --query-gpu=name --format=csv,noheader
+NVIDIA L4
++ python3 -c 'import torch; print('\''torch'\'', torch.__version__, '\''cuda'\'', torch.cuda.is_available())'
+torch 2.11.0+cu130 cuda True
++ echo SETUP_DONE
+SETUP_DONE

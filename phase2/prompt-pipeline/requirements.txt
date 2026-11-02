@@ -1,0 +1,5 @@
+# Prompt pipeline dependencies (see README.md).
+# Only numpy is required. soundfile widens format coverage (flac/ogg);
+# without it, plain wav is read by the stdlib and mp3/m4a via ffmpeg.
+numpy>=1.24
+soundfile>=0.12  # optional but recommended

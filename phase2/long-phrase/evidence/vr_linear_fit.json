@@ -1,0 +1,10 @@
+{
+ "linear_fit": {
+  "intercept_s": 0.1052,
+  "slope": 0.8935,
+  "residual_median_abs_ms": 55.2,
+  "residual_p90_abs_ms": 150.9,
+  "residual_max_abs_ms": 203.8
+ },
+ "note": "residuals of measured onsets vs linear fit measured = a + b*score"
+}

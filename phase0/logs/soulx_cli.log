@@ -1,0 +1,16 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793578940.264582   15595 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793578940.333095   15595 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793578942.522248   15595 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1793578942.522773   15595 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+Model initialized.
+Model parameters: 704.344578 M
+Model converted to FP16 (mel kept in FP32).
+Model checkpoint loaded.
+prompt_metadata_path: example/audio/zh_prompt.json
+target_metadata_path: example/audio/music.json
+Inferring segments:   0%|          | 0/1 [00:00<?, ?it/s]The attention layers in this model are transitioning from computing the RoPE embeddings internally through `position_ids` (2D tensor with the indexes of the tokens), to using externally computed `position_embeddings` (Tuple of tensors, containing cos and sin). In v4.46 `position_ids` will be removed and `position_embeddings` will be mandatory.
+Inferring segments: 100%|██████████| 1/1 [00:26<00:00, 26.75s/it]Inferring segments: 100%|██████████| 1/1 [00:26<00:00, 26.75s/it]
+Generated audio saved to /content/soulx_out/generated.wav

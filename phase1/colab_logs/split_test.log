@@ -1,0 +1,6 @@
++ python3 -u /content/colab_split_test.py
+RUN split_base ok
+RUN split_trans ok
+SPLIT_RESULT {"durations": {"soulx_base": {"s": 2.0, "sr": 24000}, "soulx_trans": {"s": 2.0, "sr": 24000}, "vr_base": {"s": 1.92, "sr": 48000}, "vr_trans": {"s": 1.92, "sr": 48000}}, "f0_median_hz": {"soulx_base": 335.4, "vr_base": 340.3, "vr_trans": 421.3}, "groupA_cross_model": {"env_corr_soulx_vs_vr_base": 0.2808, "f0_cents_vr_base_vs_soulx_base": 25.0, "duration_diff_s": -0.08, "centroid_diff_hz": 586.3}, "groupB_vr_harmony_onsets": {"energy_onsets_s": [0.01], "score_onsets_s": [0.0, 0.5, 1.0, 1.5], "score_total_s": 2.0, "vr_trans_total_s": 1.92}}
++ echo SPLIT_TEST_DONE
+SPLIT_TEST_DONE

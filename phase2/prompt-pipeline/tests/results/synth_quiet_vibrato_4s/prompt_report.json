@@ -1,0 +1,61 @@
+{
+  "input": {
+    "path": "tests/corpus/synth_quiet_vibrato_4s.wav",
+    "decoder": "soundfile",
+    "sample_rate_hz": 48000,
+    "channels_note": "mixed to mono for analysis",
+    "duration_s": 4.0,
+    "peak_dbfs": -30.46,
+    "rms_dbfs": -33.47,
+    "clipped_fraction": 0.0
+  },
+  "trim": {
+    "start_s": 0.0,
+    "end_s": 4.0,
+    "duration_s": 4.0,
+    "head_trimmed_s": 0.0,
+    "tail_trimmed_s": 0.0
+  },
+  "window_metrics": {
+    "peak_dbfs": -30.46,
+    "rms_dbfs": -33.47,
+    "clipped_fraction": 0.0,
+    "snr_estimate_db": null,
+    "snr_note": "median loud-half window frame RMS vs median sub--45dBFS window frame RMS; null when no quiet frames exist",
+    "scope_note": "pitch, gaps, SNR, peak, RMS and clipping are all measured on the VR window, not the whole file"
+  },
+  "pitch": {
+    "voiced_fraction": 1.0,
+    "mean_confidence": 0.9855948840420569,
+    "median_f0_hz": 440.35626557624886,
+    "f0_semitone_std": 0.498,
+    "median_voiced_run_s": 3.975,
+    "n_frames": 159
+  },
+  "internal_silence_gaps": [],
+  "vr_window": {
+    "start_s": 0.0,
+    "end_s": 4.0,
+    "duration_s": 4.0
+  },
+  "vr_ready": true,
+  "loudness_suggestion": {
+    "target_peak_dbfs": -3.0,
+    "target_rms_dbfs": -18.0,
+    "suggested_gain_db": 15.47,
+    "apply": true
+  },
+  "warnings": [
+    "very_quiet_or_loud: suggested gain +15.5dB exceeds 12dB, check recording level",
+    "snr_not_estimable: no sub--45dBFS frames inside trimmed region to use as a noise floor proxy"
+  ],
+  "rejects": [],
+  "verdict": "accept_with_warnings",
+  "soulx_ready": false,
+  "soulx_note": "no annotation supplied: template only, soulx_ready=false (voice still registers, SoulX synth fails loudly without prompt_meta)",
+  "upload": {
+    "file": "prompt_window.wav (the VR window slice; normalized.wav with --write-normalized)",
+    "prompt_meta": null,
+    "post_v1_voices": "multipart: file=<audio>, prompt_meta=<file> when present; without prompt_meta the voice registers with soulx_ready=false"
+  }
+}

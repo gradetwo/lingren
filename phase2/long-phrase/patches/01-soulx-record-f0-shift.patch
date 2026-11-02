@@ -1,0 +1,13 @@
+diff --git a/soulxsinger/models/soulxsinger.py b/soulxsinger/models/soulxsinger.py
+index d4015a8..6c08c8f 100644
+--- a/soulxsinger/models/soulxsinger.py
++++ b/soulxsinger/models/soulxsinger.py
+@@ -146,6 +146,8 @@ class SoulXSinger(nn.Module):
+                 f0_shift = 0
+         else:
+             f0_shift = pitch_shift
++        # Lingren: expose the applied shift for the job receipt.
++        self.last_f0_shift = f0_shift
+ 
+         if gt_f0 is None or pt_f0 is None:
+             gt_f0, pt_f0 = torch.zeros_like(gt_mel2note).float().to(gt_mel2note.device), torch.zeros_like(pt_mel2note).float().to(pt_mel2note.device)

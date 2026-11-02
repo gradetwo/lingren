@@ -1,0 +1,111 @@
+"""伶人 SVS API service, Phase 1 (design section 5).
+
+Run from service/:  SVS_DATA_DIR=./data uvicorn app.main:app --port 8000
+Auth: set SVS_API_KEY to require Bearer tokens (required for remote
+tunnel deployments; optional for local dev).
+"""
+
+from __future__ import annotations
+
+import os
+import uuid
+from pathlib import Path
+
+from fastapi import Depends, FastAPI, File, Header, HTTPException, UploadFile
+from fastapi.responses import FileResponse
+
+from .jobs import JobStore
+from .schemas import SynthesizeIn
+
+DATA_DIR = Path(os.environ.get("SVS_DATA_DIR", "data"))
+API_KEY = os.environ.get("SVS_API_KEY", "")
+
+store = JobStore(DATA_DIR)
+app = FastAPI(title="lingren-svs", version="0.2.0-phase2")
+
+
+def _auth(authorization: str | None = Header(default=None)):
+    if API_KEY:
+        if authorization != f"Bearer {API_KEY}":
+            raise HTTPException(status_code=401, detail="bad API key")
+    return True
+
+
+@app.on_event("startup")
+def _startup():
+    store.start()
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "voices": len(store.voices)}
+
+
+@app.post("/v1/voices", dependencies=[Depends(_auth)])
+async def upload_voice(file: UploadFile = File(...),
+                       prompt_meta: UploadFile | None = File(default=None),
+                       name: str | None = None):
+    voice_id = uuid.uuid4().hex[:12]
+    vdir = store.voices_dir / voice_id
+    vdir.mkdir(parents=True, exist_ok=True)
+    audio_path = vdir / "prompt.wav"
+    audio_path.write_bytes(await file.read())
+    meta_path = None
+    if prompt_meta is not None:
+        meta_path = vdir / "prompt_meta.json"
+        meta_path.write_bytes(await prompt_meta.read())
+    info = store.register_voice(voice_id, audio_path, meta_path, name)
+    return info
+
+
+@app.get("/v1/voices", dependencies=[Depends(_auth)])
+def list_voices():
+    return {"voices": list(store.voices.values())}
+
+
+@app.post("/v1/synthesize", dependencies=[Depends(_auth)])
+def synthesize(req: SynthesizeIn):
+    job = store.create_job(req)
+    return {"job_id": job["job_id"], "status": job["status"],
+            "parts_total": job["parts_total"],
+            "takes_total": job["takes_total"]}
+
+
+@app.get("/v1/jobs/{job_id}", dependencies=[Depends(_auth)])
+def job_status(job_id: str):
+    job = store.get_job(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="unknown job")
+    return {k: v for k, v in job.items() if k != "request"}
+
+
+@app.get("/v1/jobs/{job_id}/audio", dependencies=[Depends(_auth)])
+def job_audio(job_id: str, part: str | None = None, take: int | None = None):
+    job = store.get_job(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="unknown job")
+    job_dir = store.jobs_dir / job_id
+    if part is not None and take is not None:
+        path = job_dir / f"{part}_take{take}.wav"
+        if not path.is_file():
+            raise HTTPException(status_code=404, detail="audio not found")
+        return FileResponse(str(path), media_type="audio/wav")
+    wavs = sorted(job_dir.glob("*_take*.wav"))
+    if len(wavs) == 1:
+        return FileResponse(str(wavs[0]), media_type="audio/wav")
+    raise HTTPException(
+        status_code=400,
+        detail="ambiguous: pass ?part=<label>&take=<n>; "
+               f"available: {[w.name for w in wavs]}")
+
+
+@app.get("/v1/jobs/{job_id}/receipt", dependencies=[Depends(_auth)])
+def job_receipt(job_id: str):
+    path = store.jobs_dir / job_id / "receipt.json"
+    if not path.is_file():
+        job = store.get_job(job_id)
+        if job is None:
+            raise HTTPException(status_code=404, detail="unknown job")
+        raise HTTPException(status_code=409,
+                            detail=f"job still {job['status']}")
+    return FileResponse(str(path), media_type="application/json")

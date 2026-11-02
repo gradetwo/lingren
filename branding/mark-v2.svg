@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="伶人标志 v2">
+  <title>伶人 mark v2</title>
+  <g fill="#D9382B">
+    <rect x="33" y="120" width="15" height="56" rx="7"/>
+    <rect x="59" y="104" width="15" height="72" rx="7"/>
+    <rect x="85" y="84" width="15" height="92" rx="7"/>
+    <rect x="111" y="100" width="15" height="76" rx="7"/>
+    <rect x="137" y="116" width="15" height="60" rx="7"/>
+  </g>
+  <g stroke="#1C1A17" stroke-width="2.5" stroke-linecap="round">
+    <line x1="32" y1="138" x2="49" y2="138"/>
+    <line x1="32" y1="158" x2="49" y2="158"/>
+    <line x1="58" y1="126" x2="75" y2="126"/>
+    <line x1="58" y1="150" x2="75" y2="150"/>
+    <line x1="84" y1="112" x2="101" y2="112"/>
+    <line x1="84" y1="140" x2="101" y2="140"/>
+    <line x1="110" y1="122" x2="127" y2="122"/>
+    <line x1="110" y1="148" x2="127" y2="148"/>
+    <line x1="136" y1="134" x2="153" y2="134"/>
+    <line x1="136" y1="156" x2="153" y2="156"/>
+  </g>
+  <g fill="#1C1A17">
+    <path d="M 103 30 Q 114 32 115 44 Q 110 78 96 112 Q 86 138 64 157 Q 60 160 62 151 Q 76 130 88 100 Q 98 66 99 46 Q 99 34 103 30 Z"/>
+    <path d="M 106 40 Q 116 40 119 52 Q 130 86 142 122 Q 150 144 157 157 Q 160 162 154 159 Q 144 152 136 138 Q 124 110 114 76 Q 108 56 106 40 Z"/>
+  </g>
+</svg>

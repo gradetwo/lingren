@@ -1,0 +1,16 @@
+[
+  {
+    "index": "lingren_prompt",
+    "language": "Mandarin",
+    "time": [
+      0,
+      5850
+    ],
+    "duration": "2.925 2.925",
+    "text": "ni hao",
+    "phoneme": "zh_ni3 zh_hao3",
+    "note_pitch": "64 67",
+    "note_type": "2 2",
+    "f0": ""
+  }
+]
