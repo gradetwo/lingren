@@ -14,8 +14,8 @@ from pathlib import Path
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from .jobs import JobStore
-from .schemas import SynthesizeIn
+from .jobs import JobStore, RetryLinesError
+from .schemas import RetryLinesIn, SynthesizeIn
 from .transcribe import (TranscribeError, TranscribeIn,
                          TranscriptionWorker, validate_transcribe)
 
@@ -81,6 +81,29 @@ def job_status(job_id: str):
     if job is None:
         raise HTTPException(status_code=404, detail="unknown job")
     return {k: v for k, v in job.items() if k != "request"}
+
+
+@app.post("/v1/jobs/{job_id}/retry-lines", dependencies=[Depends(_auth)])
+def retry_lines(job_id: str, req: RetryLinesIn):
+    """Melodyne Phase 1 gate trigger: re-synthesize failing lines only.
+
+    The gate verdict for each requested line is computed from the source
+    job's take-0 audio (Lingren-side mirror of the Yeban import gate).
+    Failing lines become subset parts of one new retry job (label
+    ``<part>_retry<i>``, seed = original + 1000, bounded to 3 retry
+    generations); passing lines get no retry part. Subset scores keep
+    absolute start_s (same score clock; Yeban maps by note index).
+    """
+    if store.get_job(job_id) is None and tstore.get_job(job_id) is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="transcription jobs have no takes to retry")
+    try:
+        return store.retry_lines(
+            job_id, req.part_label,
+            [(r.note_start_index, r.note_end_index) for r in req.lines])
+    except RetryLinesError as e:
+        raise HTTPException(status_code=e.status, detail=e.detail)
 
 
 @app.get("/v1/jobs/{job_id}/audio", dependencies=[Depends(_auth)])

@@ -46,3 +46,17 @@ class PartIn(BaseModel):
 
 class SynthesizeIn(BaseModel):
     parts: list[PartIn] = Field(min_length=1)
+
+
+class RetryLineRange(BaseModel):
+    note_start_index: int = Field(
+        ge=0, description="First note index of the line (inclusive)")
+    note_end_index: int = Field(
+        ge=0, description="Note index after the line's last note "
+                          "(exclusive); Lingren has no line concept, so "
+                          "Yeban maps its lines to note-index ranges")
+
+
+class RetryLinesIn(BaseModel):
+    part_label: str
+    lines: list[RetryLineRange] = Field(min_length=1)

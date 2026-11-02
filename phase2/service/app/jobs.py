@@ -16,6 +16,7 @@ import uuid
 from pathlib import Path
 
 import soundfile as sf
+import numpy as np
 
 from .alignment import align_to_score, detect_candidates
 from .gate import check_pair
@@ -40,6 +41,14 @@ def _adapters() -> dict:
     return {"soulx": SoulXAdapter(), "vocalrender": VocalRenderAdapter(),
             "stub": StubAdapter()}
 
+
+class RetryLinesError(Exception):
+    """Retry-lines failure carrying an HTTP status (main maps it)."""
+
+    def __init__(self, status: int, detail: str):
+        super().__init__(detail)
+        self.status = status
+        self.detail = detail
 
 class JobStore:
     def __init__(self, data_dir: Path):
@@ -80,7 +89,8 @@ class JobStore:
             self.voices[voice_id] = info
         return info
 
-    def create_job(self, req: SynthesizeIn) -> dict:
+    def create_job(self, req: SynthesizeIn,
+                   retry_generation: int = 0) -> dict:
         job_id = uuid.uuid4().hex[:16]
         job = {"job_id": job_id, "status": "queued",
                "parts_total": len(req.parts),
@@ -88,6 +98,7 @@ class JobStore:
                "parts_completed": 0, "takes_completed": 0,
                "error": None, "created_at": time.time(),
                "updated_at": time.time(),
+               "retry_generation": retry_generation,
                "request": req.model_dump()}
         with self.lock:
             self.jobs[job_id] = job
@@ -201,6 +212,116 @@ class JobStore:
     @staticmethod
     def _is_rest(note) -> bool:
         return note.lyric in ("", "<SP>") or note.midi <= 0
+
+    def retry_lines(self, job_id: str, part_label: str,
+                        line_ranges: list[tuple[int, int]]) -> dict:
+        """Gate-check line ranges of a completed job's take 0 and queue a
+        retry job for the failing lines only (Melodyne Phase 1 gate trigger).
+
+        line_ranges are half-open note-index ranges into the part's full
+        score (rests included in indexing, excluded from gating). A failing
+        line becomes one subset part labelled ``f"{part_label}_retry{i}"``
+        (i = request order), same voice/model/options, one take, seed =
+        original take-0 seed + 1000. Subset scores keep ABSOLUTE start_s
+        (no rebasing): the retry take stays on the same score clock, and
+        Yeban maps by note index. Retry chains are bounded: a job whose
+        retry_generation is already MAX_RETRY_GENERATIONS (3) cannot be
+        retried again (409). Passing lines get no retry part. Returns
+        {"retry_job_id" (or None), "part_label", "retry_generation",
+        "lines": [{note_start_index, note_end_index, label, gate}]}.
+        """
+        from .schemas import ScoreIn
+        from .vocal_gate import (MAX_RETRY_GENERATIONS, RETRY_SEED_BUMP,
+                                 interpolate_coarse, line_gate)
+        job = self.get_job(job_id)
+        if job is None:
+            raise RetryLinesError(404, "unknown job")
+        if job["status"] != "completed":
+            raise RetryLinesError(409, f"job still {job['status']}")
+        req = SynthesizeIn(**job["request"])
+        part = next((p for p in req.parts if p.label == part_label), None)
+        if part is None:
+            raise RetryLinesError(404, f"unknown part {part_label!r}")
+        job_dir = self.jobs_dir / job_id
+        receipt_path = job_dir / "receipt.json"
+        if not receipt_path.is_file():
+            raise RetryLinesError(409, "receipt missing")
+        receipt = json.loads(receipt_path.read_text())
+        try:
+            take0 = receipt["parts"][part_label]["takes"][0]
+            audio_name = take0["audio_file"]
+            alignment = take0["alignment"]
+        except (KeyError, IndexError) as e:
+            raise RetryLinesError(409, f"receipt has no take 0: {e}")
+        audio_path = job_dir / audio_name
+        if not audio_path.is_file():
+            raise RetryLinesError(409, "take audio missing")
+        data, sr_read = sf.read(str(audio_path), dtype="float32")
+        mono = data[:, 0] if data.ndim == 2 else data
+        notes_all = sorted(part.score.notes, key=lambda n: n.start_s)
+        sung_positions = [i for i, n in enumerate(notes_all)
+                          if not JobStore._is_rest(n)]
+        if len(alignment) != len(notes_all):
+            raise RetryLinesError(409, "alignment length != score length")
+        measured = [alignment[i].get("measured_onset_s")
+                    for i in sung_positions]
+        score_starts = [float(notes_all[i].start_s) for i in sung_positions]
+        coarse_all = interpolate_coarse(score_starts, measured)
+        generation = int(job.get("retry_generation", 0))
+        if generation >= MAX_RETRY_GENERATIONS:
+            raise RetryLinesError(
+                409, f"retry chain exhausted (generation {generation})")
+        orig_seed = (part.seeds or [0])[0]
+        take_dur = len(mono) / sr_read
+        failing_parts = []
+        line_results = []
+        for order, (s, e) in enumerate(line_ranges):
+            if not (0 <= s < e <= len(notes_all)):
+                raise RetryLinesError(
+                    400, f"line range [{s}, {e}) out of score "
+                         f"(0..{len(notes_all)})")
+            within = [k for k, i in enumerate(sung_positions) if s <= i < e]
+            if not within:
+                line_results.append({
+                    "note_start_index": s, "note_end_index": e,
+                    "label": None,
+                    "gate": {"pass": True,
+                             "failures": ["no sung notes in range"]}})
+                continue
+            line_notes = [{"start": float(notes_all[sung_positions[k]].start_s),
+                           "dur": float(notes_all[sung_positions[k]].dur_s)}
+                          for k in within]
+            line_coarse = [coarse_all[k] for k in within]
+            prev_c = coarse_all[within[0] - 1] if within[0] > 0 else None
+            next_c = coarse_all[within[-1] + 1] \
+                if within[-1] + 1 < len(coarse_all) else None
+            verdict = line_gate(mono.astype(np.float64), sr_read, line_notes,
+                                line_coarse, prev_c, next_c, take_dur)
+            label = None
+            if not verdict["pass"]:
+                label = f"{part_label}_retry{order}"
+                subset = [notes_all[i] for i in range(s, e)]
+                failing_parts.append(PartIn(
+                    label=label,
+                    score=ScoreIn(bpm=part.score.bpm,
+                                  language=part.score.language,
+                                  notes=subset),
+                    voice_id=part.voice_id, model=part.model,
+                    variant=part.variant, takes=1,
+                    seeds=[orig_seed + RETRY_SEED_BUMP],
+                    options=part.options))
+            line_results.append({"note_start_index": s, "note_end_index": e,
+                                 "label": label, "gate": verdict})
+        retry_job_id = None
+        if failing_parts:
+            retry_job = self.create_job(
+                SynthesizeIn(parts=failing_parts),
+                retry_generation=generation + 1)
+            retry_job_id = retry_job["job_id"]
+        return {"retry_job_id": retry_job_id, "part_label": part_label,
+                "retry_generation": generation + 1 if failing_parts
+                else generation,
+                "lines": line_results}
 
     @staticmethod
     def _alignment(part: PartIn, mono, sr: int) -> list[dict]:
