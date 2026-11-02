@@ -34,6 +34,31 @@ tunnel 部署必须设，本地开发可不设。
 
 ## SoulX 适配器（需 GPU 机器：Colab CUDA 或 Mac MPS）
 
+### 可选的作业内模型复用与耗时回执
+
+默认 `SOULX_REUSE_MODEL=0` 保留每遍一个子进程的执行方式。设置为 `1`
+后，同一作业内连续的 SoulX 唱段和 takes 共用一个通过 `spawn` 启动的
+子进程，只加载一次模型；切换到其它模型、任务完成、任务失败或单次
+推理超时后释放子进程。不会跨作业长期占用 GPU，也不让两个模型同时
+驻留。单次请求超时仍为 3600 秒。
+
+复用模式每遍重新设置随机种子，并重新读取 prompt/target 元数据。
+默认 CLI 仍保留原先“模型初始化前设种子”的行为；复用模式的同一 seed
+不承诺与旧模式波形相同。需要逐采样复现旧结果时保持默认模式。
+
+作业状态增加 `stage`、`current_part`、`current_take`、`current_attempt`
+以及终态 `timings`。最终回执先原子发布，再暴露 completed/failed 状态；
+普通转换错误、音频读取错误与子进程超时也会产生失败回执。存储不可写
+仍可能导致回执无法落盘，客户端必须同时检查任务失败状态。
+
+耗时字段单位均为秒，使用单调时钟；作业提供排队、运行和总耗时，每遍
+提供合成、对齐及总耗时。SoulX `adapter_info.timings` 另含 runtime
+初始化、模型加载、预处理、推理、写 WAV 与适配器墙钟时间。模型加载
+包含在 runtime 初始化内，不能将这两个字段相加。MPS/CUDA 的相关阶段
+同步设备后计时；热请求的初始化/加载时间为零，`model_reused=true`。
+
+该开关需要在下一次服务启动时设置；修改源码不会自动重启现有服务。
+
 环境变量：`SOULX_REPO`（打好 `../patches/00-02` 的检出）、
 `SOULX_MODEL_PATH`、`SOULX_CONFIG`、`SOULX_PHONESET`、`SOULX_DEVICE`
 （cuda/mps/cpu）、`SOULX_FP16`（cuda 缺省 1）。适配器以子进程跑

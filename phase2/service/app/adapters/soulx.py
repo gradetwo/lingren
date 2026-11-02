@@ -20,11 +20,13 @@ import json
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 from ..schemas import PartIn
 from ..score_converter import soulx_target_meta
 from .base import AdapterError, BaseAdapter
+from .soulx_session import SoulXSession
 
 _DRIVER = Path(__file__).resolve().parent.parent / "soulx_driver.py"
 
@@ -38,6 +40,14 @@ def _env(name: str, default: str | None = None) -> str:
 
 class SoulXAdapter(BaseAdapter):
     name = "soulx"
+
+    def __init__(self):
+        self._session = None
+
+    def close(self) -> None:
+        if self._session is not None:
+            self._session.close()
+            self._session = None
 
     def synthesize(self, part: PartIn, voice: dict, seed: int,
                    out_path: Path, workdir: Path) -> tuple[Path, int, dict]:
@@ -59,6 +69,23 @@ class SoulXAdapter(BaseAdapter):
         device = _env("SOULX_DEVICE", "cuda")
         fp16 = os.environ.get("SOULX_FP16",
                               "1" if device == "cuda" else "0") == "1"
+        started = time.monotonic()
+        if os.environ.get('SOULX_REUSE_MODEL', '0') == '1':
+            if self._session is None:
+                self._session = SoulXSession(
+                    {'repo': _env('SOULX_REPO'), 'model_path': _env('SOULX_MODEL_PATH'),
+                     'config': _env('SOULX_CONFIG'), 'phoneset': _env('SOULX_PHONESET'),
+                     'device': device, 'fp16': fp16}, workdir / 'soulx-worker.log')
+            try:
+                summary = self._session.synthesize(
+                    {'prompt_wav': str(prompt_wav), 'prompt_meta': str(prompt_meta),
+                     'target_meta': str(target_path), 'out': str(out_path), 'seed': seed,
+                     'pitch_shift': pitch_shift, 'auto_shift': auto_shift})
+            except Exception:
+                self.close()
+                raise
+            return out_path, int(summary['sr']), self._info(
+                summary, seed, auto_shift, pitch_shift, time.monotonic() - started)
         cmd = [sys.executable, str(_DRIVER),
                "--repo", _env("SOULX_REPO"),
                "--model-path", _env("SOULX_MODEL_PATH"),
@@ -89,9 +116,16 @@ class SoulXAdapter(BaseAdapter):
             raise AdapterError(
                 "SoulX driver failed (exit %s): %s"
                 % (proc.returncode, (proc.stderr or proc.stdout)[-2000:]))
-        info = {"adapter": "soulx", "seed": seed,
+        return out_path, int(summary.get("sr", 24000)), self._info(
+            summary, seed, auto_shift, pitch_shift, time.monotonic() - started)
+
+    @staticmethod
+    def _info(summary, seed, auto_shift, pitch_shift, elapsed):
+        return {"adapter": "soulx", "seed": seed,
                 "auto_shift": auto_shift,
                 "pitch_shift": pitch_shift,
                 "f0_shift_semitones": summary.get("f0_shift_semitones"),
-                "duration_s": summary.get("duration_s")}
-        return out_path, int(summary.get("sr", 24000)), info
+                "duration_s": summary.get("duration_s"),
+                "model_reused": summary.get('model_reused', False),
+                "timings": {**summary.get('timings', {}),
+                            'adapter_wall_s': round(elapsed, 6)}}

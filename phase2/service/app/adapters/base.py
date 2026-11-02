@@ -18,6 +18,9 @@ class AdapterError(Exception):
 class BaseAdapter:
     name = "base"
 
+    def close(self) -> None:
+        """Release job-scoped resources before another model uses the GPU."""
+
     def synthesize(self, part, voice: dict, seed: int, out_path: Path,
                    workdir: Path) -> tuple[Path, int, dict]:
         raise NotImplementedError
