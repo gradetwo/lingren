@@ -107,9 +107,9 @@ class VocalRenderAdapter(BaseAdapter):
         if opts.get("temperature") is not None:
             cmd += ["--temperature", str(opts["temperature"])]
         if opts.get("fsq_temperature") is not None:
-            cmd += ["--fsq_temperature", str(opts["fsq_temperature"])]
+            cmd += ["--fsq-temperature", str(opts["fsq_temperature"])]
         if opts.get("max_len") is not None:
-            cmd += ["--max_len", str(opts["max_len"])]
+            cmd += ["--max-len", str(opts["max_len"])]
         proc = subprocess.run(cmd, capture_output=True, text=True,
                               timeout=3600)
         summary = None
