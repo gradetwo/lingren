@@ -116,3 +116,50 @@ class LingrenClient:
     def fetch_audio(self, job_id: str, part: str, take: int) -> bytes:
         return self._get_bytes(
             f"/v1/jobs/{job_id}/audio?part={part}&take={take}")
+
+    def transcribe(self, audio_path: str | Path, model: str = "small",
+                   instruments: list[str] | None = None, **options) -> dict:
+        """Submit a MuScriptor transcription job (design section 12).
+
+        instruments=None means Automatic (the model chooses); a list
+        is a hard mask, not a post-filter. options passes bpm,
+        beats_per_bar, first_downbeat, quantize, grid, detect_tempo
+        through as form fields. Returns {job_id, status}; poll with
+        wait(), then fetch_midi() / fetch_receipt().
+        """
+        boundary = "----lingren-transcribe"
+        parts = []
+        audio = Path(audio_path).read_bytes()
+        parts.append(
+            f"--{boundary}\r\nContent-Disposition: form-data; "
+            f'name="file"; filename="{Path(audio_path).name}"\r\n'
+            "Content-Type: application/octet-stream\r\n\r\n".encode()
+            + audio + b"\r\n")
+        fields: dict[str, str] = {"model": model,
+                                  "instruments": ",".join(instruments)
+                                  if instruments else ""}
+        for key in ("bpm", "beats_per_bar", "first_downbeat", "grid",
+                    "detect_tempo"):
+            if options.get(key) is not None:
+                fields[key] = str(options[key])
+        if options.get("quantize"):
+            fields["quantize"] = "true"
+        for key, value in fields.items():
+            parts.append(
+                f"--{boundary}\r\nContent-Disposition: form-data; "
+                f'name="{key}"\r\n\r\n{value}\r\n'.encode())
+        body = b"".join(parts) + f"--{boundary}--\r\n".encode()
+        h = {"Content-Type": f"multipart/form-data; boundary={boundary}"}
+        if self.api_key:
+            h["Authorization"] = f"Bearer {self.api_key}"
+        req = urllib.request.Request(self.base_url + "/v1/transcribe",
+                                     data=body, headers=h, method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=300) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as e:
+            raise SvsClientError(f"POST /v1/transcribe -> {e.code}: "
+                                 f"{e.read()[:500]!r}") from e
+
+    def fetch_midi(self, job_id: str) -> bytes:
+        return self._get_bytes(f"/v1/jobs/{job_id}/midi")
