@@ -11,16 +11,19 @@ import os
 import uuid
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, File, Header, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
 from .jobs import JobStore
 from .schemas import SynthesizeIn
+from .transcribe import (TranscribeError, TranscribeIn,
+                         TranscriptionWorker, validate_transcribe)
 
 DATA_DIR = Path(os.environ.get("SVS_DATA_DIR", "data"))
 API_KEY = os.environ.get("SVS_API_KEY", "")
 
 store = JobStore(DATA_DIR)
+tstore = TranscriptionWorker(DATA_DIR)
 app = FastAPI(title="lingren-svs", version="0.2.0-phase2")
 
 
@@ -34,6 +37,7 @@ def _auth(authorization: str | None = Header(default=None)):
 @app.on_event("startup")
 def _startup():
     store.start()
+    tstore.start()
 
 
 @app.get("/health")
@@ -73,7 +77,7 @@ def synthesize(req: SynthesizeIn):
 
 @app.get("/v1/jobs/{job_id}", dependencies=[Depends(_auth)])
 def job_status(job_id: str):
-    job = store.get_job(job_id)
+    job = store.get_job(job_id) or tstore.get_job(job_id)
     if job is None:
         raise HTTPException(status_code=404, detail="unknown job")
     return {k: v for k, v in job.items() if k != "request"}
@@ -81,6 +85,11 @@ def job_status(job_id: str):
 
 @app.get("/v1/jobs/{job_id}/audio", dependencies=[Depends(_auth)])
 def job_audio(job_id: str, part: str | None = None, take: int | None = None):
+    if tstore.get_job(job_id) is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="transcription jobs have no audio takes; use "
+                   "/midi and /receipt")
     job = store.get_job(job_id)
     if job is None:
         raise HTTPException(status_code=404, detail="unknown job")
@@ -103,9 +112,71 @@ def job_audio(job_id: str, part: str | None = None, take: int | None = None):
 def job_receipt(job_id: str):
     path = store.jobs_dir / job_id / "receipt.json"
     if not path.is_file():
-        job = store.get_job(job_id)
+        job = store.get_job(job_id) or tstore.get_job(job_id)
         if job is None:
             raise HTTPException(status_code=404, detail="unknown job")
         raise HTTPException(status_code=409,
                             detail=f"job still {job['status']}")
     return FileResponse(str(path), media_type="application/json")
+
+
+@app.post("/v1/transcribe", dependencies=[Depends(_auth)])
+async def transcribe(file: UploadFile = File(...),
+                     model: str | None = Form(default=None),
+                     instruments: str = Form(default=""),
+                     bpm: float | None = Form(default=None),
+                     beats_per_bar: int | None = Form(default=None),
+                     first_downbeat: float | None = Form(default=None),
+                     quantize: bool = Form(default=False),
+                     grid: int | None = Form(default=None),
+                     detect_tempo: str = Form(default="best-effort")):
+    """MuScriptor transcription (design section 12).
+
+    Upload an audio file; the job returns MIDI + a note receipt.
+    Instruments is a comma-separated list of exact MT3_FULL_PLUS group
+    names, or empty for Automatic (the model chooses). A given list
+    is a hard mask, not a post-filter. Weights are CC BY-NC 4.0,
+    gated HuggingFace downloads, never shipped with the service;
+    missing authorization fails the job loudly. Do not transcribe
+    audio you do not hold rights to.
+    """
+    req = TranscribeIn(
+        model=model,
+        instruments=[n for n in instruments.split(",") if n] or None,
+        bpm=bpm, beats_per_bar=beats_per_bar,
+        first_downbeat=first_downbeat, quantize=quantize, grid=grid,
+        detect_tempo=detect_tempo)
+    try:
+        validate_transcribe(req)
+    except TranscribeError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    # Resolution: request model overrides env, env overrides "small".
+    # A request model must be a keyword (validated above); the env
+    # value passes through operator-controlled, so it may also be a
+    # local safetensors path -- a bad env value fails the job loudly
+    # in the driver, it is never silently replaced.
+    effective = req.model or os.environ.get("MUSCRIPTOR_MODEL") or "small"
+    req = req.model_copy(update={"model": effective})
+    audio_bytes = await file.read()
+    if not audio_bytes:
+        raise HTTPException(status_code=400, detail="empty audio upload")
+    job = tstore.create_job(audio_bytes, file.filename or "input.wav",
+                            req)
+    return {"job_id": job["job_id"], "status": job["status"]}
+
+
+@app.get("/v1/jobs/{job_id}/midi", dependencies=[Depends(_auth)])
+def job_midi(job_id: str):
+    if store.get_job(job_id) is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="synthesis jobs have no MIDI; transcription jobs "
+                   "serve MIDI here")
+    path = tstore.jobs_dir / job_id / "transcription.mid"
+    if not path.is_file():
+        job = tstore.get_job(job_id)
+        if job is None:
+            raise HTTPException(status_code=404, detail="unknown job")
+        raise HTTPException(status_code=409,
+                            detail=f"job still {job['status']}")
+    return FileResponse(str(path), media_type="audio/midi")

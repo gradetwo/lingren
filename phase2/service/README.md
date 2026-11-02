@@ -86,7 +86,56 @@ takes 门对 VR 同样生效（`app/gate.py`，阈值不变），VR 无原生 se
 `LingrenClient`：`upload_voice` / `synthesize` / `wait` / `fetch_receipt`
 / `fetch_audio`，对应设计 §6 的两个 MCP 工具（synthesize_singing、
 svs_job）的 HTTP 层；Yeban 仓库内的 MCP 工具包装是后续集成项，不
-在本目录（本 Phase 不改 yeban 仓库）。
+在本目录（本 Phase 不改 yeban 仓库）。转录新增 `transcribe` /
+`fetch_midi`（见下）。
+
+## MuScriptor 转录（设计 §12；服务侧）
+
+- `POST /v1/transcribe`：multipart，`file`（待转录音频）+ 表单字段
+  `model`（`small` 缺省；`medium`/`large`）、`instruments`（逗号分隔
+  的精确乐器组名，空 = Automatic，模型自选；给出的列表是硬掩码，
+  不在列表里的乐器不会被解码，不是事后过滤）、`bpm` /
+  `beats_per_bar` / `first_downbeat` / `quantize` / `grid` /
+  `detect_tempo`（`best-effort` 缺省）。返回 `{job_id, status}`。
+- `GET /v1/jobs/{id}`：转录作业共用（`kind: "transcribe"`，进度为
+  `completed_chunks/total_chunks`，无 parts/takes 字段）。
+- `GET /v1/jobs/{id}/midi`：转录产物（MIDI 字节，上游
+  `events_to_midi_bytes` 原样）；合成作业调它得 400。`/audio`
+  对转录作业得 400（指向 `/midi`）。
+- `GET /v1/jobs/{id}/receipt`：回执含 model、device、请求与实测乐器、
+  duration_s、elapsed_s、rtf、beat_grid（可为 null）、notes（按乐器
+  分组的原始模型时间音符；量化只进 MIDI，不进回执）、input_rms_db、
+  warnings（非静默输入 0 音符时为 `empty_transcription`）。
+
+环境变量：`MUSCRIPTOR_MODEL`（档位或本地 safetensors 路径；请求
+`model` 字段只接受三档关键词）、`MUSCRIPTOR_DEVICE`（auto 缺省；
+cpu/cuda/mps）、`MUSCRIPTOR_DTYPE`（缺省按设备走上游默认）、
+`MUSCRIPTOR_DRIVER_CMD`（驱动命令，缺省为本机 python +
+`app/muscriptor_driver.py`；测试用假 CLI 也走同一口子）。
+驱动以子进程跑，torch/CUDA 代码不出 API 进程；API 进程永不 import
+muscriptor，`requirements.txt` 不加 muscriptor（驱动环境另装，缺包
+时驱动响亮报错，告诉运维装包）。
+
+档位缺省：`small`（唯一 CPU 可行档；medium/large 在 CPU 上自回归
+解码慢于实时数倍）。macOS MPS 缺省仍 `small`（MPS 下 float16
+默认，解码带宽受限；medium 是显式质量选项）。Colab GPU（L4）用
+`large`（Wang 2026-11-02 定）。`medium` 只显式指定。
+
+权重许可：MuScriptor 代码 MIT，权重 CC BY-NC 4.0。权重经
+HuggingFace 门控下载（账号 + 接受许可），绝不进仓库、绝不进
+Docker 镜像与发布产物；未授权时作业响亮失败并原样携带上游
+ModelDownloadError 文本。学习用途下 NC 不构成障碍，但约束必须
+写明（本节 + 设计 §12 + 端点 docstring），不能藏；上传端点另注明
+“不要转录无权音频”（告知义务，非法律门禁——服务无法核验权属）。
+
+worker 关系：转录有独立队列 + 线程（长转录不阻塞合成作业状态），
+但模型执行与合成适配器共用一把 `MODEL_LOCK`（`app/jobs.py`），
+GPU/MPS 上两模型永不重叠；CPU 转录 + GPU 合成的真并行需设备隔离
+证据后才放开。
+
+本任务只做服务侧；转录 → 夜半的 MCP 工具接线、sheets 格式
+（需 MuseScore 4+，服务不装）、流式进度推送、断点续跑均为后续项
+（见设计 §12 末尾）。
 
 ## 声音库口径与许可
 

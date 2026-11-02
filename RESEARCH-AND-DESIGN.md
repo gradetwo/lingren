@@ -195,3 +195,82 @@ Colab CLI 会话内跑 FastAPI 服务，cloudflared 隧道把端口暴露成公�
 - MLX 移植先例 IndexTTS-2.5-mlx：https://pypi.org/project/index-tts-2.5-mlx/
 - MLX 移植先例 drama3-mac：https://github.com/JordiPosthumus/drama3-mac
 - 隧道方案参考：cloudflared quick tunnel 与 named tunnel（Cloudflare 官方文档与社区实践）
+- MuScriptor 仓库：https://github.com/muscriptor/muscriptor
+- MuScriptor 论文：https://arxiv.org/abs/2607.08168
+- MuScriptor 权重：https://huggingface.co/MuScriptor（small／medium／large，CC BY-NC 4.0 门控）
+- NeuralNote 仓库：https://github.com/DamRsn/NeuralNote
+- NeuralNote GGUF 权重：https://huggingface.co/DamRsn/muscriptor-gguf
+
+## 12. MuScriptor 转录（2026-11-02 新增，分支 lingren-muscriptor-transcribe）
+
+### 12.0 结论先行
+
+- 转录不是第三个合成适配器。合成适配器的接口是（乐谱＋voice＋seed）→ 一遍 wav；转录的输入是一段音频，输出是音符＋MIDI，没有 voice、没有 seed、没有 takes 门。硬塞进 BaseAdapter 会把接口语义搅浑，所以转录是独立作业类型，与 synthesize 共享任务状态端点，不共享执行路径。
+- 接口形状：POST /v1/transcribe（multipart 音频上传）→ job_id；GET /v1/jobs/{id}（与合成作业同一端点）；GET /v1/jobs/{id}/midi（取 MIDI）；GET /v1/jobs/{id}/receipt（取音符回执）。synthesize 与 svs_job 端点行为不动。
+- 选型：走 muscriptor 的 Python 包（safetensors）路线，不走 NeuralNote 的 GGUF 路线。理由见 12.4（证据在先，结论在后）。
+- 档位：缺省 small；Colab GPU 上 large；medium 只作显式选项。理由见 12.3。
+- 许可：代码 MIT，权重 CC BY-NC 4.0（门控下载）。权重永不进仓库、永不进镜像；缺授权响亮失败；NC 约束写进 README 与设计文档，不藏。Wang 立场（学习用途下 NC 不构成障碍）已记，但 shipped 功能必须明示约束。
+
+### 12.1 模型调研（全部以仓库源码为准）
+
+- 来源：Kyutai × Mirelo，论文 arXiv:2607.08168。decoder-only transformer ＋ mel 频谱前缀条件；输入 16 kHz 单声道（内部重采样），音频按 5 秒分块，块内事件按时间顺序产出。
+- 三档：small 约 100M（14 层／768 维／12 头）、medium 约 300M（24 层／1024 维／16 头）、large 约 1.3B（48 层／1536 维／24 头）。三档共用输入管线、tokenizer 与训练配方，只差深度与宽度。
+- Python API（muscriptor/transcription_model.py，实测源码）：
+  - `TranscriptionModel.load_model(weights_path=None|'small'|'medium'|'large'|本地 safetensors 路径|hf://|https://, device=None|'auto'|'cpu'|'cuda'|'mps', dtype=None|'float32'|'float16'|'bfloat16')`。缺省 medium；device 缺省当前加速器否则 CPU；dtype 缺省 MPS 上 float16、其余 float32（MPS 上 float16 是因为解码受内存带宽限制）。
+  - `transcribe(audio, use_sampling=False, temperature=1.0, cfg_coef=1.0, instruments: list[str]|None=None, batch_size=None, no_eos_is_ok=True, beam_size=1, prelude_forcing=True)` → 迭代器，产出 NoteStartEvent(pitch, start_time, index, instrument)／NoteEndEvent(end_time, start_event)／ProgressEvent(completed, total)。每个 NoteStart 必有唯一对应的 NoteEnd。
+  - `transcribe_and_postprocess(..., detect_tempo='best-effort', export=ExportOptions)` → (midi_bytes, BeatGrid|None)。`events_to_midi_bytes(events, beat_grid, export)` 由 CLI 与 HTTP server 共用，同一输入的 MIDI 字节相同。
+  - ExportOptions：bpm、beats_per_bar、first_downbeat、tempo_map、beat_scale（须为 2 的幂）、quantize、subdivision、strength、fill_gaps、trim_leading_bars。注意上游原话：量化是乐谱雕刻要的，不是听感要的；回执音符默认不量化，只在请求时量化进 MIDI。
+- 乐器（muscriptor/tokenizer/mt3.py，MT3_FULL_PLUS_GROUP_NAMES，共 34 组）：acoustic_piano、electric_piano、chromatic_percussion、organ、acoustic_guitar、clean_electric_guitar、distorted_electric_guitar、acoustic_bass、electric_bass、violin、viola、cello、contrabass、orchestral_harp、timpani、string_ensemble、synth_strings、voice、orchestra_hit、trumpet、trombone、tuba、french_horn、brass_section、soprano_and_alto_sax、tenor_sax、baritone_sax、oboe、english_horn、bassoon、clarinet、flutes、synth_lead、synth_pad、drums。`instruments=None` = 模型自选；给定列表 = 硬掩码（不在列表的乐器根本不被解码，不是事后过滤）。
+- 权重获取（muscriptor/utils/download.py）：门控 HF 仓库 MuScriptor/muscriptor-{small,medium,large}，缓存于 ~/.cache/muscriptor/（HF 仓库走 hf_hub_download）。未登录或未接受许可时抛 ModelDownloadError，服务必须把它翻成响亮的任务失败，不静默。
+- CLI（muscriptor/main.py）：`uvx muscriptor transcribe audio.wav`，--format midi|json|jsonl|sheets（sheets 需另装 MuseScore 4+），--instruments（逗号分隔，大小写不敏感、无歧义缩写可接受，`muscriptor list-instruments` 列出全表），--detect-tempo true|false|best-effort（缺省 best-effort），--bpm／--beats-per-bar／--first-downbeat／--quantize／--grid 等 tempo 修正。
+
+### 12.2 NeuralNote v2 的用法（参考点，不是照搬点）
+
+- NeuralNote v2（2026-10-04）把 Spotify Basic Pitch 换成 MuScriptor：整曲按乐器转录、乐器自选或 Automatic、模型首次启动时下载、本地 GPU／CPU 跑、每乐器一轨 MIDI 导出（鼓 ch10）、删了 v1 的灵敏度／量化设置。
+- 源码级用法（Lib/Model/MuscriptorEngine.h、ModelManifest.h，实测源码）：
+  - 引擎包 `msl::Transcriber`（C++ 移植），模型不在两次转录之间驻留：进调用时加载、出调用前卸载（medium/F16 驻留超 1 GB，插件闲置时不值得持有；重载约 0.3 秒，相对慢于实时的转录可忽略）。
+  - 乐器：空列表 = Automatic（模型自选，与 Python 的 instruments=None 同义）；非空 = 条件前缀 ＋ 解码器硬掩码，不是下游过滤（与 Python 语义一致，这一点两边互相印证）。
+  - 音频：单声道 16 kHz（TRANSCRIPTION_SAMPLE_RATE = 16000，与 Python 的 _SAMPLE_RATE = 16000 一致）。
+  - 音符流式产出（drainNewNotes 增量）＋ 最终权威全量（takeFinalNotes）；支持断点续跑（resume point）。伶人 v1 不做流式与续跑：作业跑完一次性回 MIDI ＋ 回执，流式是后续项。
+  - 权重：DamRsn/muscriptor-gguf，钉死修订版 d7045f94…，f16 GGUF 三档 209,425,152／618,442,496／2,739,142,176 B，sha256 钉死在代码里（不是读上游 SHA256SUMS，变了就验不过）。
+- 对伶人的可迁移点只有三条：Automatic 语义（空 = 自选）、乐器提示是硬掩码（不是过滤器）、每乐器一轨 MIDI。C++ 引擎、GGUF、流式钢琴卷、断点续跑都不迁移（理由见 12.4）。
+
+### 12.3 落点与接口形状
+
+- 落点：新模块 app/transcribe.py（请求模式、作业记录、转录 worker）＋ app/muscriptor_driver.py（子进程驱动，与 vr_driver.py 同款隔离：torch／CUDA 代码不出 API 进程）。不复用 BaseAdapter（12.0 的理由），不碰 jobs.py 的合成路径（只加一把模型锁，见下）。
+- 端点：
+  - POST /v1/transcribe：multipart，file=音频（wav／mp3／flac 等，上游 _load_wav 接受的格式）；表单字段 model（small|medium|large，缺省见 12.3 档位）、instruments（逗号分隔，空 = Automatic）、bpm、beats_per_bar、first_downbeat、quantize、grid、detect_tempo（缺省 best-effort）。提交时校验乐器名（精确匹配 34 组表，未知名返回 400 并附全表；上游接受无歧义缩写，但服务层不接受缩写——避免静默错解，写死在文档里）。返回 {job_id, status}。
+  - GET /v1/jobs/{id}：合成与转录共用。转录作业的记录含 kind="transcribe"、progress（已完成块／总块，来自 ProgressEvent）、audio_duration_s、notes_total；没有 parts／takes 字段（转录没有这两个概念，不造假字段）。
+  - GET /v1/jobs/{id}/midi：转录作业的 MIDI 字节（上游 events_to_midi_bytes 的原样输出）。合成作业调此端点返回 400（没有 MIDI 可取，写明原因）。
+  - GET /v1/jobs/{id}/audio：转录作业调此端点返回 400（转录不产 wav takes，写明去 /midi）。
+  - GET /v1/jobs/{id}/receipt：转录回执 JSON：model、variant、device、instruments（请求值与实际检出值）、duration_s、rtf（音频时长／墙钟比，实测值）、beat_grid（bpm／beats_per_bar／first_downbeat，可能为 null）、notes（按乐器分组：[{instrument, pitch, start_s, end_s}]，start_s／end_s 是模型原始时值，未量化；量化只进 MIDI，不进回执）、input_rms_db、warnings（notes_total=0 且输入非静默时记 empty_transcription 警告，不谎报失败也不谎报成功）。
+- 档位（部署缺省，请求 model 可覆盖）：
+  - 本地 CPU：small。唯一在 CPU 上有 plausible 实时性的档；medium／large 的自回归解码在 CPU 上慢于实时数倍，长音频不可接受。
+  - macOS MPS：small（dtype 缺省 float16，解码受内存带宽限制，float16 减半流量）。medium 可显式选，但只作质量选项，不作缺省。
+  - Colab GPU（L4）：large（Wang 2026-11-02 定：都用 Colab 就用 large；1.3B，GPU only，L4 显存有余量）。medium 只作显式选项。
+  - 环境变量：MUSCRIPTOR_MODEL（档位或本地 safetensors 路径）、MUSCRIPTOR_DEVICE（auto|cpu|cuda|mps，缺省 auto）、MUSCRIPTOR_DTYPE（缺省按设备）。请求 model 优先于环境变量。
+- worker 关系：转录 worker 独立线程＋独立队列（不与合成 worker 共用队列，长转录不堵合成任务的状态查询）；但模型执行共用一把 _MODEL_LOCK：合成适配器调用与转录运行都持锁进 GPU／MPS。锁是内部串行保证，不改变 synthesize 端点的任何响应形状。后续若要真并行（CPU 转录 ＋ GPU 合成），须先有设备级隔离证据，再改锁粒度，不先拍脑袋放开。
+- 部署：
+  - 本地 macOS：pip／uvx 装 muscriptor，HF 登录并接受 CC BY-NC 许可，MUSCRIPTOR_MODEL=small，device=mps。Intel Mac 走上游文档的 Python ≤3.12＋torch 2.2.2 路线（本机不验，写明出处）。
+  - Colab 远端：同一服务代码，device=cuda，model=large；权重走 §7.4 的 Drive 缓存模式（会话盘随会话死，无缓存时重下，成本写进启动预算）。
+  - Docker：CUDA 基础镜像 ＋ 服务代码 ＋ 推理依赖；权重用 volume 挂载，永不烘进镜像（与 §8 同款理由：分发成本 ＋ 许可分离）。macOS 上 Docker 无 GPU 直通，Docker 模式不服务 Mac 本地用户。
+- 驱动命令覆盖：MUSCRIPTOR_DRIVER_CMD（缺省：sys.executable ＋ 内置 app/muscriptor_driver.py）。测试用 fake CLI 走同一覆盖点，不是测试专用后门；算子可指向自装 muscriptor。
+
+### 12.4 GGUF 与 safetensors 的取舍（证据在先）
+
+- NeuralNote 用 GGUF 的原因是它是 C++/JUCE 插件，跑不了 torch；GGUF 来自 DamRsn/muscriptor-gguf（第三方转换，钉死修订版与 sha256）。伶人是 Python FastAPI 服务，上游 Python 包（pip／uvx 可装、safetensors、有文档的 Python API）是原生路线；为 GGUF 引入 C++ 运行时或新的 native 依赖，零收益。
+- 因此：v1 走 Python safetensors 路线，子进程驱动（与 SoulX／VR 适配器同款隔离）。GGUF 只记为后续项：仅当出现 C++ 嵌入需求时再评估，不先做。
+- 权重体积参考（GGUF f16，作部署预算的量级锚点，不是 safetensors 的实测值）：small 约 210MB、medium 约 620MB、large 约 2.7GB。safetensors 各档以 HF 页面标称与实测下载为准，不拿 GGUF 数冒充。
+
+### 12.5 许可处理（写死，不藏）
+
+- 代码 MIT（muscriptor 仓库 LICENSE）；权重 CC BY-NC 4.0（非商业使用），门控下载（HF 登录 ＋ 接受许可）。
+- 四条铁律：权重永不进仓库（.gitignore 外加文档明示，CI 不验但 code review 验）；权重永不进 Docker 镜像与发布包；缺授权时任务响亮失败（上游 ModelDownloadError 原文进 error 字段，不翻译、不吞掉）；README、设计文档、本节、服务端点文档字符串四处明示 NC 约束（非商业使用）。
+- Wang 立场已记：学习用途下 NC 不构成障碍；但 shipped 功能必须把约束写明，不能藏。上传端点文档字符串另记上游条款：不要转录无权音频（只作提示，不作法律门禁——服务无法验证版权归属，诚实写明边界）。
+- 转录产物（MIDI、回执）是用户自有音频的转录结果，归用户；服务不二次分发。
+
+### 12.6 与夜半的关系（本任务范围边界）
+
+- 本任务只做服务侧：转录端点 ＋ 作业 ＋ 回执 ＋ 客户端方法（LingrenClient.transcribe／poll／fetch_midi／fetch_receipt，stdlib 同款）。
+- 回执音符格式刻意贴近夜半的音符字段（instrument、pitch（MIDI）、start_s、end_s），未来 MCP 工具可 1:1 映射，不另设转换层。
+- 后续项（不硬做）：夜半 MCP 工具（例如 transcribe_audio 提交 ＋ 转录结果导入：MIDI 走现有 import_midi 路径，或音符走 edit_notes）；sheets 格式（MusicXML／PDF，需 MuseScore 4+，服务侧不装）；流式进度推送（v1 只有轮询 progress 块数）；断点续跑（NeuralNote 有，伶人 v1 没有）。

@@ -27,6 +27,14 @@ from .adapters.vocalrender import VocalRenderAdapter
 
 MAX_TAKE_ATTEMPTS = 3
 
+# Shared with the transcription worker (app/transcribe.py): every
+# model execution -- synthesis adapter calls here AND transcription
+# runs there -- holds this lock, so two models never sit on the
+# GPU / MPS at the same time. It changes no endpoint response shape;
+# the synthesis worker was previously the only worker, so the lock
+# was trivially held.
+MODEL_LOCK = threading.Lock()
+
 
 def _adapters() -> dict:
     return {"soulx": SoulXAdapter(), "vocalrender": VocalRenderAdapter(),
@@ -153,8 +161,9 @@ class JobStore:
             for attempt in range(MAX_TAKE_ATTEMPTS):
                 seed = base_seed if attempt == 0 else base_seed + 1000 * attempt
                 out_path = job_dir / f"{part.label}_take{take_idx}.wav"
-                wav_path, sr, info = adapter.synthesize(
-                    part, voice, seed, out_path, workdir)
+                with MODEL_LOCK:
+                    wav_path, sr, info = adapter.synthesize(
+                        part, voice, seed, out_path, workdir)
                 data, sr_read = sf.read(str(wav_path), dtype="float32")
                 mono = data[:, 0] if data.ndim == 2 else data
                 if accepted:

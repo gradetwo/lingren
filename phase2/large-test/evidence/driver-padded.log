@@ -1,0 +1,13 @@
+--- driver stderr tail ---
+[muscriptor] load audio: 0.00s
+[muscriptor] audio: 4.5s → 1 chunk(s) of 5.0s
+[muscriptor] build conditions: 0.00s
+[muscriptor] generate total: 1.76s
+[muscriptor] transcribe total: 1.76s (4.5s audio)
+
+[t+   4.60] {"type": "progress", "completed": 0, "total": 1}
+[t+   6.36] [muscriptor] mel-spec (1 × 80000 samples): 0.095s
+[t+   6.36] [muscriptor] encode conditions (total): 0.153s
+[t+   6.36] {"type": "progress", "completed": 1, "total": 1}
+[t+   6.37] {"type": "summary", "duration_s": 4.5, "notes_total": 9, "input_rms_db": -13.98, "beat_grid": {"bpm": 120.0, "beats_per_bar": null, "first_downbeat": 0.5}}
+TIMING {"exit_code": 0, "wall_total_s": 6.892, "load_s": 4.603, "transcribe_s": 1.77}

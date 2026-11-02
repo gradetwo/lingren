@@ -1,0 +1,73 @@
+server pid=19371
+health: 200 {"status":"ok","voices":0}
+submit: {"job_id": "9733f76c4aae4ffa", "status": "queued"}
+poll: {"job_id": "9733f76c4aae4ffa", "kind": "transcribe", "status": "completed", "error": null, "created_at": 1793613483.7504392, "updated_at": 1793613490.5633264, "progress": {"completed_chunks": 1, "total_chunks": 1}, "audio_duration_s": 4.0, "notes_total": 8}
+midi: 200 bytes 153 magic b'MThd'
+receipt: {
+  "job_id": "9733f76c4aae4ffa",
+  "status": "completed",
+  "model": "/content/muscriptor-large/model.safetensors",
+  "device": "cuda",
+  "instruments_requested": null,
+  "duration_s": 4.0,
+  "elapsed_s": 6.811,
+  "rtf": 0.5873,
+  "notes_total": 8,
+  "beat_grid": {
+    "bpm": 120.00000000000003,
+    "beats_per_bar": 4,
+    "first_downbeat": 0.0
+  },
+  "input_rms_db": -13.47,
+  "warnings": [],
+  "notes": [
+    {
+      "instrument": "electric_piano",
+      "pitch": 62,
+      "start_s": 0.5,
+      "end_s": 1.0
+    },
+    {
+      "instrument": "electric_piano",
+      "pitch": 64,
+      "start_s": 1.0,
+      "end_s": 1.5
+    },
+    {
+      "instrument": "electric_piano",
+      "pitch": 65,
+      "start_s": 1.5,
+      "end_s": 2.0
+    },
+    {
+      "instrument": "electric_piano",
+      "pitch": 67,
+      "start_s": 2.0,
+      "end_s": 2.5
+    },
+    {
+      "instrument": "electric_piano",
+      "pitch": 69,
+      "start_s": 2.5,
+      "end_s": 3.01
+    },
+    {
+      "instrument": "electric_piano",
+      "pitch": 71,
+      "start_s": 3.01,
+      "end_s": 3.51
+    },
+    {
+      "instrument": "electric_piano",
+      "pitch": 72,
+      "start_s": 3.51,
+      "end_s": 4.01
+    },
+    {
+      "instrument": "electric_piano",
+      "pitch": 74,
+      "start_s": 4.01,
+      "end_s": 4.02
+    }
+  ]
+}
