@@ -38,7 +38,7 @@ seed、无 takes 门，硬塞会搅浑接口语义）：
   关键词；`MUSCRIPTOR_MODEL` 环境变量可带档位或本地 safetensors 路径
   （运维控制，坏值由驱动响亮失败，不静默替换）。缺省 small（唯一 CPU
   可行档）；macOS MPS 缺省仍 small（float16 默认）；Colab GPU（L4）
-  用 medium（上游缺省）；large 只显式指定，GPU only。
+  用 large（Wang 2026-11-02 定：Colab 就用 large）；medium 只显式指定。
 - worker 关系：转录独立队列＋线程（长转录不阻塞合成作业状态），但模型
   执行与合成适配器共用 `app/jobs.py` 的 `MODEL_LOCK`，GPU/MPS 上两模型
   永不重叠；锁是内部串行保证，不改变 synthesize 端点响应形状。
@@ -113,7 +113,7 @@ seed、无 takes 门，硬塞会搅浑接口语义）：
 运维放行后复测方法（留给父 agent／运维）：token＋许可就绪后，同一条
 驱动命令（`--model small --device cpu`，scale.wav）重跑，记录回执
 rtf、notes 与 8 个已知音高（C4 D4 E4 F4 G4 A4 B4 C5，每音 0.5 s）的
-对照；再跑服务提交→轮询→`/midi`＋`/receipt` 全链。
+对照；再跑服务提交→轮询→`/midi`＋`/receipt` 全链。Colab 实测用 large（Wang 2026-11-02 定）。
 
 ## 4. 实测中修掉的两个真问题
 

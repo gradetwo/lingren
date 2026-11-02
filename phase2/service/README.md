@@ -119,7 +119,7 @@ muscriptor，`requirements.txt` 不加 muscriptor（驱动环境另装，缺包
 档位缺省：`small`（唯一 CPU 可行档；medium/large 在 CPU 上自回归
 解码慢于实时数倍）。macOS MPS 缺省仍 `small`（MPS 下 float16
 默认，解码带宽受限；medium 是显式质量选项）。Colab GPU（L4）用
-`medium`（上游缺省）。`large` 只显式指定，GPU only。
+`large`（Wang 2026-11-02 定）。`medium` 只显式指定。
 
 权重许可：MuScriptor 代码 MIT，权重 CC BY-NC 4.0。权重经
 HuggingFace 门控下载（账号 + 接受许可），绝不进仓库、绝不进

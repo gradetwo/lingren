@@ -208,7 +208,7 @@ Colab CLI 会话内跑 FastAPI 服务，cloudflared 隧道把端口暴露成公�
 - 转录不是第三个合成适配器。合成适配器的接口是（乐谱＋voice＋seed）→ 一遍 wav；转录的输入是一段音频，输出是音符＋MIDI，没有 voice、没有 seed、没有 takes 门。硬塞进 BaseAdapter 会把接口语义搅浑，所以转录是独立作业类型，与 synthesize 共享任务状态端点，不共享执行路径。
 - 接口形状：POST /v1/transcribe（multipart 音频上传）→ job_id；GET /v1/jobs/{id}（与合成作业同一端点）；GET /v1/jobs/{id}/midi（取 MIDI）；GET /v1/jobs/{id}/receipt（取音符回执）。synthesize 与 svs_job 端点行为不动。
 - 选型：走 muscriptor 的 Python 包（safetensors）路线，不走 NeuralNote 的 GGUF 路线。理由见 12.4（证据在先，结论在后）。
-- 档位：缺省 small；Colab GPU 上 medium；large 只作显式选项。理由见 12.3。
+- 档位：缺省 small；Colab GPU 上 large；medium 只作显式选项。理由见 12.3。
 - 许可：代码 MIT，权重 CC BY-NC 4.0（门控下载）。权重永不进仓库、永不进镜像；缺授权响亮失败；NC 约束写进 README 与设计文档，不藏。Wang 立场（学习用途下 NC 不构成障碍）已记，但 shipped 功能必须明示约束。
 
 ### 12.1 模型调研（全部以仓库源码为准）
@@ -247,12 +247,12 @@ Colab CLI 会话内跑 FastAPI 服务，cloudflared 隧道把端口暴露成公�
 - 档位（部署缺省，请求 model 可覆盖）：
   - 本地 CPU：small。唯一在 CPU 上有 plausible 实时性的档；medium／large 的自回归解码在 CPU 上慢于实时数倍，长音频不可接受。
   - macOS MPS：small（dtype 缺省 float16，解码受内存带宽限制，float16 减半流量）。medium 可显式选，但只作质量选项，不作缺省。
-  - Colab GPU（L4）：medium（上游缺省档，L4 显存有余量）。large 只作显式选项（1.3B，GPU only，慢）。
+  - Colab GPU（L4）：large（Wang 2026-11-02 定：都用 Colab 就用 large；1.3B，GPU only，L4 显存有余量）。medium 只作显式选项。
   - 环境变量：MUSCRIPTOR_MODEL（档位或本地 safetensors 路径）、MUSCRIPTOR_DEVICE（auto|cpu|cuda|mps，缺省 auto）、MUSCRIPTOR_DTYPE（缺省按设备）。请求 model 优先于环境变量。
 - worker 关系：转录 worker 独立线程＋独立队列（不与合成 worker 共用队列，长转录不堵合成任务的状态查询）；但模型执行共用一把 _MODEL_LOCK：合成适配器调用与转录运行都持锁进 GPU／MPS。锁是内部串行保证，不改变 synthesize 端点的任何响应形状。后续若要真并行（CPU 转录 ＋ GPU 合成），须先有设备级隔离证据，再改锁粒度，不先拍脑袋放开。
 - 部署：
   - 本地 macOS：pip／uvx 装 muscriptor，HF 登录并接受 CC BY-NC 许可，MUSCRIPTOR_MODEL=small，device=mps。Intel Mac 走上游文档的 Python ≤3.12＋torch 2.2.2 路线（本机不验，写明出处）。
-  - Colab 远端：同一服务代码，device=cuda，model=medium；权重走 §7.4 的 Drive 缓存模式（会话盘随会话死，无缓存时重下，成本写进启动预算）。
+  - Colab 远端：同一服务代码，device=cuda，model=large；权重走 §7.4 的 Drive 缓存模式（会话盘随会话死，无缓存时重下，成本写进启动预算）。
   - Docker：CUDA 基础镜像 ＋ 服务代码 ＋ 推理依赖；权重用 volume 挂载，永不烘进镜像（与 §8 同款理由：分发成本 ＋ 许可分离）。macOS 上 Docker 无 GPU 直通，Docker 模式不服务 Mac 本地用户。
 - 驱动命令覆盖：MUSCRIPTOR_DRIVER_CMD（缺省：sys.executable ＋ 内置 app/muscriptor_driver.py）。测试用 fake CLI 走同一覆盖点，不是测试专用后门；算子可指向自装 muscriptor。
 
