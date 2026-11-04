@@ -20,6 +20,7 @@ import soundfile as sf
 
 from .alignment import align_to_score, detect_candidates
 from .gate import check_pair
+from .prompts import PromptStore
 from .schemas import PartIn, SynthesizeIn
 from .adapters.base import AdapterError
 from .adapters.soulx import SoulXAdapter
@@ -52,6 +53,7 @@ class JobStore:
         self.jobs: dict[str, dict] = {}
         self._queued_at: dict[str, float] = {}
         self.voices: dict[str, dict] = {}
+        self.prompt_store = PromptStore(data_dir)
         self.lock = threading.Lock()
         self.queue: queue.Queue[str] = queue.Queue()
         self._load_voices()
@@ -71,11 +73,13 @@ class JobStore:
 
     def register_voice(self, voice_id: str, audio_path: Path,
                        prompt_meta_path: Path | None,
-                       name: str | None) -> dict:
+                       name: str | None,
+                       prompt_id: str | None = None) -> dict:
         info = {"voice_id": voice_id, "name": name,
                 "audio_path": str(audio_path),
                 "prompt_meta_path": (str(prompt_meta_path)
                                      if prompt_meta_path else None),
+                "prompt_id": prompt_id,
                 "soulx_ready": bool(prompt_meta_path)}
         (audio_path.parent / "info.json").write_text(json.dumps(info))
         with self.lock:
@@ -84,7 +88,8 @@ class JobStore:
 
     def register_voice_files(self, voice_id: str, wav_path: Path,
                              meta_path: Path | None,
-                             name: str | None) -> dict:
+                             name: str | None,
+                             prompt_id: str | None = None) -> dict:
         """Copy a finished prompt pair into the voices dir and register
         it. Used by the SVC auto-register hook: the pair lives in a job
         dir, the voice must own its own copy."""
@@ -96,7 +101,8 @@ class JobStore:
         if meta_path is not None:
             meta_copy = vdir / "prompt_meta.json"
             meta_copy.write_bytes(meta_path.read_bytes())
-        return self.register_voice(voice_id, audio_path, meta_copy, name)
+        return self.register_voice(voice_id, audio_path, meta_copy, name,
+                                   prompt_id)
 
     def create_job(self, req: SynthesizeIn) -> dict:
         job_id = uuid.uuid4().hex[:16]

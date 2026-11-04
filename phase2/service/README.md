@@ -23,8 +23,15 @@ SVS_DATA_DIR=./data ../.venv/bin/uvicorn app.main:app --port 8000
   另一路：`timbre`（本音色干净演唱）+ `genre`（目标曲风表演，可混音）。
   带 genre 音频时自动跑 SVC（曲风表演转本音色，SVC 默认值，auto_shift
   关），成品 prompt 对自动注册为 voice。响应带 pending 的 voice_id 与
-  SVC job_id；作业完成后 voice 才出现在列表里，回执带 voice_status。
-  genre 缺 timbre、genre 与 file 同带、只有 timbre、什么都不带，均为 400。
+  SVC job_id 与 pending 的 prompt_id；作业完成后 voice 才出现在列表里，
+  回执与 voice 条目带 prompt_id。genre 缺 timbre、genre 与 file 同带、
+  只有 timbre、什么都不带，均为 400。file 老路上传的音频也会注册进
+  prompt 注册表，voice 条目带它的 prompt_id。
+- `GET /v1/prompts`：已存 prompt 列表（每条含 prompt_id、来源、关联
+  voice_id）。`GET /v1/prompts/{prompt_id}`：单条信息。
+  `GET /v1/prompts/{prompt_id}/audio`：prompt wav。prompt 注册表与
+  voices 同模式：`data/prompts/<prompt_id>/` 下 prompt.wav（+ 有则
+  prompt_meta.json）+ info.json，服务启动时重载。
 - `POST /v1/synthesize`：`{"parts": [...]}`，每 part 含 label、score
   （统一乐谱 JSON）、voice_id、model（`soulx` 默认；`vocalrender` 走
   VR 适配器，见下）、takes、seeds、options。model 按 part 指定，一
@@ -174,13 +181,16 @@ SoulX 输出带美声感时，先造曲风 prompt 再唱：源用真实流行唱
 流行；再把 SVC 输出转录成 SoulX prompt 对（wav + meta）。
 
 - `POST /v1/svc-prompt`：multipart，`source`（源表演音频，可为
-  混音）+ `timbre`（本音色参考，干净演唱）+ 表单字段
+  混音）+ `timbre`（本音色参考，干净演唱）或 `prompt_id`（已存
+  prompt 的 id，见上；与 timbre 同带为 400、都不带为 400、未知
+  prompt_id 为 404；source 仍须上传）+ 表单字段
   `vocal_sep`（`true` 缺省：混音先人声分离 + 去混响；干净
   人声传 `false`）、`n_steps`（32 缺省，16–64）、`cfg`（3.0
   缺省，须 > 0）、`pitch_shift`（0 缺省，-12..+12 半音）、
   `auto_shift`（`false` 缺省；定规：auto_shift 关、不补偿，音区由谱子层定）、`fp16`（`true` 缺省）、
   `language`（`Mandarin` 缺省）、`max_merge_duration`（30000
-  缺省，毫秒）。返回 `{job_id, status}`。
+  缺省，毫秒）。返回 `{job_id, status, prompt_id}`，prompt_id 是
+  本次产物将注册的 id（作业完成前为 pending）。
 - `GET /v1/jobs/{id}`：SVC 作业共用（`kind: "svc-prompt"`）。
 - `GET /v1/jobs/{id}/prompt-audio`：prompt wav（24 kHz 干声）；
   `GET /v1/jobs/{id}/prompt-meta`：prompt meta（转录段列表，
@@ -191,12 +201,19 @@ SoulX 输出带美声感时，先造曲风 prompt 再唱：源用真实流行唱
   时长、prompt 文件名、sample_rate、duration_s、peak、
   clipped_samples、segments、elapsed_s、warnings（SVC 输出触顶
   时为 `svc_clipped`，仅记录不失败；音色参考时长出 2–8 秒
-  指导范围时为 `timbre_duration_outside_2_8s`，仅提示）。
+  指导范围时为 `timbre_duration_outside_2_8s`，仅提示），以及
+  prompt_id（本次产物注册的 id；用 prompt_id 作 timbre 时回执
+  另带 timbre_prompt_id）。
 - 方向是死的：源定表演（曲风、旋律、乐句形态），音色参考只定
   声音。SVC 输入里没有风格参数、只换音色不换表演，所以美声
   源换音色仍是美声——曲风必须由一段该曲风的真实表演提供，
-  不能由参数凭空指定。prompt 对不自动注册为 voice，调用方
-  用两个端点取回后自行使用。
+  不能由参数凭空指定。每个完成的作业都把 prompt 对注册进
+  prompt 注册表（prompt_id 见回执与响应）；prompt 对不自动
+  注册为 voice，voice 注册只走 `/v1/voices` 的 genre 路。
+- 夜半侧 id 复用流程：第一次拿 prompt_id（voices genre 响应、
+  svc-prompt 响应、或 `GET /v1/prompts` 列表）；以后每次
+  svc-prompt 只传 `source` + `prompt_id`，不用重传 timbre
+  音频；合成仍按 voice_id 取 voice，不变。
 - 失败语义：权重下载受阻、分离失败、SVC 失败、转录失败、
   meta 为空或缺键时作业响亮失败，回执写明原因；prompt 文件
   只在全程成功后才进作业目录，失败时 `/prompt-audio` 与
@@ -214,7 +231,7 @@ SoulX 输出带美声感时，先造曲风 prompt 再唱：源用真实流行唱
 preprocess 的 librosa 解码，推理机须有 ffmpeg 后端，否则
 响亮失败。权重为 Soul-AILab/SoulX-Singer 公开下载
 （Apache-2.0，`model-svc.pt`），绝不进仓库；未覆盖项：prompt
-对自动注册 voice、流式进度、断点续跑。
+对自动注册 voice（prompt 注册表已做，见上）、流式进度、断点续跑。
 
 ## 声音库口径与许可
 
