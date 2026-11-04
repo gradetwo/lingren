@@ -20,6 +20,19 @@ SVS_DATA_DIR=./data ../.venv/bin/uvicorn app.main:app --port 8000
   没有 prompt_meta 的 voice 会注册成功但 `soulx_ready=false`，合成时
   响亮失败（不静默）。全量 prompt 预处理流水线（从生音频自动对齐出
   prompt_meta）是 Phase 2 项。
+  另一路：`timbre`（本音色干净演唱）+ `genre`（目标曲风表演，可混音）。
+  带 genre 音频时自动跑 SVC（曲风表演转本音色，SVC 默认值，auto_shift
+  关），成品 prompt 对自动注册为 voice。响应带 pending 的 voice_id 与
+  SVC job_id；作业完成后 voice 才出现在列表里，回执带 voice_id 与
+  voice_status。genre 缺 timbre、genre 与 file 同带、只有 timbre、
+  什么都不带，均为 400。voice 条目带来源 `source`（`voice-upload`、
+  `voices-genre`、`svc-prompt`）与创建时间。
+- `GET /v1/prompts`：voice 列表的 prompts 别名，与 `GET /v1/voices`
+  返回同一批 voice 条目（按 voice_id）。
+  `GET /v1/prompts/{voice_id}`：单条信息。
+  `GET /v1/prompts/{voice_id}/audio`：voice 的 prompt wav。voice 注册表：
+  `data/voices/<voice_id>/` 下 prompt.wav（+ 有则 prompt_meta.json）
+  + info.json，服务启动时重载。id 只有一个：voice_id。
 - `POST /v1/synthesize`：`{"parts": [...]}`，每 part 含 label、score
   （统一乐谱 JSON）、voice_id、model（`soulx` 默认；`vocalrender` 走
   VR 适配器，见下）、takes、seeds、options。model 按 part 指定，一
@@ -33,6 +46,31 @@ SVS_DATA_DIR=./data ../.venv/bin/uvicorn app.main:app --port 8000
 tunnel 部署必须设，本地开发可不设。
 
 ## SoulX 适配器（需 GPU 机器：Colab CUDA 或 Mac MPS）
+
+### 可选的作业内模型复用与耗时回执
+
+默认 `SOULX_REUSE_MODEL=0` 保留每遍一个子进程的执行方式。设置为 `1`
+后，同一作业内连续的 SoulX 唱段和 takes 共用一个通过 `spawn` 启动的
+子进程，只加载一次模型；切换到其它模型、任务完成、任务失败或单次
+推理超时后释放子进程。不会跨作业长期占用 GPU，也不让两个模型同时
+驻留。单次请求超时仍为 3600 秒。
+
+复用模式每遍重新设置随机种子，并重新读取 prompt/target 元数据。
+默认 CLI 仍保留原先“模型初始化前设种子”的行为；复用模式的同一 seed
+不承诺与旧模式波形相同。需要逐采样复现旧结果时保持默认模式。
+
+作业状态增加 `stage`、`current_part`、`current_take`、`current_attempt`
+以及终态 `timings`。最终回执先原子发布，再暴露 completed/failed 状态；
+普通转换错误、音频读取错误与子进程超时也会产生失败回执。存储不可写
+仍可能导致回执无法落盘，客户端必须同时检查任务失败状态。
+
+耗时字段单位均为秒，使用单调时钟；作业提供排队、运行和总耗时，每遍
+提供合成、对齐及总耗时。SoulX `adapter_info.timings` 另含 runtime
+初始化、模型加载、预处理、推理、写 WAV 与适配器墙钟时间。模型加载
+包含在 runtime 初始化内，不能将这两个字段相加。MPS/CUDA 的相关阶段
+同步设备后计时；热请求的初始化/加载时间为零，`model_reused=true`。
+
+该开关需要在下一次服务启动时设置；修改源码不会自动重启现有服务。
 
 环境变量：`SOULX_REPO`（打好 `../patches/00-02` 的检出）、
 `SOULX_MODEL_PATH`、`SOULX_CONFIG`、`SOULX_PHONESET`、`SOULX_DEVICE`
@@ -136,6 +174,65 @@ GPU/MPS 上两模型永不重叠；CPU 转录 + GPU 合成的真并行需设备�
 本任务只做服务侧；转录 → 夜半的 MCP 工具接线、sheets 格式
 （需 MuseScore 4+，服务不装）、流式进度推送、断点续跑均为后续项
 （见设计 §12 末尾）。
+
+## SVC 曲风 prompt（反向管线：先造 prompt 再唱）
+
+SoulX 输出带美声感时，先造曲风 prompt 再唱：源用真实流行唱法
+表演（任何歌手），prompt 用本音色参考，SVC 输出就是本音色唱
+流行；再把 SVC 输出转录成 SoulX prompt 对（wav + meta）。
+
+- `POST /v1/svc-prompt`：multipart，`source`（源表演音频，可为
+  混音）+ `timbre`（本音色参考，干净演唱）或 `voice_id`（已存
+  voice 的 id，见上；与 timbre 同带为 400、都不带为 400、未知
+  voice_id 为 404；source 仍须上传）+ 表单字段
+  `vocal_sep`（`true` 缺省：混音先人声分离 + 去混响；干净
+  人声传 `false`）、`n_steps`（32 缺省，16–64）、`cfg`（3.0
+  缺省，须 > 0）、`pitch_shift`（0 缺省，-12..+12 半音）、
+  `auto_shift`（`false` 缺省；定规：auto_shift 关、不补偿，音区由谱子层定）、`fp16`（`true` 缺省）、
+  `language`（`Mandarin` 缺省）、`max_merge_duration`（30000
+  缺省，毫秒）。返回 `{job_id, status, voice_id}`，voice_id 是
+  本次产物将注册的 voice id（作业完成前为 pending）。
+- `GET /v1/jobs/{id}`：SVC 作业共用（`kind: "svc-prompt"`）。
+- `GET /v1/jobs/{id}/prompt-audio`：prompt wav（24 kHz 干声）；
+  `GET /v1/jobs/{id}/prompt-meta`：prompt meta（转录段列表，
+  段含 text、phoneme、note_pitch、duration、f0、time）。合成
+  作业与转录作业调它俩得 400；`/audio` 与 `/midi` 对 SVC
+  作业得 400。
+- `GET /v1/jobs/{id}/receipt`：回执含 params、source/timbre
+  时长、prompt 文件名、sample_rate、duration_s、peak、
+  clipped_samples、segments、elapsed_s、warnings（SVC 输出触顶
+  时为 `svc_clipped`，仅记录不失败；音色参考时长出 2–8 秒
+  指导范围时为 `timbre_duration_outside_2_8s`，仅提示），以及
+  voice_id（本次产物注册的 voice id；用 voice_id 作 timbre 时回执
+  另带 timbre_voice_id）。
+- 方向是死的：源定表演（曲风、旋律、乐句形态），音色参考只定
+  声音。SVC 输入里没有风格参数、只换音色不换表演，所以美声
+  源换音色仍是美声——曲风必须由一段该曲风的真实表演提供，
+  不能由参数凭空指定。每个完成的作业都把 prompt 对注册为 voice
+  （voice_id 见回执与响应），可直接用于合成，也可作下次
+  svc-prompt 的 voice_id timbre。
+- 夜半侧流程：id 只有一个 voice_id。第一次传目标曲风音频
+  （voices genre 路）或 source + timbre（svc-prompt），内部自动
+  SVC，得 voice_id；以后调用只传 voice_id：svc-prompt 传
+  `source` + `voice_id`，不用重传 timbre 音频；合成按 voice_id
+  取 voice。`GET /v1/prompts` 按 voice_id 列出全部 voice。
+- 失败语义：权重下载受阻、分离失败、SVC 失败、转录失败、
+  meta 为空或缺键时作业响亮失败，回执写明原因；prompt 文件
+  只在全程成功后才进作业目录，失败时 `/prompt-audio` 与
+  `/prompt-meta` 得 409，永不出现半成品 prompt。
+
+环境变量：`SOULX_REPO`（SoulX-Singer 检出目录，各步骤 cwd；
+缺省则驱动报缺参失败）、`SVC_MODEL_PATH`（缺省为检出内
+`pretrained_models/SoulX-Singer/model-svc.pt`）、`SVC_CONFIG`
+（缺省为检出内 `soulxsinger/config/soulxsinger.yaml`）、
+`SVC_DEVICE`（`cuda` 缺省）、`SVC_PROMPT_DRIVER_CMD`（驱动
+命令，缺省为本机 python + `app/svc_prompt_driver.py`；测试
+用假 CLI 也走同一口子）。驱动以子进程跑，torch/CUDA 代码
+不出 API 进程；`requirements.txt` 不加 SoulX（驱动环境另装，
+缺包时驱动响亮报错）。上传音频推荐 wav；m4a 等格式走
+preprocess 的 librosa 解码，推理机须有 ffmpeg 后端，否则
+响亮失败。权重为 Soul-AILab/SoulX-Singer 公开下载
+（Apache-2.0，`model-svc.pt`），绝不进仓库；未覆盖项：流式进度、断点续跑。
 
 ## 声音库口径与许可
 

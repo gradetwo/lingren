@@ -13,6 +13,7 @@ patches/05-vocalrender-note-tokens.md before use).
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 
 from .schemas import ScoreIn
 
@@ -37,15 +38,21 @@ NOTE_TOKENS = [
 ]
 
 
-def _g2p_mandarin_char(ch: str) -> str:
-    """Single-character Mandarin G2P via the SoulX repo's g2pM path."""
+@lru_cache(maxsize=1)
+def _mandarin_g2p():
+    """The serial worker reuses one G2P model instead of loading per syllable."""
     try:
         from g2pM import G2pM  # type: ignore
     except ImportError as e:
         raise ValueError(
             "g2pM is not installed and note has no explicit phoneme; "
             "supply note.phoneme (e.g. zh_zhi3) or install g2pM") from e
-    res = G2pM()(ch, tone=True, char_split=False)
+    return G2pM()
+
+
+def _g2p_mandarin_char(ch: str) -> str:
+    """Single-character Mandarin G2P; explicit phonemes still take priority."""
+    res = _mandarin_g2p()(ch, tone=True, char_split=False)
     if not res:
         raise ValueError(f"G2P produced nothing for {ch!r}")
     return "zh_" + res[0]

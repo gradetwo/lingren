@@ -9,6 +9,7 @@ the failure reason (including gate metrics) is inspectable.
 from __future__ import annotations
 
 import json
+import copy
 import queue
 import threading
 import time
@@ -58,6 +59,7 @@ class JobStore:
         self.jobs_dir.mkdir(parents=True, exist_ok=True)
         self.voices_dir.mkdir(parents=True, exist_ok=True)
         self.jobs: dict[str, dict] = {}
+        self._queued_at: dict[str, float] = {}
         self.voices: dict[str, dict] = {}
         self.lock = threading.Lock()
         self.queue: queue.Queue[str] = queue.Queue()
@@ -78,16 +80,37 @@ class JobStore:
 
     def register_voice(self, voice_id: str, audio_path: Path,
                        prompt_meta_path: Path | None,
-                       name: str | None) -> dict:
+                       name: str | None,
+                       source: str | None = None) -> dict:
         info = {"voice_id": voice_id, "name": name,
                 "audio_path": str(audio_path),
                 "prompt_meta_path": (str(prompt_meta_path)
                                      if prompt_meta_path else None),
+                "source": source,
+                "created_at": time.time(),
                 "soulx_ready": bool(prompt_meta_path)}
         (audio_path.parent / "info.json").write_text(json.dumps(info))
         with self.lock:
             self.voices[voice_id] = info
         return info
+
+    def register_voice_files(self, voice_id: str, wav_path: Path,
+                             meta_path: Path | None,
+                             name: str | None,
+                             source: str | None = None) -> dict:
+        """Copy a finished prompt pair into the voices dir and register
+        it. Used by the SVC completion hook: the pair lives in a job
+        dir, the voice must own its own copy."""
+        vdir = self.voices_dir / voice_id
+        vdir.mkdir(parents=True, exist_ok=True)
+        audio_path = vdir / "prompt.wav"
+        audio_path.write_bytes(wav_path.read_bytes())
+        meta_copy = None
+        if meta_path is not None:
+            meta_copy = vdir / "prompt_meta.json"
+            meta_copy.write_bytes(meta_path.read_bytes())
+        return self.register_voice(voice_id, audio_path, meta_copy, name,
+                                   source)
 
     def create_job(self, req: SynthesizeIn,
                    retry_generation: int = 0) -> dict:
@@ -102,12 +125,13 @@ class JobStore:
                "request": req.model_dump()}
         with self.lock:
             self.jobs[job_id] = job
+            self._queued_at[job_id] = time.monotonic()
         self.queue.put(job_id)
         return job
 
     def get_job(self, job_id: str) -> dict | None:
         with self.lock:
-            return self.jobs.get(job_id)
+            return copy.deepcopy(self.jobs.get(job_id))
 
     def _set(self, job: dict, **kw):
         with self.lock:
@@ -120,36 +144,64 @@ class JobStore:
             try:
                 self._run(job_id)
             except Exception as e:  # never kill the worker thread
-                job = self.get_job(job_id)
+                with self.lock:
+                    job = self.jobs.get(job_id)
                 if job is not None:
                     self._set(job, status="failed", error=f"worker: {e}")
             finally:
                 self.queue.task_done()
 
     def _run(self, job_id: str):
-        job = self.get_job(job_id)
-        req = SynthesizeIn(**job["request"])
+        with self.lock:
+            job = self.jobs[job_id]
+            queued_at = self._queued_at.pop(job_id, time.monotonic())
+        started = time.monotonic()
+        queue_s = started - queued_at
         job_dir = self.jobs_dir / job_id
-        job_dir.mkdir(parents=True, exist_ok=True)
-        adapters = _adapters()
-        self._set(job, status="running")
+        adapters = {}
+        active = None
+        error = None
         receipt_parts: dict[str, dict] = {}
         try:
+            job_dir.mkdir(parents=True, exist_ok=True)
+            req = SynthesizeIn(**job["request"])
+            adapters = _adapters()
+            self._set(job, status="running", stage="starting",
+                      started_at=time.time(), queue_s=round(queue_s, 6))
             for part in req.parts:
+                adapter = adapters.get(part.model)
+                if active is not None and active is not adapter:
+                    # A mixed-model job must never retain two GPU models.
+                    active.close()
+                active = adapter
+                self._set(job, current_part=part.label)
                 receipt_parts[part.label] = self._run_part(
                     job, part, adapters, job_dir)
                 self._set(job,
                           parts_completed=job["parts_completed"] + 1)
-        except AdapterError as e:
-            self._set(job, status="failed", error=str(e))
-            (job_dir / "receipt.json").write_text(json.dumps(
-                {"job_id": job_id, "status": "failed", "error": str(e),
-                 "parts": receipt_parts}, indent=2))
-            return
-        self._set(job, status="completed")
-        (job_dir / "receipt.json").write_text(json.dumps(
-            {"job_id": job_id, "status": "completed",
-             "parts": receipt_parts}, indent=2))
+        except Exception as e:
+            # G2P ValueError, subprocess timeouts, and audio read errors are
+            # terminal too; clients must not wait forever for a missing receipt.
+            error = f"{type(e).__name__}: {e}"
+        finally:
+            for adapter in adapters.values():
+                try:
+                    adapter.close()
+                except Exception as e:
+                    error = error or f"adapter cleanup failed: {e}"
+        elapsed = time.monotonic() - started
+        status = "failed" if error else "completed"
+        timings = {"queue_s": round(queue_s, 6), "run_s": round(elapsed, 6),
+                   "total_s": round(queue_s + elapsed, 6)}
+        receipt = {"job_id": job_id, "status": status,
+                   "parts": receipt_parts, "timings": timings}
+        if error:
+            receipt["error"] = error
+        # Publish the complete receipt BEFORE making the terminal status visible.
+        temporary = job_dir / "receipt.json.tmp"
+        temporary.write_text(json.dumps(receipt, indent=2))
+        temporary.replace(job_dir / "receipt.json")
+        self._set(job, status=status, error=error, stage="finished", timings=timings)
 
     def _run_part(self, job: dict, part: PartIn, adapters: dict,
                   job_dir: Path) -> dict:
@@ -166,15 +218,21 @@ class JobStore:
         accepted: list[tuple] = []  # (wav float array, sr)
         gate_pairwise = []
         for take_idx in range(part.takes):
+            take_started = time.monotonic()
+            synthesis_s = 0.0
             base_seed = seeds[take_idx] if take_idx < len(seeds) \
                 else take_idx
             last_error = None
             for attempt in range(MAX_TAKE_ATTEMPTS):
                 seed = base_seed if attempt == 0 else base_seed + 1000 * attempt
                 out_path = job_dir / f"{part.label}_take{take_idx}.wav"
+                self._set(job, current_take=take_idx, current_attempt=attempt + 1,
+                          stage="synthesis")
+                synthesis_started = time.monotonic()
                 with MODEL_LOCK:
                     wav_path, sr, info = adapter.synthesize(
                         part, voice, seed, out_path, workdir)
+                synthesis_s += time.monotonic() - synthesis_started
                 data, sr_read = sf.read(str(wav_path), dtype="float32")
                 mono = data[:, 0] if data.ndim == 2 else data
                 if accepted:
@@ -196,7 +254,10 @@ class JobStore:
                     f"part {part.label!r} take {take_idx}: takes gate "
                     f"exhausted after {MAX_TAKE_ATTEMPTS} attempts; "
                     f"last: {last_error}")
-            self._set(job, takes_completed=job["takes_completed"] + 1)
+            self._set(job, stage="alignment")
+            alignment_started = time.monotonic()
+            alignment = self._alignment(part, mono, sr_read)
+            alignment_s = time.monotonic() - alignment_started
             takes_out.append({
                 "take": take_idx, "seed": seed,
                 "attempts": attempt + 1,
@@ -204,8 +265,12 @@ class JobStore:
                 "duration_s": round(len(mono) / sr_read, 4),
                 "sample_rate": sr_read,
                 "adapter_info": info,
-                "alignment": self._alignment(part, mono, sr_read),
+                "alignment": alignment,
+                "timings": {"synthesis_s": round(synthesis_s, 6),
+                            "alignment_s": round(alignment_s, 6),
+                            "total_s": round(time.monotonic() - take_started, 6)},
             })
+            self._set(job, takes_completed=job["takes_completed"] + 1)
         return {"model": part.model, "takes": takes_out,
                 "gate_pairwise": gate_pairwise}
 
