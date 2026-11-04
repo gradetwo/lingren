@@ -124,6 +124,21 @@ def test_svc_prompt_params_echoed(monkeypatch, tmp_path):
         assert body["params"]["fp16"] is False
 
 
+def test_svc_prompt_auto_shift_defaults_off(monkeypatch, tmp_path):
+    # Endpoint default must match the no-compensation rule: omitting
+    # auto_shift means False. (Regression: the Form default once stayed
+    # True while only the model default was flipped to False.)
+    main_mod = _setup(monkeypatch, tmp_path)
+    with TestClient(main_mod.app) as client:
+        r = _submit(client)
+        assert r.status_code == 200, r.text
+        st = _poll(client, r.json()["job_id"])
+        assert st["status"] == "completed", st
+        body = client.get(
+            f"/v1/jobs/{r.json()['job_id']}/receipt").json()
+        assert body["params"]["auto_shift"] is False
+
+
 def test_svc_prompt_validation_rejected(monkeypatch, tmp_path):
     main_mod = _setup(monkeypatch, tmp_path)
     with TestClient(main_mod.app) as client:

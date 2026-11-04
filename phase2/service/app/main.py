@@ -205,7 +205,7 @@ async def svc_prompt(source: UploadFile = File(...),
                      n_steps: int = Form(default=32),
                      cfg: float = Form(default=3.0),
                      pitch_shift: int = Form(default=0),
-                     auto_shift: bool = Form(default=True),
+                     auto_shift: bool = Form(default=False),
                      fp16: bool = Form(default=True),
                      language: str = Form(default="Mandarin"),
                      max_merge_duration: int = Form(default=30000)):
