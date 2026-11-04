@@ -80,9 +80,9 @@ class SvcPromptIn(BaseModel):
     pitch_shift: int = Field(default=0,
                              description="SVC output transposition in "
                                          "semitones (-12..+12).")
-    auto_shift: bool = Field(default=True,
+    auto_shift: bool = Field(default=False,
                              description="Pass --auto_shift to SVC "
-                                         "(pilot: on).")
+                                         "(default off: no-compensation rule).")
     fp16: bool = Field(default=True,
                        description="Pass --fp16 to SVC (pilot: on).")
     language: str = Field(default="Mandarin",

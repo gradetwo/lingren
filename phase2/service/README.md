@@ -173,7 +173,7 @@ SoulX 输出带美声感时，先造曲风 prompt 再唱：源用真实流行唱
   `vocal_sep`（`true` 缺省：混音先人声分离 + 去混响；干净
   人声传 `false`）、`n_steps`（32 缺省，16–64）、`cfg`（3.0
   缺省，须 > 0）、`pitch_shift`（0 缺省，-12..+12 半音）、
-  `auto_shift`（`true` 缺省）、`fp16`（`true` 缺省）、
+  `auto_shift`（`false` 缺省；定规：auto_shift 关、不补偿，音区由谱子层定）、`fp16`（`true` 缺省）、
   `language`（`Mandarin` 缺省）、`max_merge_duration`（30000
   缺省，毫秒）。返回 `{job_id, status}`。
 - `GET /v1/jobs/{id}`：SVC 作业共用（`kind: "svc-prompt"`）。
