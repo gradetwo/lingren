@@ -82,6 +82,22 @@ class JobStore:
             self.voices[voice_id] = info
         return info
 
+    def register_voice_files(self, voice_id: str, wav_path: Path,
+                             meta_path: Path | None,
+                             name: str | None) -> dict:
+        """Copy a finished prompt pair into the voices dir and register
+        it. Used by the SVC auto-register hook: the pair lives in a job
+        dir, the voice must own its own copy."""
+        vdir = self.voices_dir / voice_id
+        vdir.mkdir(parents=True, exist_ok=True)
+        audio_path = vdir / "prompt.wav"
+        audio_path.write_bytes(wav_path.read_bytes())
+        meta_copy = None
+        if meta_path is not None:
+            meta_copy = vdir / "prompt_meta.json"
+            meta_copy.write_bytes(meta_path.read_bytes())
+        return self.register_voice(voice_id, audio_path, meta_copy, name)
+
     def create_job(self, req: SynthesizeIn) -> dict:
         job_id = uuid.uuid4().hex[:16]
         job = {"job_id": job_id, "status": "queued",

@@ -26,7 +26,8 @@ API_KEY = os.environ.get("SVS_API_KEY", "")
 
 store = JobStore(DATA_DIR)
 tstore = TranscriptionWorker(DATA_DIR)
-sstore = SvcPromptWorker(DATA_DIR)
+sstore = SvcPromptWorker(DATA_DIR,
+                         on_voice_ready=store.register_voice_files)
 app = FastAPI(title="lingren-svs", version="0.2.0-phase2")
 
 
@@ -50,9 +51,69 @@ def health():
 
 
 @app.post("/v1/voices", dependencies=[Depends(_auth)])
-async def upload_voice(file: UploadFile = File(...),
+async def upload_voice(file: UploadFile | None = File(default=None),
                        prompt_meta: UploadFile | None = File(default=None),
+                       timbre: UploadFile | None = File(default=None),
+                       genre: UploadFile | None = File(default=None),
                        name: str | None = None):
+    """Register a voice, two ways.
+
+    Prompt path: upload `file` (a prompt wav) plus optional
+    `prompt_meta`, exactly as before.
+
+    SVC path: upload `timbre` (our voice, clean singing) plus
+    `genre` (a target-genre performance, may be a mix). When genre
+    audio is present, the service runs SVC automatically (genre
+    performance into the timbre voice, SVC defaults: vocal_sep on,
+    auto_shift off per the no-compensation rule) and registers the
+    finished prompt pair as the voice. The response carries the
+    pending voice_id plus the SVC job_id; the voice appears in
+    GET /v1/voices once the job completes, and the job receipt
+    carries voice_status. Ambiguous combinations fail loudly:
+    genre without timbre, genre together with a prompt file,
+    timbre without genre, or nothing at all.
+    """
+    if genre is not None:
+        if timbre is None:
+            raise HTTPException(
+                status_code=400,
+                detail="genre audio requires timbre audio for SVC")
+        if file is not None:
+            raise HTTPException(
+                status_code=400,
+                detail="provide either a prompt file or genre+timbre "
+                       "audio, not both")
+        genre_bytes = await genre.read()
+        timbre_bytes = await timbre.read()
+        if not genre_bytes:
+            raise HTTPException(status_code=400,
+                                detail="empty genre audio")
+        if not timbre_bytes:
+            raise HTTPException(status_code=400,
+                                detail="empty timbre audio")
+        req = SvcPromptIn()
+        try:
+            validate_svc_prompt(req)
+        except SvcPromptError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        voice_id = uuid.uuid4().hex[:12]
+        job = sstore.create_job(genre_bytes,
+                                genre.filename or "genre.wav",
+                                timbre_bytes,
+                                timbre.filename or "timbre.wav",
+                                req,
+                                auto_voice={"voice_id": voice_id,
+                                            "name": name})
+        return {"voice_id": voice_id, "job_id": job["job_id"],
+                "status": job["status"]}
+    if file is None:
+        raise HTTPException(
+            status_code=400,
+            detail="provide a prompt file or genre+timbre audio")
+    if timbre is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="timbre audio needs genre audio for SVC")
     voice_id = uuid.uuid4().hex[:12]
     vdir = store.voices_dir / voice_id
     vdir.mkdir(parents=True, exist_ok=True)
@@ -227,6 +288,7 @@ async def svc_prompt(source: UploadFile = File(...),
     transcription failure) fails the job loudly and serves no
     half-finished prompt. Fetch the pair at /prompt-audio and
     /prompt-meta; the pair is NOT auto-registered as a voice.
+    To auto-register, POST /v1/voices with genre audio.
     """
     req = SvcPromptIn(
         vocal_sep=vocal_sep, n_steps=n_steps, cfg=cfg,

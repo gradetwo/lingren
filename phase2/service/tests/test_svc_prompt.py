@@ -45,7 +45,8 @@ def _setup(monkeypatch, tmp_path):
     from app.transcribe import TranscriptionWorker
     main_mod.store = JobStore(tmp_path)
     main_mod.tstore = TranscriptionWorker(tmp_path)
-    main_mod.sstore = SvcPromptWorker(tmp_path)
+    main_mod.sstore = SvcPromptWorker(
+        tmp_path, on_voice_ready=main_mod.store.register_voice_files)
     return main_mod
 
 
@@ -236,3 +237,48 @@ def test_prompt_endpoints_on_other_jobs_rejected(monkeypatch, tmp_path):
             f"/v1/jobs/{job_id}/prompt-meta").status_code == 400
         assert client.get("/v1/jobs/nope/prompt-audio").status_code \
             == 404
+
+
+def test_voices_genre_auto_registers(monkeypatch, tmp_path):
+    main_mod = _setup(monkeypatch, tmp_path)
+    with TestClient(main_mod.app) as client:
+        r = client.post("/v1/voices",
+                        files={"timbre": ("t.wav", _wav_bytes(660.0)),
+                               "genre": ("g.wav", _wav_bytes(440.0))},
+                        data={"name": "auto"})
+        assert r.status_code == 200, r.text
+        body = r.json()
+        voice_id = body["voice_id"]
+        job_id = body["job_id"]
+        st = _poll(client, job_id)
+        assert st["status"] == "completed", st
+        assert st["voice_status"] == "registered"
+        voices = client.get("/v1/voices").json()["voices"]
+        info = [v for v in voices if v["voice_id"] == voice_id]
+        assert len(info) == 1
+        assert info[0]["soulx_ready"] is True
+        rec = client.get(f"/v1/jobs/{job_id}/receipt").json()
+        assert rec["voice_status"] == "registered"
+        assert rec["voice_id"] == voice_id
+
+
+def test_voices_genre_validation(monkeypatch, tmp_path):
+    main_mod = _setup(monkeypatch, tmp_path)
+    with TestClient(main_mod.app) as client:
+        # genre without timbre
+        r = client.post("/v1/voices",
+                        files={"genre": ("g.wav", _wav_bytes())})
+        assert r.status_code == 400, r.text
+        # genre together with a prompt file
+        r = client.post("/v1/voices",
+                        files={"file": ("p.wav", _wav_bytes()),
+                               "timbre": ("t.wav", _wav_bytes()),
+                               "genre": ("g.wav", _wav_bytes())})
+        assert r.status_code == 400, r.text
+        # timbre without genre
+        r = client.post("/v1/voices",
+                        files={"timbre": ("t.wav", _wav_bytes())})
+        assert r.status_code == 400, r.text
+        # nothing at all (valid form body, no files)
+        r = client.post("/v1/voices", data={"name": "x"})
+        assert r.status_code == 400, r.text

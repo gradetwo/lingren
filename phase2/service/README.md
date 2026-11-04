@@ -20,6 +20,11 @@ SVS_DATA_DIR=./data ../.venv/bin/uvicorn app.main:app --port 8000
   没有 prompt_meta 的 voice 会注册成功但 `soulx_ready=false`，合成时
   响亮失败（不静默）。全量 prompt 预处理流水线（从生音频自动对齐出
   prompt_meta）是 Phase 2 项。
+  另一路：`timbre`（本音色干净演唱）+ `genre`（目标曲风表演，可混音）。
+  带 genre 音频时自动跑 SVC（曲风表演转本音色，SVC 默认值，auto_shift
+  关），成品 prompt 对自动注册为 voice。响应带 pending 的 voice_id 与
+  SVC job_id；作业完成后 voice 才出现在列表里，回执带 voice_status。
+  genre 缺 timbre、genre 与 file 同带、只有 timbre、什么都不带，均为 400。
 - `POST /v1/synthesize`：`{"parts": [...]}`，每 part 含 label、score
   （统一乐谱 JSON）、voice_id、model（`soulx` 默认；`vocalrender` 走
   VR 适配器，见下）、takes、seeds、options。model 按 part 指定，一
