@@ -1,13 +1,15 @@
-"""Prompt-id registry tests with the fake SVC driver (no GPU).
+"""Voice-id unification tests with the fake SVC driver (no GPU).
 
-Covers: every completed svc-prompt job registers its pair under a
-prompt_id served at GET /v1/prompts (+ info + audio); the registry
+One id only: voice_id is the id. Covers: every completed svc-prompt
+job registers its pair as a voice served at GET /v1/voices and at
+the GET /v1/prompts alias (+ info + audio); the voices registry
 reloads from disk on restart; a later svc-prompt call may pass that
-prompt_id instead of timbre audio; both/neither/unknown prompt_id
-fail loudly (400/400/404); the voices genre path and the plain
-voice file upload also register prompts, with the voice entry
-carrying prompt_id. Conversion quality is out of scope here (fake
-driver); the real-model check is the pilot report.
+voice_id instead of timbre audio, and the produced voice_id sings
+directly via /v1/synthesize; both/neither/unknown voice_id fail
+loudly (400/400/404); the voices genre response carries no second
+id; the plain voice file upload appears in both lists.
+Conversion quality is out of scope here (fake driver); the
+real-model check is the pilot report.
 """
 import io
 import sys
@@ -49,8 +51,7 @@ def _setup(monkeypatch, tmp_path):
     main_mod.store = JobStore(tmp_path)
     main_mod.tstore = TranscriptionWorker(tmp_path)
     main_mod.sstore = SvcPromptWorker(
-        tmp_path, on_voice_ready=main_mod.store.register_voice_files,
-        on_prompt_ready=main_mod.store.prompt_store.register_prompt_files)
+        tmp_path, on_voice_ready=main_mod.store.register_voice_files)
     return main_mod
 
 
@@ -71,29 +72,32 @@ def _submit_svc(client, **data):
                        data=data)
 
 
-def test_svc_prompt_registers_prompt_and_serves_it(monkeypatch, tmp_path):
+def test_svc_prompt_registers_voice_and_serves_it(monkeypatch, tmp_path):
     main_mod = _setup(monkeypatch, tmp_path)
     with TestClient(main_mod.app) as client:
         r = _submit_svc(client)
         assert r.status_code == 200, r.text
-        assert r.json()["prompt_id"]
+        assert r.json()["voice_id"]
         job_id = r.json()["job_id"]
         st = _poll(client, job_id)
         assert st["status"] == "completed", st
-        assert st["prompt_id"] == r.json()["prompt_id"]
-        assert st["prompt_status"] == "registered"
+        assert st["voice_id"] == r.json()["voice_id"]
+        assert st["voice_status"] == "registered"
         rec = client.get(f"/v1/jobs/{job_id}/receipt").json()
-        assert rec["prompt_id"] == r.json()["prompt_id"]
-        assert rec["prompt_status"] == "registered"
-        pid = r.json()["prompt_id"]
-        prompts = client.get("/v1/prompts").json()["prompts"]
-        rows = [p for p in prompts if p["prompt_id"] == pid]
+        assert rec["voice_id"] == r.json()["voice_id"]
+        assert rec["voice_status"] == "registered"
+        vid = r.json()["voice_id"]
+        voices = client.get("/v1/voices").json()["voices"]
+        rows = [v for v in voices if v["voice_id"] == vid]
         assert len(rows) == 1
         assert rows[0]["source"] == "svc-prompt"
-        assert rows[0]["voice_id"] is None
-        info = client.get(f"/v1/prompts/{pid}").json()
-        assert info["prompt_id"] == pid
-        au = client.get(f"/v1/prompts/{pid}/audio")
+        prompts = client.get("/v1/prompts").json()["prompts"]
+        rows = [p for p in prompts if p["voice_id"] == vid]
+        assert len(rows) == 1
+        assert rows[0]["source"] == "svc-prompt"
+        info = client.get(f"/v1/prompts/{vid}").json()
+        assert info["voice_id"] == vid
+        au = client.get(f"/v1/prompts/{vid}/audio")
         assert au.status_code == 200
         assert au.content[:4] == b"RIFF"
         assert au.content == client.get(
@@ -102,68 +106,83 @@ def test_svc_prompt_registers_prompt_and_serves_it(monkeypatch, tmp_path):
         assert client.get("/v1/prompts/nope/audio").status_code == 404
 
 
-def test_prompt_registry_reloads_after_restart(monkeypatch, tmp_path):
+def test_voice_registry_reloads_after_restart(monkeypatch, tmp_path):
     main_mod = _setup(monkeypatch, tmp_path)
     with TestClient(main_mod.app) as client:
         r = _submit_svc(client)
         assert r.status_code == 200, r.text
         st = _poll(client, r.json()["job_id"])
         assert st["status"] == "completed", st
-        pid = r.json()["prompt_id"]
+        vid = r.json()["voice_id"]
     from app.jobs import JobStore
     reloaded = JobStore(tmp_path)
-    info = reloaded.prompt_store.get_prompt(pid)
+    info = reloaded.voices.get(vid)
     assert info is not None
     assert info["source"] == "svc-prompt"
     assert Path(info["audio_path"]).is_file()
-    assert len(reloaded.prompt_store.list_prompts()) == 1
+    assert len(reloaded.voices) == 1
 
 
-def test_svc_prompt_by_prompt_id(monkeypatch, tmp_path):
+def test_svc_prompt_by_voice_id_and_direct_synthesis(monkeypatch, tmp_path):
     main_mod = _setup(monkeypatch, tmp_path)
     with TestClient(main_mod.app) as client:
         r = _submit_svc(client)
         assert r.status_code == 200, r.text
         st = _poll(client, r.json()["job_id"])
         assert st["status"] == "completed", st
-        pid = r.json()["prompt_id"]
+        vid = r.json()["voice_id"]
         r2 = client.post("/v1/svc-prompt",
                          files={"source": ("src.wav", _wav_bytes(440.0))},
-                         data={"prompt_id": pid})
+                         data={"voice_id": vid})
         assert r2.status_code == 200, r2.text
-        new_pid = r2.json()["prompt_id"]
-        assert new_pid and new_pid != pid
+        new_vid = r2.json()["voice_id"]
+        assert new_vid and new_vid != vid
         st2 = _poll(client, r2.json()["job_id"])
         assert st2["status"] == "completed", st2
-        assert st2["timbre_prompt_id"] == pid
+        assert st2["timbre_voice_id"] == vid
         rec = client.get(f"/v1/jobs/{r2.json()['job_id']}/receipt").json()
-        assert rec["prompt_id"] == new_pid
-        assert rec["timbre_prompt_id"] == pid
+        assert rec["voice_id"] == new_vid
+        assert rec["timbre_voice_id"] == vid
         assert rec["params"]["auto_shift"] is False
-        assert rec["prompt_status"] == "registered"
+        assert rec["voice_status"] == "registered"
+        part = {"label": "lead",
+                "score": {"bpm": 120.0, "language": "Mandarin",
+                          "notes": [{"lyric": "啊", "midi": 64,
+                                     "start_s": 0.0, "dur_s": 1.0,
+                                     "phoneme": "zh_a1"},
+                                    {"lyric": "啊", "midi": 67,
+                                     "start_s": 1.0, "dur_s": 1.0,
+                                     "phoneme": "zh_a1"}]},
+                "voice_id": new_vid, "model": "stub", "takes": 1,
+                "seeds": [0]}
+        r3 = client.post("/v1/synthesize", json={"parts": [part]})
+        assert r3.status_code == 200, r3.text
+        st3 = _poll(client, r3.json()["job_id"])
+        assert st3["status"] == "completed", st3
+        assert st3["takes_completed"] == 1
 
 
-def test_svc_prompt_prompt_id_validation(monkeypatch, tmp_path):
+def test_svc_prompt_voice_id_validation(monkeypatch, tmp_path):
     main_mod = _setup(monkeypatch, tmp_path)
     with TestClient(main_mod.app) as client:
-        # prompt_id together with timbre audio
+        # voice_id together with timbre audio
         r = client.post("/v1/svc-prompt",
                         files={"source": ("src.wav", _wav_bytes()),
                                "timbre": ("tim.wav", _wav_bytes())},
-                        data={"prompt_id": "abc123"})
+                        data={"voice_id": "abc123"})
         assert r.status_code == 400, r.text
-        # neither prompt_id nor timbre audio
+        # neither voice_id nor timbre audio
         r = client.post("/v1/svc-prompt",
                         files={"source": ("src.wav", _wav_bytes())})
         assert r.status_code == 400, r.text
-        # unknown prompt_id
+        # unknown voice_id
         r = client.post("/v1/svc-prompt",
                         files={"source": ("src.wav", _wav_bytes())},
-                        data={"prompt_id": "nosuchid"})
+                        data={"voice_id": "nosuchid"})
         assert r.status_code == 404, r.text
 
 
-def test_voices_genre_carries_prompt_id(monkeypatch, tmp_path):
+def test_voices_genre_response_has_no_second_id(monkeypatch, tmp_path):
     main_mod = _setup(monkeypatch, tmp_path)
     with TestClient(main_mod.app) as client:
         r = client.post("/v1/voices",
@@ -172,38 +191,40 @@ def test_voices_genre_carries_prompt_id(monkeypatch, tmp_path):
                         data={"name": "auto"})
         assert r.status_code == 200, r.text
         body = r.json()
-        voice_id, job_id, pid = (body["voice_id"], body["job_id"],
-                                 body["prompt_id"])
+        assert set(body) == {"voice_id", "job_id", "status"}, body
+        voice_id, job_id = body["voice_id"], body["job_id"]
         st = _poll(client, job_id)
         assert st["status"] == "completed", st
         assert st["voice_status"] == "registered"
-        assert st["prompt_id"] == pid
-        assert st["prompt_status"] == "registered"
+        assert "prompt_id" not in st
         rec = client.get(f"/v1/jobs/{job_id}/receipt").json()
-        assert rec["prompt_id"] == pid
+        assert rec["voice_id"] == voice_id
+        assert rec["voice_status"] == "registered"
+        assert "prompt_id" not in rec
         voices = client.get("/v1/voices").json()["voices"]
         info = [v for v in voices if v["voice_id"] == voice_id]
         assert len(info) == 1
-        assert info[0]["prompt_id"] == pid
+        assert info[0]["source"] == "voices-genre"
         prompts = client.get("/v1/prompts").json()["prompts"]
-        rows = [p for p in prompts if p["prompt_id"] == pid]
+        rows = [p for p in prompts if p["voice_id"] == voice_id]
         assert len(rows) == 1
         assert rows[0]["source"] == "voices-genre"
-        assert rows[0]["voice_id"] == voice_id
 
 
-def test_voice_upload_registers_prompt(monkeypatch, tmp_path):
+def test_voice_upload_appears_in_both_lists(monkeypatch, tmp_path):
     main_mod = _setup(monkeypatch, tmp_path)
     with TestClient(main_mod.app) as client:
-        r = client.post("/v1/voices",
-                        files={"file": ("p.wav", _wav_bytes())})
+        wav = _wav_bytes()
+        r = client.post("/v1/voices", files={"file": ("p.wav", wav)})
         assert r.status_code == 200, r.text
         body = r.json()
-        assert body["prompt_id"]
-        prompts = client.get("/v1/prompts").json()["prompts"]
-        rows = [p for p in prompts if p["prompt_id"] == body["prompt_id"]]
+        assert body["voice_id"]
+        assert body["source"] == "voice-upload"
+        voices = client.get("/v1/voices").json()["voices"]
+        rows = [v for v in voices if v["voice_id"] == body["voice_id"]]
         assert len(rows) == 1
-        assert rows[0]["source"] == "voice-upload"
-        assert rows[0]["voice_id"] == body["voice_id"]
-        au = client.get(f"/v1/prompts/{body['prompt_id']}/audio")
-        assert au.status_code == 200 and au.content[:4] == b"RIFF"
+        prompts = client.get("/v1/prompts").json()["prompts"]
+        rows = [p for p in prompts if p["voice_id"] == body["voice_id"]]
+        assert len(rows) == 1
+        au = client.get(f"/v1/prompts/{body['voice_id']}/audio")
+        assert au.status_code == 200 and au.content == wav

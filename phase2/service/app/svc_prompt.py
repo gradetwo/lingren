@@ -130,8 +130,7 @@ def _measure_wav(path: Path) -> dict:
 
 
 class SvcPromptWorker:
-    def __init__(self, data_dir: Path, on_voice_ready=None,
-                 on_prompt_ready=None):
+    def __init__(self, data_dir: Path, on_voice_ready=None):
         self.data_dir = data_dir
         self.jobs_dir = data_dir / "jobs"
         self.jobs_dir.mkdir(parents=True, exist_ok=True)
@@ -140,12 +139,8 @@ class SvcPromptWorker:
         self.queue: queue.Queue[str] = queue.Queue()
         self._worker = threading.Thread(target=self._loop, daemon=True)
         # Called as on_voice_ready(voice_id, wav_path, meta_path, name,
-        # prompt_id) when a job carrying auto_voice completes.
-        # None = no hook.
+        # source) when any job completes. None = no hook.
         self._on_voice_ready = on_voice_ready
-        # Called as on_prompt_ready(prompt_id, wav_path, meta_path,
-        # source, voice_id) when any job completes. None = no hook.
-        self._on_prompt_ready = on_prompt_ready
 
     def start(self):
         if not self._worker.is_alive():
@@ -155,18 +150,18 @@ class SvcPromptWorker:
                    timbre_bytes: bytes, timbre_filename: str,
                    req: SvcPromptIn,
                    auto_voice: dict | None = None,
-                   prompt_id: str | None = None,
-                   timbre_prompt_id: str | None = None) -> dict:
+                   voice_id: str | None = None,
+                   timbre_voice_id: str | None = None) -> dict:
         job_id = uuid.uuid4().hex[:16]
-        if prompt_id is None:
-            prompt_id = uuid.uuid4().hex[:12]
+        if voice_id is None:
+            voice_id = uuid.uuid4().hex[:12]
         job = {"job_id": job_id, "kind": "svc-prompt",
                "status": "queued", "error": None,
                "created_at": time.time(), "updated_at": time.time(),
                "prompt_wav": None, "prompt_meta": None,
                "duration_s": None, "segments": None,
-               "prompt_id": prompt_id,
-               "timbre_prompt_id": timbre_prompt_id,
+               "voice_id": voice_id,
+               "timbre_voice_id": timbre_voice_id,
                "auto_voice": auto_voice,
                "request": {"source_filename": source_filename,
                            "timbre_filename": timbre_filename,
@@ -308,38 +303,26 @@ class SvcPromptWorker:
             warnings.append("svc_clipped")
         if not (2.0 <= tim["duration_s"] <= 8.0):
             warnings.append("timbre_duration_outside_2_8s")
-        # Auto-register hook: a job carrying auto_voice registers its
-        # finished pair as a voice. Registration failure never hides
-        # the pair itself: the job stays completed, the pair stays
-        # servable at /prompt-audio and /prompt-meta, and the failure
-        # is recorded on the job and the receipt.
+        # Voice hook: every completed job registers its finished pair
+        # as a voice -- the single id for the night side. Registration
+        # failure never hides the pair itself: the job stays
+        # completed, the pair stays servable at /prompt-audio and
+        # /prompt-meta, and the failure is recorded on the job and
+        # the receipt.
         voice_extra: dict = {}
         auto = job.get("auto_voice")
-        prompt_id = job.get("prompt_id")
-        if auto and self._on_voice_ready:
-            voice_extra["voice_id"] = auto.get("voice_id")
+        voice_id = job.get("voice_id")
+        if self._on_voice_ready:
+            voice_extra["voice_id"] = voice_id
             try:
-                self._on_voice_ready(auto["voice_id"], out_wav, out_meta,
-                                     auto.get("name"), prompt_id)
+                self._on_voice_ready(
+                    voice_id, out_wav, out_meta,
+                    auto.get("name") if auto else None,
+                    "voices-genre" if auto else "svc-prompt")
                 voice_extra["voice_status"] = "registered"
             except Exception as e:
                 voice_extra["voice_status"] = "registration_failed"
                 voice_extra["voice_error"] = str(e)
-        # Prompt registry hook: every completed job registers its pair
-        # under prompt_id, so the next call can pass the id instead of
-        # re-uploading audio. Same loud-failure rule as the voice hook:
-        # a registry failure never fails the job or hides the pair.
-        prompt_extra: dict = {"prompt_id": prompt_id}
-        if prompt_id and self._on_prompt_ready:
-            try:
-                self._on_prompt_ready(
-                    prompt_id, out_wav, out_meta,
-                    "voices-genre" if auto else "svc-prompt",
-                    auto.get("voice_id") if auto else None)
-                prompt_extra["prompt_status"] = "registered"
-            except Exception as e:
-                prompt_extra["prompt_status"] = "registration_failed"
-                prompt_extra["prompt_error"] = str(e)
         receipt = {"job_id": job_id, "status": "completed",
                    "params": req.model_dump(),
                    "source_duration_s": src["duration_s"],
@@ -353,12 +336,12 @@ class SvcPromptWorker:
                    "segments": len(segments),
                    "elapsed_s": round(time.time() - started, 3),
                    "warnings": warnings,
-                   **voice_extra, **prompt_extra}
-        if job.get("timbre_prompt_id"):
-            receipt["timbre_prompt_id"] = job["timbre_prompt_id"]
+                   **voice_extra}
+        if job.get("timbre_voice_id"):
+            receipt["timbre_voice_id"] = job["timbre_voice_id"]
         (job_dir / "receipt.json").write_text(json.dumps(receipt,
                                                           indent=2))
         self._set(job, status="completed", prompt_wav="prompt.wav",
                   prompt_meta="prompt_meta.json",
                   duration_s=meas["duration_s"],
-                  segments=len(segments), **voice_extra, **prompt_extra)
+                  segments=len(segments), **voice_extra)

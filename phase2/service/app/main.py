@@ -28,8 +28,7 @@ store = JobStore(DATA_DIR)
 tstore = TranscriptionWorker(DATA_DIR)
 sstore = SvcPromptWorker(
     DATA_DIR,
-    on_voice_ready=store.register_voice_files,
-    on_prompt_ready=store.prompt_store.register_prompt_files)
+    on_voice_ready=store.register_voice_files)
 app = FastAPI(title="lingren-svs", version="0.2.0-phase2")
 
 
@@ -61,10 +60,7 @@ async def upload_voice(file: UploadFile | None = File(default=None),
     """Register a voice, two ways.
 
     Prompt path: upload `file` (a prompt wav) plus optional
-    `prompt_meta`, exactly as before. The uploaded audio is also
-    registered in the prompt registry (GET /v1/prompts) and the
-    voice entry carries its prompt_id, so it can later serve as a
-    svc-prompt timbre by id.
+    `prompt_meta`, exactly as before.
 
     SVC path: upload `timbre` (our voice, clean singing) plus
     `genre` (a target-genre performance, may be a mix). When genre
@@ -72,11 +68,9 @@ async def upload_voice(file: UploadFile | None = File(default=None),
     performance into the timbre voice, SVC defaults: vocal_sep on,
     auto_shift off per the no-compensation rule) and registers the
     finished prompt pair as the voice. The response carries the
-    pending voice_id plus the SVC job_id plus the pending prompt_id;
-    the voice appears in GET /v1/voices once the job completes, and
-    the job receipt and the voice entry carry prompt_id. The pair is
-    also registered in the prompt registry (GET /v1/prompts), so a
-    later svc-prompt call can reuse it by id. Ambiguous combinations
+    pending voice_id plus the SVC job_id; the voice appears in
+    GET /v1/voices once the job completes, and the job receipt
+    carries voice_id and voice_status. Ambiguous combinations
     fail loudly:
     genre without timbre, genre together with a prompt file,
     timbre without genre, or nothing at all.
@@ -105,7 +99,6 @@ async def upload_voice(file: UploadFile | None = File(default=None),
         except SvcPromptError as e:
             raise HTTPException(status_code=400, detail=str(e))
         voice_id = uuid.uuid4().hex[:12]
-        prompt_id = store.prompt_store.new_id()
         job = sstore.create_job(genre_bytes,
                                 genre.filename or "genre.wav",
                                 timbre_bytes,
@@ -113,9 +106,9 @@ async def upload_voice(file: UploadFile | None = File(default=None),
                                 req,
                                 auto_voice={"voice_id": voice_id,
                                             "name": name},
-                                prompt_id=prompt_id)
+                                voice_id=voice_id)
         return {"voice_id": voice_id, "job_id": job["job_id"],
-                "status": job["status"], "prompt_id": prompt_id}
+                "status": job["status"]}
     if file is None:
         raise HTTPException(
             status_code=400,
@@ -133,12 +126,8 @@ async def upload_voice(file: UploadFile | None = File(default=None),
     if prompt_meta is not None:
         meta_path = vdir / "prompt_meta.json"
         meta_path.write_bytes(await prompt_meta.read())
-    prompt_id = store.prompt_store.new_id()
-    store.prompt_store.register_prompt_files(prompt_id, audio_path,
-                                             meta_path, "voice-upload",
-                                             voice_id)
     info = store.register_voice(voice_id, audio_path, meta_path, name,
-                                prompt_id)
+                                "voice-upload")
     return info
 
 
@@ -149,31 +138,33 @@ def list_voices():
 
 @app.get("/v1/prompts", dependencies=[Depends(_auth)])
 def list_prompts():
-    """Stored prompt audios, each addressable by prompt_id.
+    """Voice list under the prompts alias, same rows as /v1/voices.
 
-    A prompt_id from any row may be passed as `prompt_id` to
-    POST /v1/svc-prompt instead of re-uploading timbre audio.
+    One id only: every row is a voice, keyed by voice_id. A voice_id
+    from any row may be passed as `voice_id` to POST /v1/svc-prompt
+    instead of re-uploading timbre audio, or as `voice_id` in
+    POST /v1/synthesize parts.
     """
-    return {"prompts": store.prompt_store.list_prompts()}
+    return {"prompts": list(store.voices.values())}
 
 
-@app.get("/v1/prompts/{prompt_id}", dependencies=[Depends(_auth)])
-def get_prompt(prompt_id: str):
-    info = store.prompt_store.get_prompt(prompt_id)
+@app.get("/v1/prompts/{voice_id}", dependencies=[Depends(_auth)])
+def get_prompt(voice_id: str):
+    info = store.voices.get(voice_id)
     if info is None:
-        raise HTTPException(status_code=404, detail="unknown prompt_id")
+        raise HTTPException(status_code=404, detail="unknown voice_id")
     return info
 
 
-@app.get("/v1/prompts/{prompt_id}/audio", dependencies=[Depends(_auth)])
-def get_prompt_audio(prompt_id: str):
-    info = store.prompt_store.get_prompt(prompt_id)
+@app.get("/v1/prompts/{voice_id}/audio", dependencies=[Depends(_auth)])
+def get_prompt_audio(voice_id: str):
+    info = store.voices.get(voice_id)
     if info is None:
-        raise HTTPException(status_code=404, detail="unknown prompt_id")
+        raise HTTPException(status_code=404, detail="unknown voice_id")
     path = Path(info["audio_path"])
     if not path.is_file():
         raise HTTPException(status_code=500,
-                            detail="stored prompt audio missing")
+                            detail="stored voice audio missing")
     return FileResponse(str(path), media_type="audio/wav")
 
 
@@ -307,7 +298,7 @@ def job_midi(job_id: str):
 @app.post("/v1/svc-prompt", dependencies=[Depends(_auth)])
 async def svc_prompt(source: UploadFile = File(...),
                      timbre: UploadFile | None = File(default=None),
-                     prompt_id: str | None = Form(default=None),
+                     voice_id: str | None = Form(default=None),
                      vocal_sep: bool = Form(default=True),
                      n_steps: int = Form(default=32),
                      cfg: float = Form(default=3.0),
@@ -325,11 +316,11 @@ async def svc_prompt(source: UploadFile = File(...),
     transcribes the SVC output into a SoulX prompt pair (wav + meta).
 
     The timbre reference may be given two ways: upload `timbre`
-    audio, or pass `prompt_id` for a prompt already stored on the
+    audio, or pass `voice_id` for a voice already stored on the
     server (from an earlier svc-prompt job, a voices genre job, or
     a voice file upload -- see GET /v1/prompts). Passing both is a
-    400, passing neither is a 400, an unknown prompt_id is a 404.
-    Reusing an id means the night side holds one id per prompt and
+    400, passing neither is a 400, an unknown voice_id is a 404.
+    Reusing an id means the night side holds one id per voice and
     never re-uploads audio for it.
 
     Direction is fixed: the source supplies the performance (genre,
@@ -341,10 +332,11 @@ async def svc_prompt(source: UploadFile = File(...),
     (weights download blocked, separation failure, SVC failure,
     transcription failure) fails the job loudly and serves no
     half-finished prompt. Fetch the pair at /prompt-audio and
-    /prompt-meta; on completion the pair is also registered in the
-    prompt registry under the response's prompt_id, and the job
-    receipt carries that prompt_id. The pair is NOT auto-registered
-    as a voice. To auto-register, POST /v1/voices with genre audio.
+    /prompt-meta; on completion the pair is also registered as a
+    voice under the response's voice_id, and the job receipt carries
+    that voice_id and voice_status. So a voice made by svc-prompt
+    can be sung with directly, and a later svc-prompt call can pass
+    it as `voice_id` timbre.
     """
     req = SvcPromptIn(
         vocal_sep=vocal_sep, n_steps=n_steps, cfg=cfg,
@@ -354,28 +346,28 @@ async def svc_prompt(source: UploadFile = File(...),
         validate_svc_prompt(req)
     except SvcPromptError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    if prompt_id is not None and timbre is not None:
+    if voice_id is not None and timbre is not None:
         raise HTTPException(
             status_code=400,
-            detail="provide either a prompt_id or timbre audio, "
+            detail="provide either a voice_id or timbre audio, "
                    "not both")
-    if prompt_id is None and timbre is None:
+    if voice_id is None and timbre is None:
         raise HTTPException(
             status_code=400,
-            detail="provide timbre audio or a prompt_id")
+            detail="provide timbre audio or a voice_id")
     source_bytes = await source.read()
     if not source_bytes:
         raise HTTPException(status_code=400, detail="empty source audio")
     timbre_filename = "timbre.wav"
-    if prompt_id is not None:
-        info = store.prompt_store.get_prompt(prompt_id)
+    if voice_id is not None:
+        info = store.voices.get(voice_id)
         if info is None:
             raise HTTPException(status_code=404,
-                                detail="unknown prompt_id")
+                                detail="unknown voice_id")
         stored = Path(info["audio_path"])
         if not stored.is_file():
             raise HTTPException(status_code=500,
-                                detail="stored prompt audio missing")
+                                detail="stored voice audio missing")
         timbre_bytes = stored.read_bytes()
         timbre_filename = stored.name
     else:
@@ -385,11 +377,13 @@ async def svc_prompt(source: UploadFile = File(...),
             raise HTTPException(status_code=400,
                                 detail="empty timbre audio")
         timbre_filename = timbre.filename or "timbre.wav"
+    new_voice_id = uuid.uuid4().hex[:12]
     job = sstore.create_job(source_bytes, source.filename or "source.wav",
                             timbre_bytes, timbre_filename,
-                            req, timbre_prompt_id=prompt_id)
+                            req, voice_id=new_voice_id,
+                            timbre_voice_id=voice_id)
     return {"job_id": job["job_id"], "status": job["status"],
-            "prompt_id": job["prompt_id"]}
+            "voice_id": new_voice_id}
 
 
 @app.get("/v1/jobs/{job_id}/prompt-audio", dependencies=[Depends(_auth)])
