@@ -16,6 +16,8 @@ from fastapi.responses import FileResponse
 
 from .jobs import JobStore
 from .schemas import SynthesizeIn
+from .svc_prompt import (SvcPromptError, SvcPromptIn, SvcPromptWorker,
+                         validate_svc_prompt)
 from .transcribe import (TranscribeError, TranscribeIn,
                          TranscriptionWorker, validate_transcribe)
 
@@ -24,6 +26,7 @@ API_KEY = os.environ.get("SVS_API_KEY", "")
 
 store = JobStore(DATA_DIR)
 tstore = TranscriptionWorker(DATA_DIR)
+sstore = SvcPromptWorker(DATA_DIR)
 app = FastAPI(title="lingren-svs", version="0.2.0-phase2")
 
 
@@ -38,6 +41,7 @@ def _auth(authorization: str | None = Header(default=None)):
 def _startup():
     store.start()
     tstore.start()
+    sstore.start()
 
 
 @app.get("/health")
@@ -77,7 +81,8 @@ def synthesize(req: SynthesizeIn):
 
 @app.get("/v1/jobs/{job_id}", dependencies=[Depends(_auth)])
 def job_status(job_id: str):
-    job = store.get_job(job_id) or tstore.get_job(job_id)
+    job = (store.get_job(job_id) or tstore.get_job(job_id)
+           or sstore.get_job(job_id))
     if job is None:
         raise HTTPException(status_code=404, detail="unknown job")
     return {k: v for k, v in job.items() if k != "request"}
@@ -90,6 +95,11 @@ def job_audio(job_id: str, part: str | None = None, take: int | None = None):
             status_code=400,
             detail="transcription jobs have no audio takes; use "
                    "/midi and /receipt")
+    if sstore.get_job(job_id) is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="svc-prompt jobs have no audio takes; use "
+                   "/prompt-audio and /receipt")
     job = store.get_job(job_id)
     if job is None:
         raise HTTPException(status_code=404, detail="unknown job")
@@ -112,7 +122,8 @@ def job_audio(job_id: str, part: str | None = None, take: int | None = None):
 def job_receipt(job_id: str):
     path = store.jobs_dir / job_id / "receipt.json"
     if not path.is_file():
-        job = store.get_job(job_id) or tstore.get_job(job_id)
+        job = (store.get_job(job_id) or tstore.get_job(job_id)
+               or sstore.get_job(job_id))
         if job is None:
             raise HTTPException(status_code=404, detail="unknown job")
         raise HTTPException(status_code=409,
@@ -172,6 +183,11 @@ def job_midi(job_id: str):
             status_code=400,
             detail="synthesis jobs have no MIDI; transcription jobs "
                    "serve MIDI here")
+    if sstore.get_job(job_id) is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="svc-prompt jobs have no MIDI; they serve a "
+                   "prompt pair at /prompt-audio and /prompt-meta")
     path = tstore.jobs_dir / job_id / "transcription.mid"
     if not path.is_file():
         job = tstore.get_job(job_id)
@@ -180,3 +196,89 @@ def job_midi(job_id: str):
         raise HTTPException(status_code=409,
                             detail=f"job still {job['status']}")
     return FileResponse(str(path), media_type="audio/midi")
+
+
+@app.post("/v1/svc-prompt", dependencies=[Depends(_auth)])
+async def svc_prompt(source: UploadFile = File(...),
+                     timbre: UploadFile = File(...),
+                     vocal_sep: bool = Form(default=True),
+                     n_steps: int = Form(default=32),
+                     cfg: float = Form(default=3.0),
+                     pitch_shift: int = Form(default=0),
+                     auto_shift: bool = Form(default=True),
+                     fp16: bool = Form(default=True),
+                     language: str = Form(default="Mandarin"),
+                     max_merge_duration: int = Form(default=30000)):
+    """SVC genre-prompt job (reverse pipeline).
+
+    Upload a source performance (pop singing; may be a mix) and a
+    timbre reference (our voice, clean singing). The job separates
+    the source mix when vocal_sep is on, converts the source
+    performance into the timbre voice with SoulX-Singer-SVC, and
+    transcribes the SVC output into a SoulX prompt pair (wav + meta).
+
+    Direction is fixed: the source supplies the performance (genre,
+    melody, phrasing), the timbre reference supplies only the voice.
+    SVC has no style parameter and preserves the source performance,
+    so an operatic source stays operatic whatever the timbre -- the
+    genre must come from a real performance of that genre. The
+    prompt pair is published only on full success; any step failing
+    (weights download blocked, separation failure, SVC failure,
+    transcription failure) fails the job loudly and serves no
+    half-finished prompt. Fetch the pair at /prompt-audio and
+    /prompt-meta; the pair is NOT auto-registered as a voice.
+    """
+    req = SvcPromptIn(
+        vocal_sep=vocal_sep, n_steps=n_steps, cfg=cfg,
+        pitch_shift=pitch_shift, auto_shift=auto_shift, fp16=fp16,
+        language=language, max_merge_duration=max_merge_duration)
+    try:
+        validate_svc_prompt(req)
+    except SvcPromptError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    source_bytes = await source.read()
+    timbre_bytes = await timbre.read()
+    if not source_bytes:
+        raise HTTPException(status_code=400, detail="empty source audio")
+    if not timbre_bytes:
+        raise HTTPException(status_code=400, detail="empty timbre audio")
+    job = sstore.create_job(source_bytes, source.filename or "source.wav",
+                            timbre_bytes, timbre.filename or "timbre.wav",
+                            req)
+    return {"job_id": job["job_id"], "status": job["status"]}
+
+
+@app.get("/v1/jobs/{job_id}/prompt-audio", dependencies=[Depends(_auth)])
+def job_prompt_audio(job_id: str):
+    if store.get_job(job_id) is not None \
+            or tstore.get_job(job_id) is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="only svc-prompt jobs serve a prompt pair; "
+                   "synthesis jobs use /audio, transcription jobs "
+                   "use /midi")
+    path = sstore.jobs_dir / job_id / "prompt.wav"
+    if not path.is_file():
+        job = sstore.get_job(job_id)
+        if job is None:
+            raise HTTPException(status_code=404, detail="unknown job")
+        raise HTTPException(status_code=409,
+                            detail=f"job still {job['status']}")
+    return FileResponse(str(path), media_type="audio/wav")
+
+
+@app.get("/v1/jobs/{job_id}/prompt-meta", dependencies=[Depends(_auth)])
+def job_prompt_meta(job_id: str):
+    if store.get_job(job_id) is not None \
+            or tstore.get_job(job_id) is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="only svc-prompt jobs serve a prompt pair")
+    path = sstore.jobs_dir / job_id / "prompt_meta.json"
+    if not path.is_file():
+        job = sstore.get_job(job_id)
+        if job is None:
+            raise HTTPException(status_code=404, detail="unknown job")
+        raise HTTPException(status_code=409,
+                            detail=f"job still {job['status']}")
+    return FileResponse(str(path), media_type="application/json")

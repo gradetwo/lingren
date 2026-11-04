@@ -162,6 +162,55 @@ GPU/MPS 上两模型永不重叠；CPU 转录 + GPU 合成的真并行需设备�
 （需 MuseScore 4+，服务不装）、流式进度推送、断点续跑均为后续项
 （见设计 §12 末尾）。
 
+## SVC 曲风 prompt（反向管线：先造 prompt 再唱）
+
+SoulX 输出带美声感时，先造曲风 prompt 再唱：源用真实流行唱法
+表演（任何歌手），prompt 用本音色参考，SVC 输出就是本音色唱
+流行；再把 SVC 输出转录成 SoulX prompt 对（wav + meta）。
+
+- `POST /v1/svc-prompt`：multipart，`source`（源表演音频，可为
+  混音）+ `timbre`（本音色参考，干净演唱）+ 表单字段
+  `vocal_sep`（`true` 缺省：混音先人声分离 + 去混响；干净
+  人声传 `false`）、`n_steps`（32 缺省，16–64）、`cfg`（3.0
+  缺省，须 > 0）、`pitch_shift`（0 缺省，-12..+12 半音）、
+  `auto_shift`（`false` 缺省；定规：auto_shift 关、不补偿，音区由谱子层定）、`fp16`（`true` 缺省）、
+  `language`（`Mandarin` 缺省）、`max_merge_duration`（30000
+  缺省，毫秒）。返回 `{job_id, status}`。
+- `GET /v1/jobs/{id}`：SVC 作业共用（`kind: "svc-prompt"`）。
+- `GET /v1/jobs/{id}/prompt-audio`：prompt wav（24 kHz 干声）；
+  `GET /v1/jobs/{id}/prompt-meta`：prompt meta（转录段列表，
+  段含 text、phoneme、note_pitch、duration、f0、time）。合成
+  作业与转录作业调它俩得 400；`/audio` 与 `/midi` 对 SVC
+  作业得 400。
+- `GET /v1/jobs/{id}/receipt`：回执含 params、source/timbre
+  时长、prompt 文件名、sample_rate、duration_s、peak、
+  clipped_samples、segments、elapsed_s、warnings（SVC 输出触顶
+  时为 `svc_clipped`，仅记录不失败；音色参考时长出 2–8 秒
+  指导范围时为 `timbre_duration_outside_2_8s`，仅提示）。
+- 方向是死的：源定表演（曲风、旋律、乐句形态），音色参考只定
+  声音。SVC 输入里没有风格参数、只换音色不换表演，所以美声
+  源换音色仍是美声——曲风必须由一段该曲风的真实表演提供，
+  不能由参数凭空指定。prompt 对不自动注册为 voice，调用方
+  用两个端点取回后自行使用。
+- 失败语义：权重下载受阻、分离失败、SVC 失败、转录失败、
+  meta 为空或缺键时作业响亮失败，回执写明原因；prompt 文件
+  只在全程成功后才进作业目录，失败时 `/prompt-audio` 与
+  `/prompt-meta` 得 409，永不出现半成品 prompt。
+
+环境变量：`SOULX_REPO`（SoulX-Singer 检出目录，各步骤 cwd；
+缺省则驱动报缺参失败）、`SVC_MODEL_PATH`（缺省为检出内
+`pretrained_models/SoulX-Singer/model-svc.pt`）、`SVC_CONFIG`
+（缺省为检出内 `soulxsinger/config/soulxsinger.yaml`）、
+`SVC_DEVICE`（`cuda` 缺省）、`SVC_PROMPT_DRIVER_CMD`（驱动
+命令，缺省为本机 python + `app/svc_prompt_driver.py`；测试
+用假 CLI 也走同一口子）。驱动以子进程跑，torch/CUDA 代码
+不出 API 进程；`requirements.txt` 不加 SoulX（驱动环境另装，
+缺包时驱动响亮报错）。上传音频推荐 wav；m4a 等格式走
+preprocess 的 librosa 解码，推理机须有 ffmpeg 后端，否则
+响亮失败。权重为 Soul-AILab/SoulX-Singer 公开下载
+（Apache-2.0，`model-svc.pt`），绝不进仓库；未覆盖项：prompt
+对自动注册 voice、流式进度、断点续跑。
+
 ## 声音库口径与许可
 
 参考音频只收用户自有或授权音频（Wang 定口径）。服务不训练、不
