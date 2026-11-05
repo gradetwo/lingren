@@ -1,0 +1,507 @@
+{
+ "wav": "/content/banks_out/vox_stage1_lang.wav",
+ "track": "vox",
+ "window_s": [
+  25.6,
+  55.6
+ ],
+ "n_notes": 49,
+ "n_detected": 13,
+ "detect_rate": 0.265,
+ "dev_median_semitones": -0.038,
+ "dev_p90_abs_semitones": 7.241,
+ "within_pm0.5_semitones": 0.471,
+ "voiced_frame_share": 0.389,
+ "per_note": [
+  {
+   "lyric": "我",
+   "pitch": 45,
+   "pitch_name": "A2",
+   "start_s": 25.6,
+   "median_hz": 54.2,
+   "dev_semitones": -12.255,
+   "voiced_share": 0.741,
+   "detected": false
+  },
+  {
+   "lyric": "干",
+   "pitch": 43,
+   "pitch_name": "G2",
+   "start_s": 25.88,
+   "median_hz": 97.79,
+   "dev_semitones": -0.038,
+   "voiced_share": 0.696,
+   "detected": true
+  },
+  {
+   "lyric": "我",
+   "pitch": 46,
+   "pitch_name": "A#2",
+   "start_s": 27.2,
+   "median_hz": 167.11,
+   "dev_semitones": 6.24,
+   "voiced_share": 1.0,
+   "detected": false
+  },
+  {
+   "lyric": "干",
+   "pitch": 44,
+   "pitch_name": "G#2",
+   "start_s": 27.44,
+   "median_hz": 102.48,
+   "dev_semitones": -0.226,
+   "voiced_share": 0.957,
+   "detected": true
+  },
+  {
+   "lyric": "我",
+   "pitch": 44,
+   "pitch_name": "G#2",
+   "start_s": 27.68,
+   "median_hz": 100.93,
+   "dev_semitones": -0.491,
+   "voiced_share": 0.87,
+   "detected": true
+  },
+  {
+   "lyric": "干",
+   "pitch": 42,
+   "pitch_name": "F#2",
+   "start_s": 27.92,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.354,
+   "detected": false
+  },
+  {
+   "lyric": "我",
+   "pitch": 42,
+   "pitch_name": "F#2",
+   "start_s": 28.8,
+   "median_hz": 104.55,
+   "dev_semitones": 2.12,
+   "voiced_share": 0.895,
+   "detected": false
+  },
+  {
+   "lyric": "干",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 29.0,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "干",
+   "pitch": 38,
+   "pitch_name": "D2",
+   "start_s": 29.2,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "干",
+   "pitch": 36,
+   "pitch_name": "C2",
+   "start_s": 29.4,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.282,
+   "detected": false
+  },
+  {
+   "lyric": "长",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 44.8,
+   "median_hz": 88.33,
+   "dev_semitones": 0.201,
+   "voiced_share": 0.686,
+   "detected": true
+  },
+  {
+   "lyric": "期",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 45.16,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "主",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 45.52,
+   "median_hz": 82.65,
+   "dev_semitones": -0.948,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "义",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 45.88,
+   "median_hz": 94.73,
+   "dev_semitones": 1.413,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "长",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 46.4,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.286,
+   "detected": false
+  },
+  {
+   "lyric": "期",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 46.76,
+   "median_hz": 90.11,
+   "dev_semitones": 0.546,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "主",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 47.12,
+   "median_hz": 85.73,
+   "dev_semitones": -0.315,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "义",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 47.48,
+   "median_hz": 85.23,
+   "dev_semitones": -0.417,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "飘",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 48.0,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.111,
+   "detected": false
+  },
+  {
+   "lyric": "荡",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 48.28,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "各",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 48.56,
+   "median_hz": 93.96,
+   "dev_semitones": 1.271,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "种",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 48.8,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "激",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 49.04,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.211,
+   "detected": false
+  },
+  {
+   "lyric": "动",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 49.24,
+   "median_hz": 89.7,
+   "dev_semitones": 1.469,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "人",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 49.44,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "心",
+   "pitch": 39,
+   "pitch_name": "D#2",
+   "start_s": 49.64,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "的",
+   "pitch": 38,
+   "pitch_name": "D2",
+   "start_s": 49.84,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "概",
+   "pitch": 39,
+   "pitch_name": "D#2",
+   "start_s": 50.08,
+   "median_hz": 128.89,
+   "dev_semitones": 8.743,
+   "voiced_share": 1.0,
+   "detected": false
+  },
+  {
+   "lyric": "念",
+   "pitch": 35,
+   "pitch_name": "B1",
+   "start_s": 50.36,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.242,
+   "detected": false
+  },
+  {
+   "lyric": "长",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 51.2,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.029,
+   "detected": false
+  },
+  {
+   "lyric": null,
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 51.2,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.029,
+   "detected": false
+  },
+  {
+   "lyric": "期",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 51.56,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.457,
+   "detected": false
+  },
+  {
+   "lyric": null,
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 51.56,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.457,
+   "detected": false
+  },
+  {
+   "lyric": "主",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 51.92,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.314,
+   "detected": false
+  },
+  {
+   "lyric": null,
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 51.92,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.314,
+   "detected": false
+  },
+  {
+   "lyric": "义",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 52.28,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": null,
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 52.28,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "长",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 52.8,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": null,
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 52.8,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "期",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 53.16,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": null,
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 53.16,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "主",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 53.52,
+   "median_hz": 86.87,
+   "dev_semitones": -0.086,
+   "voiced_share": 0.971,
+   "detected": true
+  },
+  {
+   "lyric": null,
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 53.52,
+   "median_hz": 86.87,
+   "dev_semitones": -0.086,
+   "voiced_share": 0.971,
+   "detected": true
+  },
+  {
+   "lyric": "义",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 53.88,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": null,
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 53.88,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "飘",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 54.4,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "荡",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 54.68,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "各",
+   "pitch": 41,
+   "pitch_name": "F2",
+   "start_s": 54.96,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.0,
+   "detected": false
+  },
+  {
+   "lyric": "种",
+   "pitch": 40,
+   "pitch_name": "E2",
+   "start_s": 55.2,
+   "median_hz": null,
+   "dev_semitones": null,
+   "voiced_share": 0.391,
+   "detected": false
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+# DiffSinger 换音库对照试验 · 进度
+
+- 2026-11-05 21:52：任务开始。原报告已读。谱面音区已核：vox 32–46（中位 39）、voxTel 33–41、vox2 33–45、vox4 23–41（22 音 <36，最低 23=30.9 Hz，低于人声范围）；vox3 45–58 已能用绮萱。4 轨主体在 MIDI 36–46（65–117 Hz），需成年男低音／男中音声库。
+- 2026-11-05 21:52：原会话 ds-svc-l4 已死（+12 执行员 21:36 三查确认），新 L4 会话同名重建，+12 执行员正在重下 SoulX 权重 5.6 GB。本试验复用该新会话；GPU 活须看 /content/gpu.lock 排队。
+- 调研中：M4Singer 预训练模型、PopCS、OpenSinger、HF／GitHub 社区男声库；voice.md 已读（所列 6 组均非男低音）。
+- 2026-11-05 21:52：Wang 定音库优先级：曲风＞性别＞音区。曲风第一（摇滚／金属唱法训练的库，或以摇滚唱法见长的歌手库），性别第二（男声），音区第三（下到 MIDI 23–46）。三项无法兼得时按此顺序取舍，报告写清每个候选的取舍。
+- 2026-11-05 21:53：三库下载已 detached 启动（/content/voicebanks_banks/，日志 /content/banks_download.log）：琅（BaiShuo GitHub Release，510.6 MB，中日双语）、齑（同源，562.4 MB）、Leif（Google Drive，男声，Soil 深低＋Uprooted 高能摇滚模式）。琅／齑曲风与性别待解包后查 character.txt 与 dsconfig。
+- 2026-11-05 22:0x：更正：21:53 写的“下载已 detached 启动”是错的——两次 colab exec -f 启动均卡住（exec 通道偶发卡住，+12 执行员报告过同类现象），会话内无 dl_banks.sh、无日志、无下载进程。已杀掉两次卡住的本地 exec，改走管道 colab ssh（显式 -i ~/.ssh/id_ed25519）重发，下载现真已启动（PID 7090，日志 /content/banks_download.log）。
+- 调研结论（曲风优先）：公开可直下的中文男声摇滚／金属 DiffSinger 库不存在。曲风匹配的库（TREi ViNO 摇滚／金属／Screamo 模式、Keiko nu-metal Screamo、Nishiren Screamo 模式）均为英／日录制、无中文音素，唱不了中文词；其中 TREi 与 Nishiren 还是女声／女中音（Nishiren 音区 G3–D5，高出目标两个八度）。中文库（琅／齑／绮萱／Ria／莲华／BaiShuo 系）均为流行唱法。唯一男声＋低音＋摇滚倾向兼备的是 Leif（Soil 深低、Uprooted 高能），中文覆盖待解包后查音素表。取舍写进 REPORT-banks.md。
+- 2026-11-05 ~22:05：三库下载完成（琅 510.6 MB、齑 562.4 MB、Leif，/content/voicebanks_banks/）。inspect_bank.py 初探：琅双说话人（power/soft，tone_range 宣称 C1–B7）、齑单说话人、无 en 音素（中日双语）；Leif 7 模式（Soil 深低、Uprooted 高能摇滚）、中英日等多语、525 音素。
+- 2026-11-05 ~22:15：onnxruntime-gpu 1.31.1 已装进会话系统 python（CUDA 可用）。ONNX I/O 实测：琅 acoustic 需 tension＋spk_embed(1,n_frames,256)、无 languages 输入；齑 acoustic 需 tension＋languages、无 spk_embed，但其 pitch/var 模型声明 spk_embed（无 .emb 文件，喂零向量）；Leif 无 dsvariance，acoustic 无 breathiness/voicing/tension 输入、自带 pc_tgm_hifigan 声码器。通用驱动 sing_bank.py 改为“只喂声明输入”（run_filtered）＋tension 直通＋spk_embed 按模型铺形；variance retake 末维因库而异（绮萱 2、琅/齑 3），按声明形状造。
+- 2026-11-05 ~22:20：map 构建：琅 MAP-OK（zh=93，en=0，无英文音素，英文词作 melisma）、齑 MAP-OK（zh=93，en=0）；que/xue 的 zh/ue 按 +12 试验已验规则修成 zh/ve（build_qixuan_map.py 同款）。Leif MAP-BUILD-FAIL：中文音素仅 48 个，缺 20+ 复合韵母（ian/iao/ie/ing/uan/en/an/ang/uai/in/eng/ong/ui/un 等）；dsconfig 引用的 src/dictionary.txt 在发行包内不存在；作者站（leifly.carrd.co）无切分规则文档；标准 DIFFS ZH G2P 输出与该库存量不匹配。结论：Leif 中文歌词无法在可验证的前提下建 map，不猜切分规则，本轮不进烟囱测试；英文音素完整、Soil/Uprooted 模式仍是曲风＋音区最优，待字典／切分规则出现后再议。写进 REPORT-banks.md。
+- 2026-11-05 ~22:25：通用驱动在绮萱上验证通过（probe：vox 前 4 音，10 token，145 帧，偏差中位 0.027 半音，p90 0.065，与原研究一致；tension 取 0）。+12 试验第一阶段已完成（STAGE1-PLUS12-DONE，vox/voxTel 产物 14:06 落盘），无 gpu.lock，GPU 空闲（0 MiB）。
+- 下一步：烟囱测试。vox 中文 30 秒窗 25.6–55.6s（49 音，MIDI 34–46，避开 9.6–11.3s 英文段）。琅（speaker power=0）与齑各渲一切片，measure_bank.py（pyworld dio，f0_floor 27 Hz）独立量测；基频清晰且落在谱面音区者进全量 4 轨。
+- 2026-11-05 ~22:30：烟囱测试（vox 中文窗 25.6–55.6s，49 音，MIDI 34–46）结果：
+  - 琅 power：dio 检出 13/49（26.5%），偏差中位 -0.038 半音，±0.5 内占比 47.1%，有声帧占比 38.9%，p90 绝对偏差 7.24 半音；末句 dspitch 偏差 -5.59 半音。
+  - 齑：dio 检出 19/49（38.8%），偏差中位 +0.25 半音，±0.5 内占比 48.0%，有声帧占比 52.0%，p90 绝对偏差 8.53 半音；后 4 句 dspitch 系统性偏高约 +0.7–0.8 半音。
+  - 判定：两库均未通过烟囱门（对照：绮萱 vox3 成功时检出 45/46=98%）。检出音的中位偏差虽小，但多数音无稳定基频，p90 偏差 >7 半音。两库不进 4 轨全量；30 秒切片与量测 JSON 保留作试听证据（齑优于琅，数值上比绮萱失败轨的有声帧占比 2–4% 高一个量级，但仍不成立）。
+- 2026-11-05 22:16：Wang 发 DiffSinger.xlsx（63 库社区表），父 agent 已按曲风＞性别＞音区筛出短名单：潋妤（唯一摇滚匹配，女声，参考不下载）；男声＋低音：千夕 C2–G4（日语库）、瑜瑾 G2–F#5（四声线）、Sirius G2–C5、华晓熊 F2–A4、Alemon 男中音（中文普通话，音区未标）、洛希 B2–F4（民谣低音炮）。全表无库下到 MIDI 23，最低 C2（MIDI 36）；vox4 有 22 音低于 MIDI 36，须另想办法（+12 线在跑，写进报告）。获取：华晓熊百度网盘直链；洛希 zhibin.club；瑜瑾/Alemon 须加 QQ 群；Sirius 无来源；千夕来源待查。顺序：华晓熊 → Alemon → 瑜瑾 → Sirius → 洛希；QQ 群加不进只记结论不卡住；千夕只核中文音素能力。
+- 2026-11-05 ~22:40：新短名单获取核查（读 DiffSinger.xlsx 全表 63 库对应行）：华晓熊百度分享页可打开（标题“请输入提取码”），verify 接口两地出口均 errno -12（正确码 0527 与错码 0000 同返回），无登录无法下载；Bilibili 试听简介无他链。Alemon 仅 QQ 群 118932174，瑜瑾仅 QQ 群 519542908，agent 无法加群。Sirius 表内获取方式为空。洛希走 zhibin.club，下载为夸克网盘（须登录／客户端），规约页 403。千夕表内为“男声日语声库”，试听为日语翻唱，无中文支持，排除。潋妤 QQ 群链接 qm.qq.com/q/F3SpPdbiFO，女声，参考不下载。结论：新短名单无一库可由 agent 获取。
+- 2026-11-05 ~22:50：交付物完成：lang_smoke.zip（SHA256 a33fa0fd…）、ji_smoke.zip（SHA256 648e3416…），各含 30 秒切片 wav＋sidecar＋量测 JSON；REPORT-banks.md（对比表＋每库取舍＋新短名单获取状态＋MIDI 23 关键限制＋先听齑）。两库均未过烟囱门，不进 4 轨全量。本地提交，不推送。
