@@ -1,0 +1,177 @@
+{
+ "wav": "/content/stage1_shiguang/sliceA/shiguang_stage1_ji.wav",
+ "track": "shiguang",
+ "window_s": [
+  0.5,
+  10.94
+ ],
+ "n_notes": 16,
+ "n_detected": 16,
+ "detect_rate": 1.0,
+ "dev_median_semitones": -0.033,
+ "dev_p90_abs_semitones": 0.141,
+ "within_pm0.5_semitones": 1.0,
+ "voiced_frame_share": 0.99,
+ "per_note": [
+  {
+   "lyric": "假",
+   "pitch": 61.0,
+   "pitch_name": "C#4",
+   "start_s": 0.5,
+   "median_hz": 278.29,
+   "dev_semitones": 0.069,
+   "voiced_share": 0.778,
+   "detected": true
+  },
+  {
+   "lyric": "如",
+   "pitch": 63.0,
+   "pitch_name": "D#4",
+   "start_s": 0.95,
+   "median_hz": 309.24,
+   "dev_semitones": -0.105,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "时",
+   "pitch": 63.0,
+   "pitch_name": "D#4",
+   "start_s": 1.462,
+   "median_hz": 310.72,
+   "dev_semitones": -0.023,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "光",
+   "pitch": 61.0,
+   "pitch_name": "C#4",
+   "start_s": 2.209,
+   "median_hz": 277.38,
+   "dev_semitones": 0.012,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "能",
+   "pitch": 63.0,
+   "pitch_name": "D#4",
+   "start_s": 2.909,
+   "median_hz": 307.31,
+   "dev_semitones": -0.214,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "够",
+   "pitch": 61.0,
+   "pitch_name": "C#4",
+   "start_s": 3.283,
+   "median_hz": 277.62,
+   "dev_semitones": 0.028,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "倒",
+   "pitch": 59.0,
+   "pitch_name": "B3",
+   "start_s": 3.961,
+   "median_hz": 246.34,
+   "dev_semitones": -0.043,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "流",
+   "pitch": 59.0,
+   "pitch_name": "B3",
+   "start_s": 4.652,
+   "median_hz": 245.81,
+   "dev_semitones": -0.079,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "我",
+   "pitch": 57.0,
+   "pitch_name": "A3",
+   "start_s": 6.272,
+   "median_hz": 219.82,
+   "dev_semitones": -0.014,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "要",
+   "pitch": 56.0,
+   "pitch_name": "G#3",
+   "start_s": 6.641,
+   "median_hz": 208.31,
+   "dev_semitones": 0.055,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "回",
+   "pitch": 57.0,
+   "pitch_name": "A3",
+   "start_s": 6.954,
+   "median_hz": 219.85,
+   "dev_semitones": -0.012,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "到",
+   "pitch": 57.0,
+   "pitch_name": "A3",
+   "start_s": 7.545,
+   "median_hz": 220.97,
+   "dev_semitones": 0.077,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "那",
+   "pitch": 56.0,
+   "pitch_name": "G#3",
+   "start_s": 8.221,
+   "median_hz": 206.52,
+   "dev_semitones": -0.094,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "个",
+   "pitch": 56.0,
+   "pitch_name": "G#3",
+   "start_s": 8.549,
+   "median_hz": 206.68,
+   "dev_semitones": -0.081,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "路",
+   "pitch": 56.0,
+   "pitch_name": "G#3",
+   "start_s": 9.21,
+   "median_hz": 206.6,
+   "dev_semitones": -0.088,
+   "voiced_share": 1.0,
+   "detected": true
+  },
+  {
+   "lyric": "口",
+   "pitch": 57.0,
+   "pitch_name": "A3",
+   "start_s": 9.983,
+   "median_hz": 217.77,
+   "dev_semitones": -0.176,
+   "voiced_share": 1.0,
+   "detected": true
+  }
+ ]
+}

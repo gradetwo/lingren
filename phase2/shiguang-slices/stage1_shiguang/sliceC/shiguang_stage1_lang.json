@@ -1,0 +1,52 @@
+{
+ "track": "shiguang",
+ "bank": "/content/voicebanks_banks/DiffSinger_lang_tmp/DiffSinger_lang",
+ "bank_name": "lang",
+ "sr": 44100,
+ "dur_policy": "score",
+ "steps": 20,
+ "depth": 0.6,
+ "expr": 1.0,
+ "gender": 0.0,
+ "speaker_id": 0,
+ "has_pitch_model": true,
+ "has_variance_model": true,
+ "slice_s": [
+  103.77,
+  113.82
+ ],
+ "t0_s": 103.72,
+ "duration_s": 10.6,
+ "peak_raw": 0.2205,
+ "peak_normalized": 0.89,
+ "phrases": [
+  {
+   "n_notes": 15,
+   "n_tokens": 32,
+   "n_frames": 867,
+   "dur_ratio_pred_over_score": 1.177,
+   "pitch_dev_median_semitones": 0.096,
+   "pitch_dev_p90_abs_semitones": 0.238,
+   "pitch_pred_range_midi": [
+    -0.79,
+    66.85
+   ],
+   "breathiness_range": [
+    -72.07,
+    -29.174
+   ],
+   "voicing_range": [
+    -95.352,
+    -22.064
+   ],
+   "tension_range": [
+    -5.991,
+    5.537
+   ],
+   "render_s": 1.3,
+   "phrase": 0,
+   "start_s": 103.725,
+   "lyric": "那些未说的话是否还是没勇"
+  }
+ ]
+}

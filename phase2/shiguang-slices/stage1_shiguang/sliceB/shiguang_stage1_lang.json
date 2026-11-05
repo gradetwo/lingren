@@ -1,0 +1,52 @@
+{
+ "track": "shiguang",
+ "bank": "/content/voicebanks_banks/DiffSinger_lang_tmp/DiffSinger_lang",
+ "bank_name": "lang",
+ "sr": 44100,
+ "dur_policy": "score",
+ "steps": 20,
+ "depth": 0.6,
+ "expr": 1.0,
+ "gender": 0.0,
+ "speaker_id": 0,
+ "has_pitch_model": true,
+ "has_variance_model": true,
+ "slice_s": [
+  51.85,
+  63.2
+ ],
+ "t0_s": 51.8,
+ "duration_s": 11.9,
+ "peak_raw": 0.2295,
+ "peak_normalized": 0.89,
+ "phrases": [
+  {
+   "n_notes": 16,
+   "n_tokens": 33,
+   "n_frames": 974,
+   "dur_ratio_pred_over_score": 1.105,
+   "pitch_dev_median_semitones": 0.006,
+   "pitch_dev_p90_abs_semitones": 0.502,
+   "pitch_pred_range_midi": [
+    0.46,
+    70.77
+   ],
+   "breathiness_range": [
+    -66.771,
+    -32.822
+   ],
+   "voicing_range": [
+    -96.0,
+    -22.298
+   ],
+   "tension_range": [
+    -7.528,
+    4.869
+   ],
+   "render_s": 1.3,
+   "phrase": 0,
+   "start_s": 51.802,
+   "lyric": "假如时光能够倒流我要回到"
+  }
+ ]
+}

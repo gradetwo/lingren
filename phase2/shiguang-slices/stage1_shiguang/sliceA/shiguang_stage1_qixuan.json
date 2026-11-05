@@ -1,0 +1,52 @@
+{
+ "track": "shiguang",
+ "bank": "/content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau",
+ "bank_name": "qixuan",
+ "sr": 44100,
+ "dur_policy": "score",
+ "steps": 20,
+ "depth": 0.6,
+ "expr": 1.0,
+ "gender": 0.0,
+ "speaker_id": 0,
+ "has_pitch_model": true,
+ "has_variance_model": true,
+ "slice_s": [
+  0.5,
+  10.94
+ ],
+ "t0_s": 0.45,
+ "duration_s": 10.99,
+ "peak_raw": 0.272,
+ "peak_normalized": 0.89,
+ "phrases": [
+  {
+   "n_notes": 16,
+   "n_tokens": 33,
+   "n_frames": 898,
+   "dur_ratio_pred_over_score": 1.096,
+   "pitch_dev_median_semitones": 0.025,
+   "pitch_dev_p90_abs_semitones": 0.377,
+   "pitch_pred_range_midi": [
+    -1.84,
+    63.81
+   ],
+   "breathiness_range": [
+    -90.378,
+    -30.315
+   ],
+   "voicing_range": [
+    -96.0,
+    -18.056
+   ],
+   "tension_range": [
+    0.0,
+    0.0
+   ],
+   "render_s": 2.3,
+   "phrase": 0,
+   "start_s": 0.45,
+   "lyric": "假如时光能够倒流我要回到"
+  }
+ ]
+}
