@@ -1,0 +1,18 @@
+{
+ "track": "voxTel",
+ "svc": "yingmusic",
+ "prompt": "bard_growl",
+ "prompt_wav": "bard_growl_24k.wav",
+ "diffusion_steps": 100,
+ "fp16": true,
+ "auto_pitch_shift_semitones": 0,
+ "rtf": 0.6421905101253733,
+ "runtime_s": 31.6,
+ "status": "ok",
+ "duration_s": 45.674,
+ "peak_raw": 1.0,
+ "rms_raw": 0.1884,
+ "gain_to_0.89": 0.89,
+ "sr_delivered": 44100,
+ "raw_output": "./outputs/ds_twostage/bard_growl_24k_voxTel_stage1_diffsinger_0.wav"
+}

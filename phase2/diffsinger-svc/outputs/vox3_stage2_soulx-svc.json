@@ -1,0 +1,15 @@
+{
+ "track": "vox3",
+ "svc": "soulx",
+ "prompt": "bard_scream",
+ "prompt_wav": "bard_scream_24k.wav",
+ "pitch_shift": 0,
+ "fp16": true,
+ "status": "ok",
+ "duration_s_48k": 158.523,
+ "duration_s_24k": 158.523,
+ "peak_raw_24k": 1.0,
+ "rms_raw_24k": 0.0626,
+ "gain_to_0.89": 0.6116,
+ "sr_delivered": 48000
+}

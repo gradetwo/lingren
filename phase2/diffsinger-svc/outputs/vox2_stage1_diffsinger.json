@@ -1,0 +1,541 @@
+{
+ "track": "vox2",
+ "sr": 44100,
+ "dur_policy": "score",
+ "steps": 20,
+ "depth": 0.6,
+ "expr": 1.0,
+ "duration_s": 166.843,
+ "peak_raw": 0.0721,
+ "peak_normalized": 0.89,
+ "phrases": [
+  {
+   "n_notes": 4,
+   "n_tokens": 10,
+   "n_frames": 145,
+   "dur_ratio_pred_over_score": 1.633,
+   "pitch_dev_median_semitones": 0.034,
+   "pitch_dev_p90_abs_semitones": 0.062,
+   "pitch_pred_range_midi": [
+    33.73,
+    38.18
+   ],
+   "breathiness_range": [
+    -76.34,
+    -42.854
+   ],
+   "voicing_range": [
+    -96.0,
+    -47.82
+   ],
+   "render_s": 0.5,
+   "phrase": 0,
+   "start_s": 9.55,
+   "lyric": "Win-terIsCom-ing"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 136,
+   "dur_ratio_pred_over_score": 1.669,
+   "pitch_dev_median_semitones": 0.148,
+   "pitch_dev_p90_abs_semitones": 0.373,
+   "pitch_pred_range_midi": [
+    35.45,
+    42.67
+   ],
+   "breathiness_range": [
+    -77.856,
+    -39.731
+   ],
+   "voicing_range": [
+    -96.0,
+    -35.291
+   ],
+   "render_s": 0.5,
+   "phrase": 1,
+   "start_s": 28.75,
+   "lyric": "我干干干"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.287,
+   "pitch_dev_p90_abs_semitones": 0.475,
+   "pitch_pred_range_midi": [
+    40.23,
+    41.78
+   ],
+   "breathiness_range": [
+    -80.555,
+    -36.527
+   ],
+   "voicing_range": [
+    -95.832,
+    -60.561
+   ],
+   "render_s": 0.4,
+   "phrase": 2,
+   "start_s": 44.75,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.184,
+   "pitch_dev_p90_abs_semitones": 0.32,
+   "pitch_pred_range_midi": [
+    40.02,
+    41.7
+   ],
+   "breathiness_range": [
+    -77.378,
+    -35.22
+   ],
+   "voicing_range": [
+    -95.717,
+    -55.779
+   ],
+   "render_s": 0.3,
+   "phrase": 3,
+   "start_s": 46.35,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.249,
+   "pitch_dev_p90_abs_semitones": 0.506,
+   "pitch_pred_range_midi": [
+    40.33,
+    41.85
+   ],
+   "breathiness_range": [
+    -76.283,
+    -33.91
+   ],
+   "voicing_range": [
+    -96.0,
+    -54.021
+   ],
+   "render_s": 0.3,
+   "phrase": 4,
+   "start_s": 51.15,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.274,
+   "pitch_dev_p90_abs_semitones": 0.987,
+   "pitch_pred_range_midi": [
+    39.98,
+    42.3
+   ],
+   "breathiness_range": [
+    -75.634,
+    -35.44
+   ],
+   "voicing_range": [
+    -95.649,
+    -57.317
+   ],
+   "render_s": 0.3,
+   "phrase": 5,
+   "start_s": 52.75,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 368,
+   "dur_ratio_pred_over_score": 1.347,
+   "pitch_dev_median_semitones": 0.107,
+   "pitch_dev_p90_abs_semitones": 0.523,
+   "pitch_pred_range_midi": [
+    32.84,
+    39.94
+   ],
+   "breathiness_range": [
+    -75.458,
+    -41.203
+   ],
+   "voicing_range": [
+    -95.63,
+    -48.587
+   ],
+   "render_s": 0.9,
+   "phrase": 6,
+   "start_s": 70.35,
+   "lyric": "一切的一切都是坑蒙拐骗"
+  },
+  {
+   "n_notes": 16,
+   "n_tokens": 32,
+   "n_frames": 526,
+   "dur_ratio_pred_over_score": 1.295,
+   "pitch_dev_median_semitones": 0.311,
+   "pitch_dev_p90_abs_semitones": 0.499,
+   "pitch_pred_range_midi": [
+    32.59,
+    39.56
+   ],
+   "breathiness_range": [
+    -78.733,
+    -33.311
+   ],
+   "voicing_range": [
+    -96.0,
+    -44.827
+   ],
+   "render_s": 1.1,
+   "phrase": 7,
+   "start_s": 76.75,
+   "lyric": "一切的一切都逃不开这个时"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 160,
+   "dur_ratio_pred_over_score": 1.329,
+   "pitch_dev_median_semitones": -0.042,
+   "pitch_dev_p90_abs_semitones": 0.183,
+   "pitch_pred_range_midi": [
+    35.15,
+    40.2
+   ],
+   "breathiness_range": [
+    -69.249,
+    -36.139
+   ],
+   "voicing_range": [
+    -95.856,
+    -47.261
+   ],
+   "render_s": 0.5,
+   "phrase": 8,
+   "start_s": 83.15,
+   "lyric": "凛冬将至"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 10,
+   "n_frames": 145,
+   "dur_ratio_pred_over_score": 1.633,
+   "pitch_dev_median_semitones": 0.014,
+   "pitch_dev_p90_abs_semitones": 0.169,
+   "pitch_pred_range_midi": [
+    33.8,
+    38.56
+   ],
+   "breathiness_range": [
+    -71.655,
+    -41.644
+   ],
+   "voicing_range": [
+    -96.0,
+    -51.488
+   ],
+   "render_s": 0.5,
+   "phrase": 9,
+   "start_s": 92.75,
+   "lyric": "Win-terIsCom-ing"
+  },
+  {
+   "n_notes": 15,
+   "n_tokens": 29,
+   "n_frames": 303,
+   "dur_ratio_pred_over_score": 1.026,
+   "pitch_dev_median_semitones": 0.092,
+   "pitch_dev_p90_abs_semitones": 0.549,
+   "pitch_pred_range_midi": [
+    33.99,
+    41.23
+   ],
+   "breathiness_range": [
+    -72.16,
+    -43.938
+   ],
+   "voicing_range": [
+    -96.0,
+    -45.472
+   ],
+   "render_s": 0.8,
+   "phrase": 10,
+   "start_s": 99.15,
+   "lyric": "长期主义是寒冬里唯一正确"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 316,
+   "dur_ratio_pred_over_score": 1.115,
+   "pitch_dev_median_semitones": 0.138,
+   "pitch_dev_p90_abs_semitones": 0.554,
+   "pitch_pred_range_midi": [
+    32.67,
+    40.59
+   ],
+   "breathiness_range": [
+    -78.329,
+    -40.458
+   ],
+   "voicing_range": [
+    -95.988,
+    -47.543
+   ],
+   "render_s": 0.8,
+   "phrase": 11,
+   "start_s": 105.55,
+   "lyric": "拿什么盈利什么时候盈利"
+  },
+  {
+   "n_notes": 2,
+   "n_tokens": 4,
+   "n_frames": 90,
+   "dur_ratio_pred_over_score": 1.94,
+   "pitch_dev_median_semitones": 0.529,
+   "pitch_dev_p90_abs_semitones": 0.614,
+   "pitch_pred_range_midi": [
+    42.91,
+    45.81
+   ],
+   "breathiness_range": [
+    -70.993,
+    -45.675
+   ],
+   "voicing_range": [
+    -95.954,
+    -43.226
+   ],
+   "render_s": 0.4,
+   "phrase": 12,
+   "start_s": 108.75,
+   "lyric": "我干"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 136,
+   "dur_ratio_pred_over_score": 1.669,
+   "pitch_dev_median_semitones": 0.141,
+   "pitch_dev_p90_abs_semitones": 0.182,
+   "pitch_pred_range_midi": [
+    35.39,
+    42.4
+   ],
+   "breathiness_range": [
+    -74.766,
+    -38.358
+   ],
+   "voicing_range": [
+    -95.909,
+    -35.383
+   ],
+   "render_s": 0.5,
+   "phrase": 13,
+   "start_s": 111.95,
+   "lyric": "我干干干"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 340,
+   "dur_ratio_pred_over_score": 1.296,
+   "pitch_dev_median_semitones": 0.281,
+   "pitch_dev_p90_abs_semitones": 0.359,
+   "pitch_pred_range_midi": [
+    34.82,
+    41.04
+   ],
+   "breathiness_range": [
+    -74.14,
+    -35.334
+   ],
+   "voicing_range": [
+    -96.0,
+    -49.591
+   ],
+   "render_s": 0.8,
+   "phrase": 14,
+   "start_s": 121.55,
+   "lyric": "都是一条时间上的抛物线"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.08,
+   "pitch_dev_p90_abs_semitones": 0.214,
+   "pitch_pred_range_midi": [
+    39.86,
+    41.68
+   ],
+   "breathiness_range": [
+    -79.877,
+    -36.252
+   ],
+   "voicing_range": [
+    -95.768,
+    -57.451
+   ],
+   "render_s": 0.5,
+   "phrase": 15,
+   "start_s": 127.95,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.219,
+   "pitch_dev_p90_abs_semitones": 0.779,
+   "pitch_pred_range_midi": [
+    40.1,
+    41.96
+   ],
+   "breathiness_range": [
+    -77.308,
+    -35.794
+   ],
+   "voicing_range": [
+    -95.948,
+    -55.645
+   ],
+   "render_s": 0.3,
+   "phrase": 16,
+   "start_s": 129.55,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.16,
+   "pitch_dev_p90_abs_semitones": 0.328,
+   "pitch_pred_range_midi": [
+    40.24,
+    41.7
+   ],
+   "breathiness_range": [
+    -80.27,
+    -35.316
+   ],
+   "voicing_range": [
+    -95.695,
+    -53.06
+   ],
+   "render_s": 0.3,
+   "phrase": 17,
+   "start_s": 134.35,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.061,
+   "pitch_dev_p90_abs_semitones": 0.2,
+   "pitch_pred_range_midi": [
+    40.09,
+    41.61
+   ],
+   "breathiness_range": [
+    -76.539,
+    -35.687
+   ],
+   "voicing_range": [
+    -95.94,
+    -56.228
+   ],
+   "render_s": 0.3,
+   "phrase": 18,
+   "start_s": 135.95,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 6,
+   "n_tokens": 11,
+   "n_frames": 223,
+   "dur_ratio_pred_over_score": 1.415,
+   "pitch_dev_median_semitones": 0.085,
+   "pitch_dev_p90_abs_semitones": 0.221,
+   "pitch_pred_range_midi": [
+    34.78,
+    41.57
+   ],
+   "breathiness_range": [
+    -71.255,
+    -46.177
+   ],
+   "voicing_range": [
+    -96.0,
+    -44.572
+   ],
+   "render_s": 0.6,
+   "phrase": 19,
+   "start_s": 143.95,
+   "lyric": "老板再来二两"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 368,
+   "dur_ratio_pred_over_score": 1.347,
+   "pitch_dev_median_semitones": 0.194,
+   "pitch_dev_p90_abs_semitones": 0.677,
+   "pitch_pred_range_midi": [
+    32.87,
+    39.74
+   ],
+   "breathiness_range": [
+    -77.482,
+    -41.133
+   ],
+   "voicing_range": [
+    -96.0,
+    -47.258
+   ],
+   "render_s": 0.8,
+   "phrase": 20,
+   "start_s": 153.55,
+   "lyric": "一切的一切都是坑蒙拐骗"
+  },
+  {
+   "n_notes": 16,
+   "n_tokens": 32,
+   "n_frames": 526,
+   "dur_ratio_pred_over_score": 1.295,
+   "pitch_dev_median_semitones": 0.318,
+   "pitch_dev_p90_abs_semitones": 0.51,
+   "pitch_pred_range_midi": [
+    32.51,
+    39.87
+   ],
+   "breathiness_range": [
+    -76.058,
+    -34.662
+   ],
+   "voicing_range": [
+    -96.0,
+    -45.995
+   ],
+   "render_s": 1.1,
+   "phrase": 21,
+   "start_s": 159.95,
+   "lyric": "一切的一切都逃不开这个时"
+  }
+ ]
+}

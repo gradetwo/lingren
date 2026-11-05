@@ -1,0 +1,18 @@
+{
+ "track": "vox2",
+ "svc": "yingmusic",
+ "prompt": "groupyell",
+ "prompt_wav": "groupyell_24k.wav",
+ "diffusion_steps": 100,
+ "fp16": true,
+ "auto_pitch_shift_semitones": 12,
+ "rtf": 0.8697522571504831,
+ "runtime_s": 145.3,
+ "status": "ok",
+ "duration_s": 166.835,
+ "peak_raw": 1.0,
+ "rms_raw": 0.0996,
+ "gain_to_0.89": 0.89,
+ "sr_delivered": 44100,
+ "raw_output": "./outputs/ds_twostage/groupyell_24k_vox2_stage1_diffsinger_12.wav"
+}

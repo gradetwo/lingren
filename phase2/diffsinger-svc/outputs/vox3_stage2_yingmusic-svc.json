@@ -1,0 +1,18 @@
+{
+ "track": "vox3",
+ "svc": "yingmusic",
+ "prompt": "bard_scream",
+ "prompt_wav": "bard_scream_24k.wav",
+ "diffusion_steps": 100,
+ "fp16": true,
+ "auto_pitch_shift_semitones": 0,
+ "rtf": 0.5606715833697039,
+ "runtime_s": 89.1,
+ "status": "ok",
+ "duration_s": 158.523,
+ "peak_raw": 1.0,
+ "rms_raw": 0.0993,
+ "gain_to_0.89": 0.89,
+ "sr_delivered": 44100,
+ "raw_output": "./outputs/ds_twostage/bard_scream_24k_vox3_stage1_diffsinger_0.wav"
+}

@@ -1,0 +1,15 @@
+{
+ "track": "vox2",
+ "svc": "soulx",
+ "prompt": "groupyell",
+ "prompt_wav": "groupyell_24k.wav",
+ "pitch_shift": 0,
+ "fp16": true,
+ "status": "ok",
+ "duration_s_48k": 166.843,
+ "duration_s_24k": 166.843,
+ "peak_raw_24k": 1.0,
+ "rms_raw_24k": 0.2799,
+ "gain_to_0.89": 0.777,
+ "sr_delivered": 48000
+}

@@ -1,0 +1,1213 @@
+{
+ "track": "vox",
+ "sr": 44100,
+ "dur_policy": "score",
+ "steps": 20,
+ "depth": 0.6,
+ "expr": 1.0,
+ "duration_s": 179.443,
+ "peak_raw": 0.1062,
+ "peak_normalized": 0.89,
+ "phrases": [
+  {
+   "n_notes": 4,
+   "n_tokens": 10,
+   "n_frames": 145,
+   "dur_ratio_pred_over_score": 1.633,
+   "pitch_dev_median_semitones": -0.011,
+   "pitch_dev_p90_abs_semitones": 0.053,
+   "pitch_pred_range_midi": [
+    33.86,
+    38.34
+   ],
+   "breathiness_range": [
+    -69.396,
+    -45.629
+   ],
+   "voicing_range": [
+    -95.994,
+    -49.035
+   ],
+   "render_s": 0.5,
+   "phrase": 0,
+   "start_s": 9.55,
+   "lyric": "Win-terIsCom-ing"
+  },
+  {
+   "n_notes": 2,
+   "n_tokens": 4,
+   "n_frames": 90,
+   "dur_ratio_pred_over_score": 1.94,
+   "pitch_dev_median_semitones": 0.118,
+   "pitch_dev_p90_abs_semitones": 0.171,
+   "pitch_pred_range_midi": [
+    42.67,
+    45.25
+   ],
+   "breathiness_range": [
+    -73.486,
+    -46.839
+   ],
+   "voicing_range": [
+    -95.85,
+    -47.384
+   ],
+   "render_s": 0.4,
+   "phrase": 1,
+   "start_s": 25.55,
+   "lyric": "我干"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 124,
+   "dur_ratio_pred_over_score": 1.682,
+   "pitch_dev_median_semitones": 0.206,
+   "pitch_dev_p90_abs_semitones": 0.479,
+   "pitch_pred_range_midi": [
+    41.83,
+    46.39
+   ],
+   "breathiness_range": [
+    -68.824,
+    -38.418
+   ],
+   "voicing_range": [
+    -96.0,
+    -33.42
+   ],
+   "render_s": 0.5,
+   "phrase": 2,
+   "start_s": 27.15,
+   "lyric": "我干我干"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 136,
+   "dur_ratio_pred_over_score": 1.669,
+   "pitch_dev_median_semitones": 0.113,
+   "pitch_dev_p90_abs_semitones": 0.249,
+   "pitch_pred_range_midi": [
+    35.67,
+    42.54
+   ],
+   "breathiness_range": [
+    -66.662,
+    -37.512
+   ],
+   "voicing_range": [
+    -95.467,
+    -35.835
+   ],
+   "render_s": 0.5,
+   "phrase": 3,
+   "start_s": 28.75,
+   "lyric": "我干干干"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.259,
+   "pitch_dev_p90_abs_semitones": 0.558,
+   "pitch_pred_range_midi": [
+    39.95,
+    41.81
+   ],
+   "breathiness_range": [
+    -79.458,
+    -37.744
+   ],
+   "voicing_range": [
+    -95.703,
+    -54.423
+   ],
+   "render_s": 0.5,
+   "phrase": 4,
+   "start_s": 44.75,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.288,
+   "pitch_dev_p90_abs_semitones": 0.63,
+   "pitch_pred_range_midi": [
+    40.04,
+    41.9
+   ],
+   "breathiness_range": [
+    -78.579,
+    -35.766
+   ],
+   "voicing_range": [
+    -95.631,
+    -58.103
+   ],
+   "render_s": 0.3,
+   "phrase": 5,
+   "start_s": 46.35,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 271,
+   "dur_ratio_pred_over_score": 1.355,
+   "pitch_dev_median_semitones": 0.167,
+   "pitch_dev_p90_abs_semitones": 0.387,
+   "pitch_pred_range_midi": [
+    34.6,
+    42.12
+   ],
+   "breathiness_range": [
+    -79.042,
+    -35.734
+   ],
+   "voicing_range": [
+    -96.0,
+    -44.419
+   ],
+   "render_s": 0.7,
+   "phrase": 6,
+   "start_s": 47.95,
+   "lyric": "飘荡各种激动人心的概念"
+  },
+  {
+   "n_notes": 8,
+   "n_tokens": 8,
+   "n_frames": 260,
+   "dur_ratio_pred_over_score": 0.627,
+   "pitch_dev_median_semitones": 0.281,
+   "pitch_dev_p90_abs_semitones": 0.751,
+   "pitch_pred_range_midi": [
+    40.46,
+    42.08
+   ],
+   "breathiness_range": [
+    -73.579,
+    -33.661
+   ],
+   "voicing_range": [
+    -96.0,
+    -43.816
+   ],
+   "render_s": 0.7,
+   "phrase": 7,
+   "start_s": 51.15,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 8,
+   "n_tokens": 8,
+   "n_frames": 260,
+   "dur_ratio_pred_over_score": 0.627,
+   "pitch_dev_median_semitones": 0.307,
+   "pitch_dev_p90_abs_semitones": 0.641,
+   "pitch_pred_range_midi": [
+    40.4,
+    42.46
+   ],
+   "breathiness_range": [
+    -74.924,
+    -35.145
+   ],
+   "voicing_range": [
+    -96.0,
+    -40.866
+   ],
+   "render_s": 0.5,
+   "phrase": 8,
+   "start_s": 52.75,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 271,
+   "dur_ratio_pred_over_score": 1.355,
+   "pitch_dev_median_semitones": 0.125,
+   "pitch_dev_p90_abs_semitones": 0.376,
+   "pitch_pred_range_midi": [
+    34.76,
+    42.01
+   ],
+   "breathiness_range": [
+    -76.7,
+    -38.628
+   ],
+   "voicing_range": [
+    -95.893,
+    -43.006
+   ],
+   "render_s": 0.7,
+   "phrase": 9,
+   "start_s": 54.35,
+   "lyric": "飘荡各种激动人心的概念"
+  },
+  {
+   "n_notes": 10,
+   "n_tokens": 20,
+   "n_frames": 311,
+   "dur_ratio_pred_over_score": 1.288,
+   "pitch_dev_median_semitones": 0.045,
+   "pitch_dev_p90_abs_semitones": 0.554,
+   "pitch_pred_range_midi": [
+    32.86,
+    42.09
+   ],
+   "breathiness_range": [
+    -72.734,
+    -34.217
+   ],
+   "voicing_range": [
+    -96.0,
+    -42.175
+   ],
+   "render_s": 0.8,
+   "phrase": 10,
+   "start_s": 57.55,
+   "lyric": "瞎子酒醒又呢喃我干哪"
+  },
+  {
+   "n_notes": 6,
+   "n_tokens": 11,
+   "n_frames": 223,
+   "dur_ratio_pred_over_score": 1.415,
+   "pitch_dev_median_semitones": 0.087,
+   "pitch_dev_p90_abs_semitones": 0.27,
+   "pitch_pred_range_midi": [
+    34.72,
+    41.96
+   ],
+   "breathiness_range": [
+    -68.866,
+    -43.883
+   ],
+   "voicing_range": [
+    -96.0,
+    -45.123
+   ],
+   "render_s": 0.6,
+   "phrase": 11,
+   "start_s": 60.75,
+   "lyric": "老板再来二两"
+  },
+  {
+   "n_notes": 5,
+   "n_tokens": 10,
+   "n_frames": 186,
+   "dur_ratio_pred_over_score": 1.476,
+   "pitch_dev_median_semitones": 0.501,
+   "pitch_dev_p90_abs_semitones": 0.734,
+   "pitch_pred_range_midi": [
+    33.92,
+    39.97
+   ],
+   "breathiness_range": [
+    -71.969,
+    -34.87
+   ],
+   "voicing_range": [
+    -96.0,
+    -72.098
+   ],
+   "render_s": 0.6,
+   "phrase": 12,
+   "start_s": 63.95,
+   "lyric": "甩出三文钱"
+  },
+  {
+   "n_notes": 8,
+   "n_tokens": 16,
+   "n_frames": 282,
+   "dur_ratio_pred_over_score": 1.413,
+   "pitch_dev_median_semitones": 0.359,
+   "pitch_dev_p90_abs_semitones": 0.462,
+   "pitch_pred_range_midi": [
+    32.91,
+    40.02
+   ],
+   "breathiness_range": [
+    -69.437,
+    -38.652
+   ],
+   "voicing_range": [
+    -95.792,
+    -43.747
+   ],
+   "render_s": 0.7,
+   "phrase": 13,
+   "start_s": 67.15,
+   "lyric": "钱货两清互不亏欠"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 368,
+   "dur_ratio_pred_over_score": 1.347,
+   "pitch_dev_median_semitones": 0.173,
+   "pitch_dev_p90_abs_semitones": 0.465,
+   "pitch_pred_range_midi": [
+    32.75,
+    40.01
+   ],
+   "breathiness_range": [
+    -75.267,
+    -39.184
+   ],
+   "voicing_range": [
+    -96.0,
+    -43.656
+   ],
+   "render_s": 0.8,
+   "phrase": 14,
+   "start_s": 70.35,
+   "lyric": "一切的一切都是坑蒙拐骗"
+  },
+  {
+   "n_notes": 16,
+   "n_tokens": 32,
+   "n_frames": 526,
+   "dur_ratio_pred_over_score": 1.31,
+   "pitch_dev_median_semitones": 0.175,
+   "pitch_dev_p90_abs_semitones": 0.398,
+   "pitch_pred_range_midi": [
+    31.57,
+    39.71
+   ],
+   "breathiness_range": [
+    -81.088,
+    -35.467
+   ],
+   "voicing_range": [
+    -96.0,
+    -44.547
+   ],
+   "render_s": 1.1,
+   "phrase": 15,
+   "start_s": 76.75,
+   "lyric": "一切的一切都逃不开这个时"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 160,
+   "dur_ratio_pred_over_score": 1.329,
+   "pitch_dev_median_semitones": 0.047,
+   "pitch_dev_p90_abs_semitones": 0.088,
+   "pitch_pred_range_midi": [
+    35.64,
+    40.18
+   ],
+   "breathiness_range": [
+    -76.252,
+    -35.524
+   ],
+   "voicing_range": [
+    -96.0,
+    -59.825
+   ],
+   "render_s": 0.5,
+   "phrase": 16,
+   "start_s": 83.15,
+   "lyric": "凛冬将至"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 10,
+   "n_frames": 146,
+   "dur_ratio_pred_over_score": 1.655,
+   "pitch_dev_median_semitones": -0.023,
+   "pitch_dev_p90_abs_semitones": 0.18,
+   "pitch_pred_range_midi": [
+    34.84,
+    38.3
+   ],
+   "breathiness_range": [
+    -67.259,
+    -37.556
+   ],
+   "voicing_range": [
+    -96.0,
+    -43.475
+   ],
+   "render_s": 0.5,
+   "phrase": 17,
+   "start_s": 86.35,
+   "lyric": "Win-terIsCom-ing"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 160,
+   "dur_ratio_pred_over_score": 1.329,
+   "pitch_dev_median_semitones": 0.126,
+   "pitch_dev_p90_abs_semitones": 0.278,
+   "pitch_pred_range_midi": [
+    35.86,
+    40.32
+   ],
+   "breathiness_range": [
+    -73.215,
+    -35.98
+   ],
+   "voicing_range": [
+    -96.0,
+    -56.058
+   ],
+   "render_s": 0.5,
+   "phrase": 18,
+   "start_s": 89.55,
+   "lyric": "凛冬将至"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 10,
+   "n_frames": 145,
+   "dur_ratio_pred_over_score": 1.633,
+   "pitch_dev_median_semitones": 0.031,
+   "pitch_dev_p90_abs_semitones": 0.058,
+   "pitch_pred_range_midi": [
+    33.82,
+    38.26
+   ],
+   "breathiness_range": [
+    -73.183,
+    -43.475
+   ],
+   "voicing_range": [
+    -95.999,
+    -46.541
+   ],
+   "render_s": 0.5,
+   "phrase": 19,
+   "start_s": 92.75,
+   "lyric": "Win-terIsCom-ing"
+  },
+  {
+   "n_notes": 7,
+   "n_tokens": 14,
+   "n_frames": 233,
+   "dur_ratio_pred_over_score": 1.161,
+   "pitch_dev_median_semitones": 0.107,
+   "pitch_dev_p90_abs_semitones": 0.751,
+   "pitch_pred_range_midi": [
+    37.6,
+    41.73
+   ],
+   "breathiness_range": [
+    -77.445,
+    -35.43
+   ],
+   "voicing_range": [
+    -96.0,
+    -50.142
+   ],
+   "render_s": 0.7,
+   "phrase": 20,
+   "start_s": 95.95,
+   "lyric": "昨日你信誓旦旦"
+  },
+  {
+   "n_notes": 15,
+   "n_tokens": 29,
+   "n_frames": 303,
+   "dur_ratio_pred_over_score": 1.026,
+   "pitch_dev_median_semitones": 0.129,
+   "pitch_dev_p90_abs_semitones": 0.309,
+   "pitch_pred_range_midi": [
+    33.9,
+    41.33
+   ],
+   "breathiness_range": [
+    -73.957,
+    -42.158
+   ],
+   "voicing_range": [
+    -96.0,
+    -45.302
+   ],
+   "render_s": 0.8,
+   "phrase": 21,
+   "start_s": 99.15,
+   "lyric": "长期主义是寒冬里唯一正确"
+  },
+  {
+   "n_notes": 8,
+   "n_tokens": 16,
+   "n_frames": 276,
+   "dur_ratio_pred_over_score": 1.228,
+   "pitch_dev_median_semitones": 0.063,
+   "pitch_dev_p90_abs_semitones": 0.364,
+   "pitch_pred_range_midi": [
+    35.71,
+    41.02
+   ],
+   "breathiness_range": [
+    -80.04,
+    -42.103
+   ],
+   "voicing_range": [
+    -96.0,
+    -50.597
+   ],
+   "render_s": 0.7,
+   "phrase": 22,
+   "start_s": 102.35,
+   "lyric": "今日你却追着问我"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 316,
+   "dur_ratio_pred_over_score": 1.115,
+   "pitch_dev_median_semitones": -0.021,
+   "pitch_dev_p90_abs_semitones": 0.506,
+   "pitch_pred_range_midi": [
+    32.8,
+    40.66
+   ],
+   "breathiness_range": [
+    -78.992,
+    -39.4
+   ],
+   "voicing_range": [
+    -95.996,
+    -47.841
+   ],
+   "render_s": 0.8,
+   "phrase": 23,
+   "start_s": 105.55,
+   "lyric": "拿什么盈利什么时候盈利"
+  },
+  {
+   "n_notes": 2,
+   "n_tokens": 4,
+   "n_frames": 90,
+   "dur_ratio_pred_over_score": 1.94,
+   "pitch_dev_median_semitones": 0.401,
+   "pitch_dev_p90_abs_semitones": 0.531,
+   "pitch_pred_range_midi": [
+    42.57,
+    45.64
+   ],
+   "breathiness_range": [
+    -74.638,
+    -43.143
+   ],
+   "voicing_range": [
+    -96.0,
+    -44.33
+   ],
+   "render_s": 0.4,
+   "phrase": 24,
+   "start_s": 108.75,
+   "lyric": "我干"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 124,
+   "dur_ratio_pred_over_score": 1.682,
+   "pitch_dev_median_semitones": 0.242,
+   "pitch_dev_p90_abs_semitones": 0.483,
+   "pitch_pred_range_midi": [
+    41.85,
+    46.65
+   ],
+   "breathiness_range": [
+    -69.582,
+    -37.299
+   ],
+   "voicing_range": [
+    -96.0,
+    -32.022
+   ],
+   "render_s": 0.5,
+   "phrase": 25,
+   "start_s": 110.35,
+   "lyric": "我干我干"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 136,
+   "dur_ratio_pred_over_score": 1.669,
+   "pitch_dev_median_semitones": 0.088,
+   "pitch_dev_p90_abs_semitones": 0.345,
+   "pitch_pred_range_midi": [
+    35.73,
+    42.93
+   ],
+   "breathiness_range": [
+    -74.971,
+    -41.45
+   ],
+   "voicing_range": [
+    -95.227,
+    -32.374
+   ],
+   "render_s": 0.5,
+   "phrase": 26,
+   "start_s": 111.95,
+   "lyric": "我干干干"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 21,
+   "n_frames": 267,
+   "dur_ratio_pred_over_score": 1.067,
+   "pitch_dev_median_semitones": 0.332,
+   "pitch_dev_p90_abs_semitones": 0.449,
+   "pitch_pred_range_midi": [
+    37.64,
+    42.23
+   ],
+   "breathiness_range": [
+    -69.771,
+    -38.979
+   ],
+   "voicing_range": [
+    -96.0,
+    -45.509
+   ],
+   "render_s": 0.7,
+   "phrase": 27,
+   "start_s": 115.15,
+   "lyric": "村口算命瞎子二锅头喝高"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 26,
+   "dur_ratio_pred_over_score": 1.817,
+   "pitch_dev_median_semitones": 0.379,
+   "pitch_dev_p90_abs_semitones": 0.379,
+   "pitch_pred_range_midi": [
+    39.72,
+    40.45
+   ],
+   "breathiness_range": [
+    -56.192,
+    -33.262
+   ],
+   "voicing_range": [
+    -90.156,
+    -69.552
+   ],
+   "render_s": 0.3,
+   "phrase": 28,
+   "start_s": 118.35,
+   "lyric": "世"
+  },
+  {
+   "n_notes": 2,
+   "n_tokens": 4,
+   "n_frames": 38,
+   "dur_ratio_pred_over_score": 1.309,
+   "pitch_dev_median_semitones": 0.123,
+   "pitch_dev_p90_abs_semitones": 0.176,
+   "pitch_pred_range_midi": [
+    37.74,
+    39.28
+   ],
+   "breathiness_range": [
+    -60.226,
+    -41.026
+   ],
+   "voicing_range": [
+    -96.0,
+    -39.972
+   ],
+   "render_s": 0.3,
+   "phrase": 29,
+   "start_s": 118.39,
+   "lyric": "了说"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 26,
+   "dur_ratio_pred_over_score": 1.744,
+   "pitch_dev_median_semitones": 0.429,
+   "pitch_dev_p90_abs_semitones": 0.429,
+   "pitch_pred_range_midi": [
+    40.24,
+    40.44
+   ],
+   "breathiness_range": [
+    -62.546,
+    -39.973
+   ],
+   "voicing_range": [
+    -96.0,
+    -65.827
+   ],
+   "render_s": 0.3,
+   "phrase": 30,
+   "start_s": 118.67,
+   "lyric": "界"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 19,
+   "dur_ratio_pred_over_score": 1.739,
+   "pitch_dev_median_semitones": 0.23,
+   "pitch_dev_p90_abs_semitones": 0.23,
+   "pitch_pred_range_midi": [
+    36.13,
+    36.24
+   ],
+   "breathiness_range": [
+    -64.789,
+    -50.726
+   ],
+   "voicing_range": [
+    -67.012,
+    -47.079
+   ],
+   "render_s": 0.3,
+   "phrase": 31,
+   "start_s": 118.87,
+   "lyric": "疯"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 23,
+   "dur_ratio_pred_over_score": 1.813,
+   "pitch_dev_median_semitones": 0.582,
+   "pitch_dev_p90_abs_semitones": 0.582,
+   "pitch_pred_range_midi": [
+    41.24,
+    41.61
+   ],
+   "breathiness_range": [
+    -60.091,
+    -33.389
+   ],
+   "voicing_range": [
+    -89.71,
+    -71.702
+   ],
+   "render_s": 0.3,
+   "phrase": 32,
+   "start_s": 118.99,
+   "lyric": "上"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 67,
+   "dur_ratio_pred_over_score": 1.719,
+   "pitch_dev_median_semitones": 0.11,
+   "pitch_dev_p90_abs_semitones": 0.11,
+   "pitch_pred_range_midi": [
+    33.94,
+    34.33
+   ],
+   "breathiness_range": [
+    -67.083,
+    -51.324
+   ],
+   "voicing_range": [
+    -96.0,
+    -66.789
+   ],
+   "render_s": 0.4,
+   "phrase": 33,
+   "start_s": 119.11,
+   "lyric": "话"
+  },
+  {
+   "n_notes": 6,
+   "n_tokens": 12,
+   "n_frames": 195,
+   "dur_ratio_pred_over_score": 1.429,
+   "pitch_dev_median_semitones": 0.269,
+   "pitch_dev_p90_abs_semitones": 0.508,
+   "pitch_pred_range_midi": [
+    34.53,
+    41.83
+   ],
+   "breathiness_range": [
+    -75.671,
+    -36.342
+   ],
+   "voicing_range": [
+    -95.788,
+    -47.08
+   ],
+   "render_s": 0.6,
+   "phrase": 34,
+   "start_s": 119.27,
+   "lyric": "的一切人和事"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 340,
+   "dur_ratio_pred_over_score": 1.296,
+   "pitch_dev_median_semitones": 0.27,
+   "pitch_dev_p90_abs_semitones": 0.547,
+   "pitch_pred_range_midi": [
+    35.01,
+    41.23
+   ],
+   "breathiness_range": [
+    -76.225,
+    -38.505
+   ],
+   "voicing_range": [
+    -96.0,
+    -46.668
+   ],
+   "render_s": 0.8,
+   "phrase": 35,
+   "start_s": 121.55,
+   "lyric": "都是一条时间上的抛物线"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 295,
+   "dur_ratio_pred_over_score": 1.376,
+   "pitch_dev_median_semitones": 0.199,
+   "pitch_dev_p90_abs_semitones": 0.296,
+   "pitch_pred_range_midi": [
+    34.66,
+    41.1
+   ],
+   "breathiness_range": [
+    -69.253,
+    -36.705
+   ],
+   "voicing_range": [
+    -95.836,
+    -47.808
+   ],
+   "render_s": 0.7,
+   "phrase": 36,
+   "start_s": 124.75,
+   "lyric": "朋友圈里自我感动打鸡血"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.004,
+   "pitch_dev_p90_abs_semitones": 0.168,
+   "pitch_pred_range_midi": [
+    39.55,
+    41.82
+   ],
+   "breathiness_range": [
+    -77.336,
+    -34.346
+   ],
+   "voicing_range": [
+    -95.967,
+    -54.087
+   ],
+   "render_s": 0.5,
+   "phrase": 37,
+   "start_s": 127.95,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 130,
+   "dur_ratio_pred_over_score": 1.255,
+   "pitch_dev_median_semitones": 0.307,
+   "pitch_dev_p90_abs_semitones": 0.568,
+   "pitch_pred_range_midi": [
+    39.93,
+    41.84
+   ],
+   "breathiness_range": [
+    -79.38,
+    -36.911
+   ],
+   "voicing_range": [
+    -95.768,
+    -47.991
+   ],
+   "render_s": 0.3,
+   "phrase": 38,
+   "start_s": 129.55,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 271,
+   "dur_ratio_pred_over_score": 1.355,
+   "pitch_dev_median_semitones": 0.185,
+   "pitch_dev_p90_abs_semitones": 0.506,
+   "pitch_pred_range_midi": [
+    34.81,
+    41.87
+   ],
+   "breathiness_range": [
+    -77.638,
+    -37.697
+   ],
+   "voicing_range": [
+    -96.0,
+    -43.415
+   ],
+   "render_s": 0.7,
+   "phrase": 39,
+   "start_s": 131.15,
+   "lyric": "飘荡各种激动人心的概念"
+  },
+  {
+   "n_notes": 8,
+   "n_tokens": 8,
+   "n_frames": 260,
+   "dur_ratio_pred_over_score": 0.627,
+   "pitch_dev_median_semitones": 0.227,
+   "pitch_dev_p90_abs_semitones": 0.742,
+   "pitch_pred_range_midi": [
+    40.37,
+    42.29
+   ],
+   "breathiness_range": [
+    -73.479,
+    -34.328
+   ],
+   "voicing_range": [
+    -96.0,
+    -40.211
+   ],
+   "render_s": 0.7,
+   "phrase": 40,
+   "start_s": 134.35,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 8,
+   "n_tokens": 8,
+   "n_frames": 260,
+   "dur_ratio_pred_over_score": 0.627,
+   "pitch_dev_median_semitones": 0.151,
+   "pitch_dev_p90_abs_semitones": 0.535,
+   "pitch_pred_range_midi": [
+    40.66,
+    42.25
+   ],
+   "breathiness_range": [
+    -71.87,
+    -31.62
+   ],
+   "voicing_range": [
+    -95.99,
+    -42.321
+   ],
+   "render_s": 0.5,
+   "phrase": 41,
+   "start_s": 135.95,
+   "lyric": "长期主义"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 271,
+   "dur_ratio_pred_over_score": 1.355,
+   "pitch_dev_median_semitones": 0.091,
+   "pitch_dev_p90_abs_semitones": 0.403,
+   "pitch_pred_range_midi": [
+    34.87,
+    41.98
+   ],
+   "breathiness_range": [
+    -76.747,
+    -34.165
+   ],
+   "voicing_range": [
+    -95.981,
+    -41.469
+   ],
+   "render_s": 0.7,
+   "phrase": 42,
+   "start_s": 137.55,
+   "lyric": "飘荡各种激动人心的概念"
+  },
+  {
+   "n_notes": 10,
+   "n_tokens": 20,
+   "n_frames": 311,
+   "dur_ratio_pred_over_score": 1.288,
+   "pitch_dev_median_semitones": 0.067,
+   "pitch_dev_p90_abs_semitones": 0.482,
+   "pitch_pred_range_midi": [
+    32.88,
+    42.06
+   ],
+   "breathiness_range": [
+    -73.138,
+    -29.863
+   ],
+   "voicing_range": [
+    -95.644,
+    -40.513
+   ],
+   "render_s": 0.8,
+   "phrase": 43,
+   "start_s": 140.75,
+   "lyric": "瞎子酒醒又呢喃我干哪"
+  },
+  {
+   "n_notes": 6,
+   "n_tokens": 11,
+   "n_frames": 223,
+   "dur_ratio_pred_over_score": 1.415,
+   "pitch_dev_median_semitones": 0.107,
+   "pitch_dev_p90_abs_semitones": 0.197,
+   "pitch_pred_range_midi": [
+    34.87,
+    41.63
+   ],
+   "breathiness_range": [
+    -65.864,
+    -43.908
+   ],
+   "voicing_range": [
+    -96.0,
+    -39.627
+   ],
+   "render_s": 0.6,
+   "phrase": 44,
+   "start_s": 143.95,
+   "lyric": "老板再来二两"
+  },
+  {
+   "n_notes": 5,
+   "n_tokens": 10,
+   "n_frames": 186,
+   "dur_ratio_pred_over_score": 1.476,
+   "pitch_dev_median_semitones": 0.395,
+   "pitch_dev_p90_abs_semitones": 0.551,
+   "pitch_pred_range_midi": [
+    33.81,
+    39.84
+   ],
+   "breathiness_range": [
+    -72.517,
+    -41.16
+   ],
+   "voicing_range": [
+    -95.837,
+    -72.439
+   ],
+   "render_s": 0.6,
+   "phrase": 45,
+   "start_s": 147.15,
+   "lyric": "甩出三文钱"
+  },
+  {
+   "n_notes": 8,
+   "n_tokens": 16,
+   "n_frames": 282,
+   "dur_ratio_pred_over_score": 1.413,
+   "pitch_dev_median_semitones": 0.345,
+   "pitch_dev_p90_abs_semitones": 0.464,
+   "pitch_pred_range_midi": [
+    32.85,
+    39.7
+   ],
+   "breathiness_range": [
+    -70.334,
+    -40.226
+   ],
+   "voicing_range": [
+    -95.352,
+    -44.728
+   ],
+   "render_s": 0.7,
+   "phrase": 46,
+   "start_s": 150.35,
+   "lyric": "钱货两清互不亏欠"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 368,
+   "dur_ratio_pred_over_score": 1.347,
+   "pitch_dev_median_semitones": 0.105,
+   "pitch_dev_p90_abs_semitones": 0.403,
+   "pitch_pred_range_midi": [
+    32.92,
+    39.79
+   ],
+   "breathiness_range": [
+    -77.543,
+    -40.801
+   ],
+   "voicing_range": [
+    -96.0,
+    -44.962
+   ],
+   "render_s": 0.9,
+   "phrase": 47,
+   "start_s": 153.55,
+   "lyric": "一切的一切都是坑蒙拐骗"
+  },
+  {
+   "n_notes": 16,
+   "n_tokens": 32,
+   "n_frames": 526,
+   "dur_ratio_pred_over_score": 1.31,
+   "pitch_dev_median_semitones": 0.243,
+   "pitch_dev_p90_abs_semitones": 0.413,
+   "pitch_pred_range_midi": [
+    31.14,
+    39.78
+   ],
+   "breathiness_range": [
+    -78.439,
+    -34.677
+   ],
+   "voicing_range": [
+    -96.0,
+    -42.557
+   ],
+   "render_s": 1.1,
+   "phrase": 48,
+   "start_s": 159.95,
+   "lyric": "一切的一切都逃不开这个时"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 180,
+   "dur_ratio_pred_over_score": 1.567,
+   "pitch_dev_median_semitones": 0.091,
+   "pitch_dev_p90_abs_semitones": 0.118,
+   "pitch_pred_range_midi": [
+    34.68,
+    39.91
+   ],
+   "breathiness_range": [
+    -78.247,
+    -39.026
+   ],
+   "voicing_range": [
+    -96.0,
+    -53.159
+   ],
+   "render_s": 0.6,
+   "phrase": 49,
+   "start_s": 176.75,
+   "lyric": "凛冬将至"
+  }
+ ]
+}
