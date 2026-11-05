@@ -1,0 +1,129 @@
+{
+ "slice": "B",
+ "window_s": [
+  51.85,
+  63.2
+ ],
+ "bpm_label": 98,
+ "events": [
+  {
+   "lyric": "假",
+   "pitch": 61,
+   "start_s": 51.8515,
+   "duration_s": 0.478,
+   "end_s": 52.3295
+  },
+  {
+   "lyric": "如",
+   "pitch": 63,
+   "start_s": 52.3295,
+   "duration_s": 0.5144,
+   "end_s": 52.8439
+  },
+  {
+   "lyric": "时",
+   "pitch": 64,
+   "start_s": 52.8439,
+   "duration_s": 0.7901,
+   "end_s": 53.634
+  },
+  {
+   "lyric": "光",
+   "pitch": 63,
+   "start_s": 53.634,
+   "duration_s": 0.9049,
+   "end_s": 54.5389
+  },
+  {
+   "lyric": "能",
+   "pitch": 63,
+   "start_s": 54.5389,
+   "duration_s": 0.3,
+   "end_s": 54.8389
+  },
+  {
+   "lyric": "够",
+   "pitch": 61,
+   "start_s": 54.8389,
+   "duration_s": 0.7467,
+   "end_s": 55.5856
+  },
+  {
+   "lyric": "倒",
+   "pitch": 61,
+   "start_s": 55.5856,
+   "duration_s": 0.8181,
+   "end_s": 56.4037
+  },
+  {
+   "lyric": "流",
+   "pitch": 64,
+   "start_s": 56.4037,
+   "duration_s": 1.1619,
+   "end_s": 57.5656
+  },
+  {
+   "lyric": "SP",
+   "pitch": 0,
+   "start_s": 57.5656,
+   "duration_s": 0.5499999999999972,
+   "end_s": 58.1156
+  },
+  {
+   "lyric": "我",
+   "pitch": 66,
+   "start_s": 58.1156,
+   "duration_s": 0.3128,
+   "end_s": 58.4284
+  },
+  {
+   "lyric": "要",
+   "pitch": 66,
+   "start_s": 58.4284,
+   "duration_s": 0.353,
+   "end_s": 58.7814
+  },
+  {
+   "lyric": "回",
+   "pitch": 68,
+   "start_s": 58.7814,
+   "duration_s": 0.8127,
+   "end_s": 59.5941
+  },
+  {
+   "lyric": "到",
+   "pitch": 66,
+   "start_s": 59.5941,
+   "duration_s": 0.6666,
+   "end_s": 60.2607
+  },
+  {
+   "lyric": "那",
+   "pitch": 64,
+   "start_s": 60.2607,
+   "duration_s": 0.3845,
+   "end_s": 60.6452
+  },
+  {
+   "lyric": "个",
+   "pitch": 63,
+   "start_s": 60.6452,
+   "duration_s": 0.7342,
+   "end_s": 61.3794
+  },
+  {
+   "lyric": "路",
+   "pitch": 63,
+   "start_s": 61.3794,
+   "duration_s": 0.7828,
+   "end_s": 62.1622
+  },
+  {
+   "lyric": "口",
+   "pitch": 64,
+   "start_s": 62.1622,
+   "duration_s": 1.036,
+   "end_s": 63.1982
+  }
+ ]
+}

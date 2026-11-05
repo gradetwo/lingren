@@ -1,0 +1,129 @@
+{
+ "slice": "C",
+ "window_s": [
+  103.77,
+  113.82
+ ],
+ "bpm_label": 99,
+ "events": [
+  {
+   "lyric": "那",
+   "pitch": 61,
+   "start_s": 103.7752,
+   "duration_s": 0.4255,
+   "end_s": 104.2007
+  },
+  {
+   "lyric": "些",
+   "pitch": 64,
+   "start_s": 104.2007,
+   "duration_s": 0.5929,
+   "end_s": 104.7936
+  },
+  {
+   "lyric": "未",
+   "pitch": 64,
+   "start_s": 104.7936,
+   "duration_s": 0.5042,
+   "end_s": 105.2978
+  },
+  {
+   "lyric": "说",
+   "pitch": 66,
+   "start_s": 105.2978,
+   "duration_s": 0.671,
+   "end_s": 105.9688
+  },
+  {
+   "lyric": "的",
+   "pitch": 66,
+   "start_s": 105.9688,
+   "duration_s": 0.2896,
+   "end_s": 106.2584
+  },
+  {
+   "lyric": "话",
+   "pitch": 64,
+   "start_s": 106.2584,
+   "duration_s": 1.1571,
+   "end_s": 107.4155
+  },
+  {
+   "lyric": "SP",
+   "pitch": 0,
+   "start_s": 107.4155,
+   "duration_s": 0.5500000000000114,
+   "end_s": 107.9655
+  },
+  {
+   "lyric": "是",
+   "pitch": 64,
+   "start_s": 107.9655,
+   "duration_s": 0.4045,
+   "end_s": 108.37
+  },
+  {
+   "lyric": "否",
+   "pitch": 66,
+   "start_s": 108.37,
+   "duration_s": 0.418,
+   "end_s": 108.788
+  },
+  {
+   "lyric": "还",
+   "pitch": 66,
+   "start_s": 108.788,
+   "duration_s": 0.3956,
+   "end_s": 109.1836
+  },
+  {
+   "lyric": "是",
+   "pitch": 64,
+   "start_s": 109.1836,
+   "duration_s": 0.4442,
+   "end_s": 109.6278
+  },
+  {
+   "lyric": "没",
+   "pitch": 66,
+   "start_s": 109.6278,
+   "duration_s": 0.4944,
+   "end_s": 110.1222
+  },
+  {
+   "lyric": "勇",
+   "pitch": 64,
+   "start_s": 110.1222,
+   "duration_s": 0.865,
+   "end_s": 110.9872
+  },
+  {
+   "lyric": "气",
+   "pitch": 61,
+   "start_s": 110.9872,
+   "duration_s": 0.8071,
+   "end_s": 111.7943
+  },
+  {
+   "lyric": "SP",
+   "pitch": 0,
+   "start_s": 111.7943,
+   "duration_s": 0.25,
+   "end_s": 112.0443
+  },
+  {
+   "lyric": "开",
+   "pitch": 61,
+   "start_s": 112.0443,
+   "duration_s": 0.6798,
+   "end_s": 112.7241
+  },
+  {
+   "lyric": "口",
+   "pitch": 59,
+   "start_s": 112.7241,
+   "duration_s": 1.0865,
+   "end_s": 113.8106
+  }
+ ]
+}

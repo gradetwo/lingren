@@ -1,0 +1,129 @@
+{
+ "slice": "A",
+ "window_s": [
+  0.5,
+  10.94
+ ],
+ "bpm_label": 89,
+ "events": [
+  {
+   "lyric": "假",
+   "pitch": 61,
+   "start_s": 0.5,
+   "duration_s": 0.45,
+   "end_s": 0.95
+  },
+  {
+   "lyric": "如",
+   "pitch": 63,
+   "start_s": 0.95,
+   "duration_s": 0.5124,
+   "end_s": 1.4624
+  },
+  {
+   "lyric": "时",
+   "pitch": 63,
+   "start_s": 1.4624,
+   "duration_s": 0.7467,
+   "end_s": 2.2091
+  },
+  {
+   "lyric": "光",
+   "pitch": 61,
+   "start_s": 2.2091,
+   "duration_s": 0.7,
+   "end_s": 2.9091
+  },
+  {
+   "lyric": "能",
+   "pitch": 63,
+   "start_s": 2.9091,
+   "duration_s": 0.3738,
+   "end_s": 3.2829
+  },
+  {
+   "lyric": "够",
+   "pitch": 61,
+   "start_s": 3.2829,
+   "duration_s": 0.6777,
+   "end_s": 3.9606
+  },
+  {
+   "lyric": "倒",
+   "pitch": 59,
+   "start_s": 3.9606,
+   "duration_s": 0.6913,
+   "end_s": 4.6519
+  },
+  {
+   "lyric": "流",
+   "pitch": 59,
+   "start_s": 4.6519,
+   "duration_s": 1.0701,
+   "end_s": 5.722
+  },
+  {
+   "lyric": "SP",
+   "pitch": 0,
+   "start_s": 5.722,
+   "duration_s": 0.5499999999999998,
+   "end_s": 6.272
+  },
+  {
+   "lyric": "我",
+   "pitch": 57,
+   "start_s": 6.272,
+   "duration_s": 0.3686,
+   "end_s": 6.6406
+  },
+  {
+   "lyric": "要",
+   "pitch": 56,
+   "start_s": 6.6406,
+   "duration_s": 0.3135,
+   "end_s": 6.9541
+  },
+  {
+   "lyric": "回",
+   "pitch": 57,
+   "start_s": 6.9541,
+   "duration_s": 0.5906,
+   "end_s": 7.5447
+  },
+  {
+   "lyric": "到",
+   "pitch": 57,
+   "start_s": 7.5447,
+   "duration_s": 0.6761,
+   "end_s": 8.2208
+  },
+  {
+   "lyric": "那",
+   "pitch": 56,
+   "start_s": 8.2208,
+   "duration_s": 0.3277,
+   "end_s": 8.5485
+  },
+  {
+   "lyric": "个",
+   "pitch": 56,
+   "start_s": 8.5485,
+   "duration_s": 0.6611,
+   "end_s": 9.2096
+  },
+  {
+   "lyric": "路",
+   "pitch": 56,
+   "start_s": 9.2096,
+   "duration_s": 0.7732,
+   "end_s": 9.9828
+  },
+  {
+   "lyric": "口",
+   "pitch": 57,
+   "start_s": 9.9828,
+   "duration_s": 0.95,
+   "end_s": 10.9328
+  }
+ ]
+}
