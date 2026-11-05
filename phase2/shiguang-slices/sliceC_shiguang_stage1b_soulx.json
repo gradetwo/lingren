@@ -1,0 +1,28 @@
+{
+ "track": "shiguang",
+ "stage": "1b",
+ "engine": "SoulX-Singer SVC (stage 2 of DiffSinger+SVC pipeline)",
+ "model": "SoulX-Singer/model-svc.pt (2793965154 bytes, verified)",
+ "prompt_wav": "zh_prompt.wav (Shiguang project SoulX prompt, female voice, '除了想你你 除了了爱你你 我什么什么都愿意')",
+ "prompt_f0": "prep_zh/vocal_f0.npy",
+ "source_wav": "stage1_shiguang/sliceC/shiguang_stage1_qixuan.wav (DiffSinger stage-1 Qixuan slice)",
+ "pitch_shift": 0,
+ "fp16": true,
+ "seed_patch": "02-soulx-cli-seed.patch",
+ "prep": {
+  "language": "Mandarin",
+  "vocal_sep": false,
+  "max_merge_duration": 30000,
+  "midi_transcribe": false
+ },
+ "slice_s": [
+  103.77,
+  113.82
+ ],
+ "t0_s": 103.72,
+ "duration_s": 10.6,
+ "sr": 44100,
+ "peak_raw": 0.1895,
+ "peak_normalized": 0.89,
+ "timing": "SVC preserves source timing exactly; no warp"
+}

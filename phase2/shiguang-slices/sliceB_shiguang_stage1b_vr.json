@@ -1,0 +1,27 @@
+{
+ "track": "shiguang",
+ "stage": "1b",
+ "engine": "VocalRender-Pro (direct score-to-audio)",
+ "ckpt": "pymaster/VocalRender snapshot c2ba9d06f39fa0731b96f0258d3df33cc1bda35a, VocalRender-Pro (model.safetensors 9163382376 bytes)",
+ "prompt_audio": "prompt_zh_24k.wav (zh_prompt.wav resampled 48k -> 24k mono)",
+ "label": "vr_labels/vr_sliceB.json (bpm 98.0, 17 tokens incl. SP rests)",
+ "seed": 11,
+ "seed_patch": "03-vocalrender-cli-seed.patch",
+ "slice_s": [
+  51.85,
+  63.2
+ ],
+ "t0_s": 51.85,
+ "raw_duration_s": 10.56,
+ "score_span_s": 11.35,
+ "compression_vs_score_pct": -6.96,
+ "warp": {
+  "method": "uniform librosa phase-vocoder time-stretch to score span",
+  "stretch_rate": 0.9304,
+  "warp_ratio_target_over_raw": 1.0748,
+  "post_warp_duration_s": 11.35
+ },
+ "sr": 44100,
+ "peak_raw": 0.8366,
+ "peak_normalized": 0.89
+}
