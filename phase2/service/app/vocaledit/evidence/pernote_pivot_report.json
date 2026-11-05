@@ -1,0 +1,2157 @@
+{
+ "route": "pivot-subline-sparse",
+ "tier1": {
+  "count": 14,
+  "total": 152,
+  "rate": 0.0921,
+  "per_line": [
+   {
+    "line": 0,
+    "tier1": 1,
+    "total": 8
+   },
+   {
+    "line": 1,
+    "tier1": 2,
+    "total": 8
+   },
+   {
+    "line": 2,
+    "tier1": 2,
+    "total": 7
+   },
+   {
+    "line": 3,
+    "tier1": 0,
+    "total": 8
+   },
+   {
+    "line": 4,
+    "tier1": 0,
+    "total": 7
+   },
+   {
+    "line": 5,
+    "tier1": 0,
+    "total": 6
+   },
+   {
+    "line": 6,
+    "tier1": 0,
+    "total": 8
+   },
+   {
+    "line": 7,
+    "tier1": 0,
+    "total": 8
+   },
+   {
+    "line": 8,
+    "tier1": 0,
+    "total": 8
+   },
+   {
+    "line": 9,
+    "tier1": 1,
+    "total": 8
+   },
+   {
+    "line": 10,
+    "tier1": 2,
+    "total": 8
+   },
+   {
+    "line": 11,
+    "tier1": 0,
+    "total": 6
+   },
+   {
+    "line": 12,
+    "tier1": 1,
+    "total": 9
+   },
+   {
+    "line": 13,
+    "tier1": 0,
+    "total": 5
+   },
+   {
+    "line": 14,
+    "tier1": 0,
+    "total": 6
+   },
+   {
+    "line": 15,
+    "tier1": 1,
+    "total": 8
+   },
+   {
+    "line": 16,
+    "tier1": 1,
+    "total": 8
+   },
+   {
+    "line": 17,
+    "tier1": 1,
+    "total": 6
+   },
+   {
+    "line": 18,
+    "tier1": 1,
+    "total": 7
+   },
+   {
+    "line": 19,
+    "tier1": 0,
+    "total": 7
+   },
+   {
+    "line": 20,
+    "tier1": 1,
+    "total": 6
+   }
+  ],
+  "diagnostics": {
+   "n_matched": 97,
+   "cue_pass": 51,
+   "pitch_pass": 30,
+   "ratio_pass": 71,
+   "tier1": 14,
+   "fail_cue": 44,
+   "fail_pitch": 65,
+   "fail_ratio": 24,
+   "fail_cue_notes": [
+    0,
+    2,
+    3,
+    17,
+    22,
+    23,
+    24,
+    25,
+    27,
+    28,
+    30,
+    35,
+    37,
+    41,
+    43,
+    49,
+    53,
+    58,
+    61,
+    63,
+    66,
+    70,
+    77,
+    78,
+    85,
+    86,
+    87,
+    89,
+    97,
+    98,
+    99,
+    100,
+    102,
+    104,
+    105,
+    108,
+    110,
+    112,
+    120,
+    127,
+    129,
+    138,
+    148,
+    151
+   ],
+   "fail_pitch_notes": [
+    5,
+    7,
+    12,
+    15,
+    19,
+    22,
+    24,
+    25,
+    27,
+    32,
+    34,
+    35,
+    37,
+    41,
+    43,
+    45,
+    46,
+    47,
+    49,
+    50,
+    53,
+    54,
+    57,
+    58,
+    61,
+    62,
+    63,
+    64,
+    66,
+    67,
+    68,
+    70,
+    71,
+    72,
+    73,
+    78,
+    80,
+    81,
+    84,
+    85,
+    86,
+    87,
+    94,
+    95,
+    98,
+    99,
+    100,
+    101,
+    105,
+    108,
+    110,
+    112,
+    120,
+    121,
+    124,
+    125,
+    126,
+    130,
+    133,
+    135,
+    138,
+    140,
+    141,
+    142,
+    148
+   ],
+   "fail_ratio_notes": [
+    22,
+    27,
+    28,
+    29,
+    30,
+    32,
+    37,
+    43,
+    45,
+    53,
+    54,
+    57,
+    61,
+    67,
+    94,
+    95,
+    108,
+    120,
+    125,
+    130,
+    133,
+    135,
+    138,
+    140
+   ],
+   "cue_by_type": {
+    "F0-Step": 35,
+    "Flux-Dip": 16
+   }
+  },
+  "thresholds": {
+   "flux_prom": 0.28,
+   "step_cents": 150,
+   "step_mad": 18,
+   "pitch_cents": 80,
+   "r_min": 0.65,
+   "r_max": 1.55
+  }
+ },
+ "segments": {
+  "split_segments": 2,
+  "dedup_dropped": 3,
+  "outside_dropped": 0,
+  "unmatched_notes": 138,
+  "tier1_notes": 14
+ },
+ "ratios": [
+  {
+   "seg": 0,
+   "mode": "warp",
+   "ratio": 0.8468,
+   "take_s": 2.48,
+   "score_s": 2.1,
+   "note": null
+  },
+  {
+   "seg": 1,
+   "mode": "warp",
+   "ratio": 1.1036,
+   "take_s": 1.767,
+   "score_s": 1.95,
+   "note": 4
+  },
+  {
+   "seg": 3,
+   "mode": "warp",
+   "ratio": 0.6768,
+   "take_s": 1.773,
+   "score_s": 1.2,
+   "note": null
+  },
+  {
+   "seg": 4,
+   "mode": "warp",
+   "ratio": 1.0714,
+   "take_s": 1.4,
+   "score_s": 1.5,
+   "note": 11
+  },
+  {
+   "seg": 5,
+   "mode": "warp",
+   "ratio": 0.8696,
+   "take_s": 1.38,
+   "score_s": 1.2,
+   "note": 14
+  },
+  {
+   "seg": 7,
+   "mode": "warp",
+   "ratio": 0.9934,
+   "take_s": 1.812,
+   "score_s": 1.8,
+   "note": null
+  },
+  {
+   "seg": 8,
+   "mode": "warp",
+   "ratio": 0.649,
+   "take_s": 2.08,
+   "score_s": 1.35,
+   "note": 20
+  },
+  {
+   "seg": 10,
+   "mode": "warp",
+   "ratio": 0.7812,
+   "take_s": 5.184,
+   "score_s": 4.05,
+   "note": null
+  },
+  {
+   "seg": 12,
+   "mode": "warp",
+   "ratio": 1.4469,
+   "take_s": 2.177,
+   "score_s": 3.15,
+   "note": null
+  },
+  {
+   "seg": 14,
+   "mode": "warp",
+   "ratio": 1.5152,
+   "take_s": 0.395,
+   "score_s": 0.598,
+   "note": null
+  },
+  {
+   "seg": 15,
+   "mode": "pad",
+   "take_s": 0.61,
+   "score_s": 0.5,
+   "note": null
+  },
+  {
+   "seg": 16,
+   "mode": "warp",
+   "ratio": 1.5152,
+   "take_s": 0.76,
+   "score_s": 1.152,
+   "note": null
+  },
+  {
+   "seg": 18,
+   "mode": "warp",
+   "ratio": 1.0887,
+   "take_s": 3.169,
+   "score_s": 3.45,
+   "note": null
+  },
+  {
+   "seg": 20,
+   "mode": "warp",
+   "ratio": 0.8937,
+   "take_s": 3.189,
+   "score_s": 2.85,
+   "note": null
+  },
+  {
+   "seg": 22,
+   "mode": "warp",
+   "ratio": 0.9308,
+   "take_s": 3.062,
+   "score_s": 2.85,
+   "note": null
+  },
+  {
+   "seg": 24,
+   "mode": "warp",
+   "ratio": 0.8495,
+   "take_s": 3.355,
+   "score_s": 2.85,
+   "note": null
+  },
+  {
+   "seg": 25,
+   "mode": "warp",
+   "ratio": 1.3514,
+   "take_s": 0.666,
+   "score_s": 0.9,
+   "note": 74
+  },
+  {
+   "seg": 27,
+   "mode": "warp",
+   "ratio": 0.7884,
+   "take_s": 3.044,
+   "score_s": 2.4,
+   "note": null
+  },
+  {
+   "seg": 28,
+   "mode": "warp",
+   "ratio": 0.7212,
+   "take_s": 1.04,
+   "score_s": 0.75,
+   "note": 82
+  },
+  {
+   "seg": 30,
+   "mode": "warp",
+   "ratio": 1.1662,
+   "take_s": 2.701,
+   "score_s": 3.15,
+   "note": null
+  },
+  {
+   "seg": 32,
+   "mode": "warp",
+   "ratio": 1.0729,
+   "take_s": 4.334,
+   "score_s": 4.65,
+   "note": null
+  },
+  {
+   "seg": 34,
+   "mode": "warp",
+   "ratio": 1.0059,
+   "take_s": 2.535,
+   "score_s": 2.55,
+   "note": null
+  },
+  {
+   "seg": 36,
+   "mode": "warp",
+   "ratio": 1.192,
+   "take_s": 2.391,
+   "score_s": 2.85,
+   "note": null
+  },
+  {
+   "seg": 38,
+   "mode": "warp",
+   "ratio": 1.0385,
+   "take_s": 1.3,
+   "score_s": 1.35,
+   "note": null
+  },
+  {
+   "seg": 39,
+   "mode": "warp",
+   "ratio": 0.8403,
+   "take_s": 1.19,
+   "score_s": 1.0,
+   "note": 114
+  },
+  {
+   "seg": 40,
+   "mode": "pad",
+   "take_s": 0.69,
+   "score_s": 0.5,
+   "note": 114
+  },
+  {
+   "seg": 42,
+   "mode": "warp",
+   "ratio": 1.3043,
+   "take_s": 0.92,
+   "score_s": 1.2,
+   "note": null
+  },
+  {
+   "seg": 43,
+   "mode": "warp",
+   "ratio": 1.3081,
+   "take_s": 1.72,
+   "score_s": 2.25,
+   "note": 122
+  },
+  {
+   "seg": 45,
+   "mode": "warp",
+   "ratio": 0.7947,
+   "take_s": 0.755,
+   "score_s": 0.6,
+   "note": null
+  },
+  {
+   "seg": 46,
+   "mode": "warp",
+   "ratio": 1.0547,
+   "take_s": 1.28,
+   "score_s": 1.35,
+   "note": 128
+  },
+  {
+   "seg": 48,
+   "mode": "warp",
+   "ratio": 0.8766,
+   "take_s": 1.54,
+   "score_s": 1.35,
+   "note": null
+  },
+  {
+   "seg": 49,
+   "mode": "warp",
+   "ratio": 1.2,
+   "take_s": 1.0,
+   "score_s": 1.2,
+   "note": 136
+  },
+  {
+   "seg": 51,
+   "mode": "warp",
+   "ratio": 1.1932,
+   "take_s": 2.64,
+   "score_s": 3.15,
+   "note": null
+  },
+  {
+   "seg": 53,
+   "mode": "warp",
+   "ratio": 1.3064,
+   "take_s": 1.263,
+   "score_s": 1.65,
+   "note": null
+  },
+  {
+   "seg": 54,
+   "mode": "warp",
+   "ratio": 0.8333,
+   "take_s": 1.44,
+   "score_s": 1.2,
+   "note": 150
+  }
+ ],
+ "gap_pads": [
+  {
+   "seg": 2,
+   "take_s": 0.0,
+   "score_s": 0.9,
+   "note": 7,
+   "gap_ratio": null
+  },
+  {
+   "seg": 6,
+   "take_s": 0.108,
+   "score_s": 0.9,
+   "note": 15,
+   "gap_ratio": 8.3333
+  },
+  {
+   "seg": 9,
+   "take_s": 0.119,
+   "score_s": 1.2,
+   "note": 22,
+   "gap_ratio": 10.084
+  },
+  {
+   "seg": 11,
+   "take_s": 0.0,
+   "score_s": 1.2,
+   "note": 30,
+   "gap_ratio": null
+  },
+  {
+   "seg": 13,
+   "take_s": 1.215,
+   "score_s": 0.6,
+   "note": 37,
+   "gap_ratio": 0.4938
+  },
+  {
+   "seg": 17,
+   "take_s": 0.581,
+   "score_s": 0.3,
+   "note": 43,
+   "gap_ratio": 0.5164
+  },
+  {
+   "seg": 19,
+   "take_s": 0.554,
+   "score_s": 0.6,
+   "note": 51,
+   "gap_ratio": 1.083
+  },
+  {
+   "seg": 21,
+   "take_s": 0.0,
+   "score_s": 0.3,
+   "note": 59,
+   "gap_ratio": null
+  },
+  {
+   "seg": 23,
+   "take_s": 0.0,
+   "score_s": 0.9,
+   "note": 67,
+   "gap_ratio": null
+  },
+  {
+   "seg": 26,
+   "take_s": 0.0,
+   "score_s": 0.6,
+   "note": 75,
+   "gap_ratio": null
+  },
+  {
+   "seg": 29,
+   "take_s": 0.119,
+   "score_s": 0.9,
+   "note": 83,
+   "gap_ratio": 7.563
+  },
+  {
+   "seg": 31,
+   "take_s": 1.096,
+   "score_s": 1.2,
+   "note": 89,
+   "gap_ratio": 1.0949
+  },
+  {
+   "seg": 33,
+   "take_s": 1.085,
+   "score_s": 1.2,
+   "note": 98,
+   "gap_ratio": 1.106
+  },
+  {
+   "seg": 35,
+   "take_s": 1.209,
+   "score_s": 1.2,
+   "note": 103,
+   "gap_ratio": 0.9926
+  },
+  {
+   "seg": 37,
+   "take_s": 9.97,
+   "score_s": 10.8,
+   "note": 109,
+   "gap_ratio": 1.0832
+  },
+  {
+   "seg": 41,
+   "take_s": 0.0,
+   "score_s": 0.3,
+   "note": 117,
+   "gap_ratio": null
+  },
+  {
+   "seg": 44,
+   "take_s": 0.475,
+   "score_s": 0.3,
+   "note": 125,
+   "gap_ratio": 0.6316
+  },
+  {
+   "seg": 47,
+   "take_s": 0.13,
+   "score_s": 0.3,
+   "note": 131,
+   "gap_ratio": 2.3077
+  },
+  {
+   "seg": 50,
+   "take_s": 0.0,
+   "score_s": 0.3,
+   "note": 138,
+   "gap_ratio": null
+  },
+  {
+   "seg": 52,
+   "take_s": 0.537,
+   "score_s": 0.3,
+   "note": 145,
+   "gap_ratio": 0.5587
+  }
+ ],
+ "line_gaps": [
+  {
+   "line": 0,
+   "take": [
+    4.267,
+    4.267
+   ],
+   "score": [
+    18.45,
+    19.35
+   ],
+   "take_s": 0.0,
+   "score_s": 0.9
+  },
+  {
+   "line": 1,
+   "take": [
+    8.82,
+    8.928
+   ],
+   "score": [
+    23.25,
+    24.15
+   ],
+   "take_s": 0.108,
+   "score_s": 0.9,
+   "take_peak": 0.0795,
+   "take_rms_db": -38.7
+  },
+  {
+   "line": 2,
+   "take": [
+    12.82,
+    12.939
+   ],
+   "score": [
+    27.3,
+    28.5
+   ],
+   "take_s": 0.119,
+   "score_s": 1.2,
+   "take_peak": 0.0688,
+   "take_rms_db": -38.8
+  },
+  {
+   "line": 3,
+   "take": [
+    18.123,
+    18.123
+   ],
+   "score": [
+    32.55,
+    33.75
+   ],
+   "take_s": 0.0,
+   "score_s": 1.2
+  },
+  {
+   "line": 4,
+   "take": [
+    20.3,
+    21.515
+   ],
+   "score": [
+    36.9,
+    37.5
+   ],
+   "take_s": 1.215,
+   "score_s": 0.6,
+   "take_peak": 0.3886,
+   "take_rms_db": -18.9
+  },
+  {
+   "line": 5,
+   "take": [
+    23.28,
+    23.861
+   ],
+   "score": [
+    39.75,
+    40.05
+   ],
+   "take_s": 0.581,
+   "score_s": 0.3,
+   "take_peak": 0.4165,
+   "take_rms_db": -18.2
+  },
+  {
+   "line": 6,
+   "take": [
+    27.03,
+    27.584
+   ],
+   "score": [
+    43.5,
+    44.1
+   ],
+   "take_s": 0.554,
+   "score_s": 0.6,
+   "take_peak": 0.4536,
+   "take_rms_db": -15.5
+  },
+  {
+   "line": 7,
+   "take": [
+    30.773,
+    30.773
+   ],
+   "score": [
+    46.95,
+    47.25
+   ],
+   "take_s": 0.0,
+   "score_s": 0.3
+  },
+  {
+   "line": 8,
+   "take": [
+    33.835,
+    33.835
+   ],
+   "score": [
+    50.1,
+    51.0
+   ],
+   "take_s": 0.0,
+   "score_s": 0.9
+  },
+  {
+   "line": 9,
+   "take": [
+    37.856,
+    37.856
+   ],
+   "score": [
+    54.75,
+    55.35
+   ],
+   "take_s": 0.0,
+   "score_s": 0.6
+  },
+  {
+   "line": 10,
+   "take": [
+    41.94,
+    42.059
+   ],
+   "score": [
+    58.5,
+    59.4
+   ],
+   "take_s": 0.119,
+   "score_s": 0.9,
+   "take_peak": 0.1217,
+   "take_rms_db": -35.4
+  },
+  {
+   "line": 11,
+   "take": [
+    44.76,
+    45.856
+   ],
+   "score": [
+    62.55,
+    63.75
+   ],
+   "take_s": 1.096,
+   "score_s": 1.2,
+   "take_peak": 0.4901,
+   "take_rms_db": -17.6
+  },
+  {
+   "line": 12,
+   "take": [
+    50.19,
+    51.275
+   ],
+   "score": [
+    68.4,
+    69.6
+   ],
+   "take_s": 1.085,
+   "score_s": 1.2,
+   "take_peak": 0.545,
+   "take_rms_db": -18.6
+  },
+  {
+   "line": 13,
+   "take": [
+    53.81,
+    55.019
+   ],
+   "score": [
+    72.15,
+    73.35
+   ],
+   "take_s": 1.209,
+   "score_s": 1.2,
+   "take_peak": 0.6627,
+   "take_rms_db": -16.6
+  },
+  {
+   "line": 14,
+   "take": [
+    57.41,
+    67.38
+   ],
+   "score": [
+    76.2,
+    87.0
+   ],
+   "take_s": 9.97,
+   "score_s": 10.8,
+   "take_peak": 0.6944,
+   "take_rms_db": -17.7
+  },
+  {
+   "line": 15,
+   "take": [
+    70.56,
+    70.56
+   ],
+   "score": [
+    89.85,
+    90.15
+   ],
+   "take_s": 0.0,
+   "score_s": 0.3
+  },
+  {
+   "line": 16,
+   "take": [
+    73.2,
+    73.675
+   ],
+   "score": [
+    93.6,
+    93.9
+   ],
+   "take_s": 0.475,
+   "score_s": 0.3,
+   "take_peak": 0.4967,
+   "take_rms_db": -17.1
+  },
+  {
+   "line": 17,
+   "take": [
+    75.71,
+    75.84
+   ],
+   "score": [
+    95.85,
+    96.15
+   ],
+   "take_s": 0.13,
+   "score_s": 0.3,
+   "take_peak": 0.1458,
+   "take_rms_db": -33.0
+  },
+  {
+   "line": 18,
+   "take": [
+    78.38,
+    78.38
+   ],
+   "score": [
+    98.7,
+    99.0
+   ],
+   "take_s": 0.0,
+   "score_s": 0.3
+  },
+  {
+   "line": 19,
+   "take": [
+    81.02,
+    81.557
+   ],
+   "score": [
+    102.15,
+    102.45
+   ],
+   "take_s": 0.537,
+   "score_s": 0.3,
+   "take_peak": 0.4173,
+   "take_rms_db": -22.7
+  }
+ ],
+ "extreme_ratio_count": 0,
+ "extreme_ratio_wide_count": 0,
+ "remeasure_boundary": {
+  "anchored": {
+   "matched": 14,
+   "median_ms": 10.0,
+   "p90_ms": 64.0,
+   "le25_share": 0.7143,
+   "le50_share": 0.8571,
+   "median_signed_ms": 0.0
+  },
+  "interpolated": {
+   "matched": 130,
+   "median_ms": 125.0,
+   "p90_ms": 340.0,
+   "le25_share": 0.1615,
+   "le50_share": 0.2923,
+   "median_signed_ms": 10.0
+  },
+  "overall": {
+   "matched": 144,
+   "median_ms": 110.0,
+   "p90_ms": 320.0,
+   "le25_share": 0.2153,
+   "le50_share": 0.3472,
+   "median_signed_ms": 0.0
+  },
+  "anchored_strict_f0_vonset": {
+   "matched": 14,
+   "median_ms": 10.0,
+   "p90_ms": 64.0,
+   "le25_share": 0.7143,
+   "le50_share": 0.8571,
+   "median_signed_ms": 0.0
+  },
+  "interpolated_strict_f0_vonset": {
+   "matched": 126,
+   "median_ms": 125.0,
+   "p90_ms": 330.0,
+   "le25_share": 0.1667,
+   "le50_share": 0.2937,
+   "median_signed_ms": 10.0
+  },
+  "by_cue": {
+   "V-Onset": {
+    "matched": 81,
+    "median_ms": 130.0,
+    "p90_ms": 350.0,
+    "le25_share": 0.2346,
+    "le50_share": 0.358,
+    "median_signed_ms": 0.0
+   },
+   "F0-Step": {
+    "matched": 59,
+    "median_ms": 90.0,
+    "p90_ms": 302.0,
+    "le25_share": 0.2034,
+    "le50_share": 0.339,
+    "median_signed_ms": 0.0
+   },
+   "Flux-Dip": {
+    "matched": 4,
+    "median_ms": 140.0,
+    "p90_ms": 292.0,
+    "le25_share": 0.0,
+    "le50_share": 0.25,
+    "median_signed_ms": 140.0
+   }
+  },
+  "unmatched_notes": 8
+ },
+ "remeasure_boundary_per_note": [
+  {
+   "note": 0,
+   "res_ms": 100.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 1,
+   "res_ms": -500.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 2,
+   "res_ms": 260.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 3,
+   "res_ms": -40.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 4,
+   "res_ms": 10.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 5,
+   "res_ms": 100.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 6,
+   "res_ms": -270.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 7,
+   "res_ms": 150.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 8,
+   "res_ms": -20.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 9,
+   "res_ms": -320.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 10,
+   "res_ms": null,
+   "cue": null
+  },
+  {
+   "note": 11,
+   "res_ms": 0.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 12,
+   "res_ms": -120.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 13,
+   "res_ms": 300.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 14,
+   "res_ms": 0.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 15,
+   "res_ms": 30.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 16,
+   "res_ms": 50.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 17,
+   "res_ms": 130.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 18,
+   "res_ms": -170.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 19,
+   "res_ms": 180.0,
+   "cue": "Flux-Dip"
+  },
+  {
+   "note": 20,
+   "res_ms": -70.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 21,
+   "res_ms": -200.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 22,
+   "res_ms": -70.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 23,
+   "res_ms": 0.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 24,
+   "res_ms": -30.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 25,
+   "res_ms": -80.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 26,
+   "res_ms": 170.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 27,
+   "res_ms": -180.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 28,
+   "res_ms": 30.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 29,
+   "res_ms": -20.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 30,
+   "res_ms": 70.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 31,
+   "res_ms": -20.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 32,
+   "res_ms": -120.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 33,
+   "res_ms": 190.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 34,
+   "res_ms": 20.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 35,
+   "res_ms": -60.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 36,
+   "res_ms": 190.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 37,
+   "res_ms": -110.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 38,
+   "res_ms": -150.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 39,
+   "res_ms": -450.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 40,
+   "res_ms": 500.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 41,
+   "res_ms": 50.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 42,
+   "res_ms": -250.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 43,
+   "res_ms": 140.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 44,
+   "res_ms": 100.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 45,
+   "res_ms": -200.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 46,
+   "res_ms": -60.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 47,
+   "res_ms": 60.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 48,
+   "res_ms": -240.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 49,
+   "res_ms": 100.0,
+   "cue": "Flux-Dip"
+  },
+  {
+   "note": 50,
+   "res_ms": -30.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 51,
+   "res_ms": -20.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 52,
+   "res_ms": -30.0,
+   "cue": "Flux-Dip"
+  },
+  {
+   "note": 53,
+   "res_ms": 140.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 54,
+   "res_ms": -310.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 55,
+   "res_ms": null,
+   "cue": null
+  },
+  {
+   "note": 56,
+   "res_ms": 360.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 57,
+   "res_ms": 60.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 58,
+   "res_ms": 80.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 59,
+   "res_ms": -440.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 60,
+   "res_ms": 140.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 61,
+   "res_ms": 100.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 62,
+   "res_ms": 140.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 63,
+   "res_ms": 50.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 64,
+   "res_ms": 180.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 65,
+   "res_ms": -120.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 66,
+   "res_ms": 180.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 67,
+   "res_ms": -420.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 68,
+   "res_ms": 10.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 69,
+   "res_ms": -260.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 70,
+   "res_ms": 350.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 71,
+   "res_ms": 50.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 72,
+   "res_ms": -180.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 73,
+   "res_ms": -90.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 74,
+   "res_ms": 0.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 75,
+   "res_ms": null,
+   "cue": null
+  },
+  {
+   "note": 76,
+   "res_ms": -20.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 77,
+   "res_ms": 50.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 78,
+   "res_ms": 20.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 79,
+   "res_ms": 250.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 80,
+   "res_ms": 30.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 81,
+   "res_ms": 40.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 82,
+   "res_ms": 0.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 83,
+   "res_ms": 340.0,
+   "cue": "Flux-Dip"
+  },
+  {
+   "note": 84,
+   "res_ms": 20.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 85,
+   "res_ms": 230.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 86,
+   "res_ms": 60.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 87,
+   "res_ms": -10.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 88,
+   "res_ms": -220.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 89,
+   "res_ms": 30.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 90,
+   "res_ms": -100.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 91,
+   "res_ms": -430.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 92,
+   "res_ms": null,
+   "cue": null
+  },
+  {
+   "note": 93,
+   "res_ms": 390.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 94,
+   "res_ms": 200.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 95,
+   "res_ms": -240.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 96,
+   "res_ms": 150.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 97,
+   "res_ms": -150.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 98,
+   "res_ms": -10.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 99,
+   "res_ms": -20.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 100,
+   "res_ms": 180.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 101,
+   "res_ms": 340.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 102,
+   "res_ms": -50.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 103,
+   "res_ms": -10.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 104,
+   "res_ms": 20.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 105,
+   "res_ms": 270.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 106,
+   "res_ms": -180.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 107,
+   "res_ms": 310.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 108,
+   "res_ms": 240.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 109,
+   "res_ms": -360.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 110,
+   "res_ms": 10.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 111,
+   "res_ms": -290.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 112,
+   "res_ms": 20.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 113,
+   "res_ms": -280.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 114,
+   "res_ms": -10.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 115,
+   "res_ms": -310.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 116,
+   "res_ms": null,
+   "cue": null
+  },
+  {
+   "note": 117,
+   "res_ms": null,
+   "cue": null
+  },
+  {
+   "note": 118,
+   "res_ms": 190.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 119,
+   "res_ms": -110.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 120,
+   "res_ms": 140.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 121,
+   "res_ms": -160.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 122,
+   "res_ms": 10.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 123,
+   "res_ms": 390.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 124,
+   "res_ms": 90.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 125,
+   "res_ms": -70.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 126,
+   "res_ms": 10.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 127,
+   "res_ms": 30.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 128,
+   "res_ms": -10.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 129,
+   "res_ms": 130.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 130,
+   "res_ms": -40.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 131,
+   "res_ms": 50.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 132,
+   "res_ms": 0.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 133,
+   "res_ms": -300.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 134,
+   "res_ms": 70.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 135,
+   "res_ms": 110.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 136,
+   "res_ms": 0.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 137,
+   "res_ms": -300.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 138,
+   "res_ms": 150.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 139,
+   "res_ms": 10.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 140,
+   "res_ms": 180.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 141,
+   "res_ms": -120.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 142,
+   "res_ms": -120.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 143,
+   "res_ms": -420.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 144,
+   "res_ms": null,
+   "cue": null
+  },
+  {
+   "note": 145,
+   "res_ms": null,
+   "cue": null
+  },
+  {
+   "note": 146,
+   "res_ms": -10.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 147,
+   "res_ms": -310.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 148,
+   "res_ms": 100.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 149,
+   "res_ms": -320.0,
+   "cue": "V-Onset"
+  },
+  {
+   "note": 150,
+   "res_ms": -30.0,
+   "cue": "F0-Step"
+  },
+  {
+   "note": 151,
+   "res_ms": -20.0,
+   "cue": "F0-Step"
+  }
+ ],
+ "instrument_control": {
+  "midpoint_n": 152,
+  "midpoint_hits": 25,
+  "midpoint_fp_rate": 0.1645,
+  "expected_random_rate": 0.1554,
+  "candidates_per_sec": 1.554,
+  "gate_fp_max": 0.1
+ },
+ "instrument_validation": false,
+ "remeasure_v2style": {
+  "fcpe": {
+   "matched": 79,
+   "median_ms": 200.0,
+   "median_signed_ms": 170.0,
+   "p90_ms": 452.0,
+   "max_ms": 500.0,
+   "le30_share": 0.1646
+  },
+  "flux": {
+   "matched": 70,
+   "median_ms": 90.0,
+   "median_signed_ms": 40.0,
+   "p90_ms": 261.0,
+   "max_ms": 340.0,
+   "le30_share": 0.3429
+  },
+  "note": "v2 口径（浊音 onset＋flux），仅作与 v2 数对照；连唱锚点对此口径盲，不作裁决依据"
+ },
+ "spotcheck": {
+  "top5_max_deform": [
+   {
+    "seg": 8,
+    "note": 20,
+    "ratio": 0.649,
+    "take_s": 2.08,
+    "score_s": 1.35
+   },
+   {
+    "seg": 14,
+    "note": null,
+    "ratio": 1.5152,
+    "take_s": 0.395,
+    "score_s": 0.598
+   },
+   {
+    "seg": 16,
+    "note": null,
+    "ratio": 1.5152,
+    "take_s": 0.76,
+    "score_s": 1.152
+   },
+   {
+    "seg": 3,
+    "note": null,
+    "ratio": 0.6768,
+    "take_s": 1.773,
+    "score_s": 1.2
+   },
+   {
+    "seg": 12,
+    "note": null,
+    "ratio": 1.4469,
+    "take_s": 2.177,
+    "score_s": 3.15
+   }
+  ],
+  "repeated_phrase_notes": [
+   {
+    "note": 70,
+    "line": 9,
+    "lyric": "时",
+    "midi": 64,
+    "score_start_s": 51.9,
+    "matched_t": null
+   },
+   {
+    "note": 71,
+    "line": 9,
+    "lyric": "光",
+    "midi": 62,
+    "score_start_s": 52.2,
+    "matched_t": null
+   },
+   {
+    "note": 112,
+    "line": 15,
+    "lyric": "时",
+    "midi": 65,
+    "score_start_s": 87.6,
+    "matched_t": null
+   },
+   {
+    "note": 120,
+    "line": 16,
+    "lyric": "紧",
+    "midi": 64,
+    "score_start_s": 90.75,
+    "matched_t": null
+   },
+   {
+    "note": 121,
+    "line": 16,
+    "lyric": "紧",
+    "midi": 64,
+    "score_start_s": 91.05,
+    "matched_t": null
+   }
+  ],
+  "breath_segments": [
+   {
+    "breath": 0,
+    "take": [
+     21.91,
+     22.52
+    ],
+    "score": [
+     38.1,
+     38.6
+    ],
+    "mode": "pad",
+    "note": null
+   },
+   {
+    "breath": 1,
+    "take": [
+     69.87,
+     70.56
+    ],
+    "score": [
+     89.35,
+     89.85
+    ],
+    "mode": "pad",
+    "note": 114
+   },
+   {
+    "breath": 1,
+    "take": [
+     70.56,
+     70.56
+    ],
+    "score": [
+     89.85,
+     90.15
+    ],
+    "mode": "gap-pad",
+    "note": 117
+   },
+   {
+    "breath": 1,
+    "take": [
+     70.56,
+     71.48
+    ],
+    "score": [
+     90.15,
+     91.35
+    ],
+    "mode": "warp",
+    "note": null
+   }
+  ],
+  "high_zone_notes": [
+   {
+    "note": 2,
+    "lyric": "时",
+    "midi": 64,
+    "score_start_s": 15.3,
+    "matched_t": null
+   },
+   {
+    "note": 77,
+    "lyric": "要",
+    "midi": 64,
+    "score_start_s": 55.65,
+    "matched_t": null
+   },
+   {
+    "note": 147,
+    "lyric": "却",
+    "midi": 64,
+    "score_start_s": 102.75,
+    "matched_t": null
+   }
+  ]
+ },
+ "comparison": {
+  "v2": {
+   "coverage": 0.6382,
+   "remeasure_fcpe_median_ms": 290.0,
+   "remeasure_fcpe_le30": 0.2917,
+   "remeasure_flux_median_ms": 135.0,
+   "remeasure_flux_le30": 0.3906,
+   "extreme_ratio_count": 10,
+   "splits": 10
+  },
+  "baseline_timemap": {
+   "le30": "72/73",
+   "extreme_ratio": 11,
+   "source": "vr-warp-validation-20261102 REPORT (row-level timemap, flux remeasure)"
+  },
+  "pivot": {
+   "tier1_coverage": 0.0921,
+   "anchored_median_ms": 10.0,
+   "anchored_le25_share": 0.7143,
+   "interpolated_median_ms": 125.0,
+   "interpolated_p90_ms": 340.0,
+   "extreme_ratio_count": 0,
+   "splits": 2
+  }
+ },
+ "expert_estimate_checks": {
+  "tier1_coverage_55_65pct": false,
+  "anchored_le25_ge_95pct": false,
+  "interp_median_30_45ms": false,
+  "interp_p90_le_95ms": false,
+  "extreme_le_5": true,
+  "breath_splits_ge_2": true,
+  "instrument_validation": false
+ },
+ "output": "/home/hatch/workspace/vocaledit-phase2/work/pernote_pivot/pernote_pivot_warped_full.wav",
+ "diagnostics": {
+  "d1_reproduction": {
+   "note": "重算 take 检测＋DP，与 v2 逐行覆盖完全一致（[6,4,5,7,4,2,6,4,6,6,6,5,5,4,3,3,5,5,4,3,4]，合计 97），管线复现无误。",
+   "candidates": {
+    "merged": 168,
+    "v_onset": 81,
+    "f0_step": 155,
+    "flux_dip": 62
+   },
+   "matched": 97,
+   "per_line_match_v2": true
+  },
+  "d2_instrument_on_v2_warp": {
+   "note": "同一仪器在 v2 warp 音频上复现 v2 回执：铁锚 ±50ms 命中 86.5%（83/96 有候选者，中位 10ms）、音中点误检 7.2%（11/152）。仪器本身有效，Pivot 音频上的 16.5% 是音频差异。",
+   "v2_warped_candidates": 155,
+   "anchored": {
+    "matched": 96,
+    "median_ms": 10.0,
+    "p90_ms": 65.0,
+    "le25_share": 0.75,
+    "le50_share": 0.8646,
+    "median_signed_ms": 0.0
+   },
+   "interpolated": {
+    "matched": 43,
+    "median_ms": 290.0,
+    "p90_ms": 386.0,
+    "le25_share": 0.0465,
+    "le50_share": 0.0698,
+    "median_signed_ms": 30.0
+   },
+   "control": {
+    "midpoint_n": 152,
+    "midpoint_hits": 11,
+    "midpoint_fp_rate": 0.0724,
+    "expected_random_rate": 0.1345,
+    "candidates_per_sec": 1.345,
+    "gate_fp_max": 0.1
+   },
+   "midpoint_hits_by_cue": {
+    "F0-Step": 6,
+    "V-Onset": 3,
+    "Flux-Dip": 2
+   }
+  },
+  "d3_tier1_sensitivity_of_97": {
+   "spec_all_three": 14,
+   "cue_and_ratio_no_pitch": 38,
+   "pitch_and_ratio_no_cue": 27,
+   "cue_and_pitch_no_ratio": 15,
+   "pitch_relaxed_150c_and_cue_ratio": 19,
+   "cue_only": 51,
+   "pitch_only": 30,
+   "ratio_only": 71,
+   "pitch_relaxed_250c_and_cue_ratio": 27
+  },
+  "d3_pitch_err_cents_percentiles": {
+   "p25": 38,
+   "p50": 165,
+   "p75": 266,
+   "p90": 347
+  },
+  "d4_line_gap_audio": {
+   "note": "行间缺口 take 音频非静音（峰值 0.07–0.69，200ms 窗 RMS -30 至 -11 dBFS），为上一行尾音衰减／换气／房间声；垫段用 take 原音频 1:1 映射，非合成静音，设计正确。14→15 缺口 49 窗 RMS -30.5 至 -11.0 dBFS，峰值 0.694。"
+  },
+  "e1_f0_determinism": {
+   "max_diff_cents": 0.0,
+   "pct_gt5c": 0.0,
+   "pct_gt20c": 0.0,
+   "voicing_disagree": 0,
+   "note": "FCPE 完全确定（两次运行 cents 差最大 0.0）。F0-Step 原始数 155 对 v2 报告的 205 用冻结代码＋冻结数据不可复现（16k md5 一致），205 应来自探索性检测设置；merged（168）与 DP（97，逐行一致）复现 v2，下游无影响。"
+  },
+  "e2_relaxed_tier1": {
+   "spec_150c_028_refined": {
+    "no_pitch_gate": 38,
+    "pitch_le150c": 19,
+    "pitch_le80c": 14
+   },
+   "relaxed_65c_020_refined": {
+    "no_pitch_gate": 50,
+    "pitch_le150c": 24,
+    "pitch_le80c": 18
+   },
+   "relaxed_65c_020_vonset_any": {
+    "no_pitch_gate": 66,
+    "pitch_le150c": 34,
+    "pitch_le80c": 27
+   }
+  },
+  "e2_note": "最宽松可辩护组合（v2 阈值 65c/0.20、V-Onset 不要求精修、无 pitch 门）也只有 66/152（43%），仍低于专家估计 55–65%；任一 pitch 门（哪怕 150c）下最高 34/152（22%）。",
+  "e3_pivot_midpoint_by_cue": {
+   "candidates": 179,
+   "midpoint_hits": 25,
+   "midpoint_fp_rate": 0.1645,
+   "midpoint_hits_by_cue": {
+    "V-Onset": 18,
+    "F0-Step": 7
+   }
+  },
+  "e3_note": "Pivot 音频音中点误检以 V-Onset 为主（18/25），v2 音频为 F0-Step 为主（6/11）。首要假设：长段拉伸涂抹起音瞬态，致 FCPE 在音内误判浊音重启（未证实）。内插残差中位 125ms 因此是保守估计（误检候选只会拉近最近候选距离）。",
+  "assessment": {
+   "tier1_as_specified": "FAIL：9.2% 对专家估计 55–65%。根因：pitch 门（中位误差 165 音分，FCPE 音高在本 take 上不可靠，v2 已证）＋ cue 门严（150c 阶跃拒 1 半音步进；V-Onset 精修 0/97 通过）。去 pitch 门也只有 25%（38/152）。",
+   "interpolation": "FAIL：内插中位 125ms、p90 340ms，对专家估计 30–45ms／≤95ms。9% 锚覆盖下亚行段长达整行，退化为行级 warp 质量（基线中位 132ms）。",
+   "anchored": "PARTIAL：铁锚中位 10ms（好），≤25ms 占 71.4%（10/14）对 ≥95% 估计；n=14，4 个在 50–100ms。",
+   "extreme_ratios": "PASS：0 段出 [0.5,2.0]（估计 ≤5）；seg 81/82 缺陷已修（缺口垫段 9.97s→10.8s，最大形变比 0.649）。",
+   "breath_splits": "PASS：2 段，两处真换气均拆分。",
+   "instrument": "VALIDATED on v2 warp, DEGRADED on pivot warp：仪器本身有效（复现 83/97、7.2%），Pivot 音频上误检 16.5%（V-Onset 驱动），系长段拉伸产物。",
+   "overall": "亚行级稀疏路线按专家定义在本 take 上不可达其精度估计；结构性修复（行间缺口一级切点、边界感知重测仪器）已验证有效，应保留。主路径不宜直接接线；须重设计 Tier-1（去 pitch 门、改质量信号）并重新离线验证，或把结构性修复叠加到现有逐音路径。"
+  }
+ }
+}
