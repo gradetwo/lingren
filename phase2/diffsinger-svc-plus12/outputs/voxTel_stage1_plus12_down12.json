@@ -1,0 +1,17 @@
+{
+ "track": "voxTel",
+ "tool": "librosa.effects.pitch_shift",
+ "librosa_version": "0.11.0",
+ "shift_semitones": -12,
+ "bins_per_octave": 12,
+ "formant_preserved": false,
+ "sr": 44100,
+ "duration_s": 45.683,
+ "peak_before_shift": 0.89,
+ "rms_before_shift": 0.08,
+ "peak_after_shift_before_norm": 0.5375,
+ "gain_to_0.89": 1.6557,
+ "peak_normalized": 0.89,
+ "shift_s": 0.4,
+ "source": "voxTel_stage1_plus12.wav"
+}

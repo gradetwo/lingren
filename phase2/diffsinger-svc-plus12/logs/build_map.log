@@ -1,0 +1,17 @@
+nohup: ignoring input
+acoustic table: /content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/0101_qixuan_muon1_acoustic.phonemes.json size 149
+sample: ['AP', 'EP', 'GS', 'SP', 'en/_r', 'en/aa', 'en/ae', 'en/ah', 'en/ao', 'en/aw', 'en/ax', 'en/ay', 'en/b', 'en/ch', 'en/d', 'en/dh', 'en/dx', 'en/eh', 'en/er', 'en/ey', 'en/f', 'en/g', 'en/hh', 'en/ih', 'en/iy', 'en/jh', 'en/k', 'en/l', 'en/m', 'en/n']
+has SP: True
+zh/ prefix: True en/ prefix: True
+unique zh chars in scores: 113
+zh entries: 93
+  zh an -> ['zh/an']
+  zh ban -> ['zh/b', 'zh/an']
+  zh bu -> ['zh/b', 'zh/u']
+  zh chu -> ['zh/ch', 'zh/u']
+  zh cun -> ['zh/c', 'zh/un']
+  zh da -> ['zh/d', 'zh/a']
+  zh dan -> ['zh/d', 'zh/an']
+  zh dang -> ['zh/d', 'zh/ang']
+en entries (without '|' separator): {'winter': ['en/w', 'en/ih', 'en/n', 'en/t', 'en/er'], 'is': ['en/ih', 'en/z'], 'coming': ['en/k', 'en/ah', 'en/m', 'en/ih', 'en/ng']}
+MAP-OK /content/qixuan_mini_map.json zh=93 en=3

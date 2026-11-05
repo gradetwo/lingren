@@ -1,0 +1,67 @@
+== bank dir ==
+['0101_qixuan_muon1_acoustic.languages.json', '0101_qixuan_muon1_acoustic.phonemes.json', '0101_qixuan_muon1_acoustic.qixuan.onnx', 'Terms_of_Use.zh-CN.pdf', 'character.txt', 'character.yaml', 'dsconfig.yaml', 'dsdur', 'dspitch', 'dsvariance', 'qixuan.png', 'qixuan1000x1000.png', 'qixuan256x256.png']
+== dsconfig.yaml ==
+phonemes: 0101_qixuan_muon1_acoustic.phonemes.json
+languages: 0101_qixuan_muon1_acoustic.languages.json
+use_lang_id: true
+acoustic: 0101_qixuan_muon1_acoustic.qixuan.onnx
+hidden_size: 384
+vocoder: pc_nsf_hifigan_44.1k_hop512_128bin_2025.02
+augmentation_args:
+  random_pitch_shifting:
+    range:
+    - -5.0
+    - 5.0
+use_key_shift_embed: true
+use_speed_embed: true
+use_energy_embed: false
+use_breathiness_embed: true
+use_voicing_embed: true
+use_tension_embed: false
+use_continuous_acceleration: true
+use_variable_depth: true
+max_depth: 0.6
+sample_rate: 44100
+hop_size: 512
+win_size: 2048
+fft_size: 2048
+num_mel_bins: 128
+mel_fmin: 40
+mel_fmax: 16000
+mel_base: e
+mel_scale: slaney
+
+== /content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/0101_qixuan_muon1_acoustic.phonemes.json (149 phonemes) ==
+['AP', 'EP', 'GS', 'SP', 'en/_r', 'en/aa', 'en/ae', 'en/ah', 'en/ao', 'zh/ao', 'en/aw', 'en/ax', 'zh/ai', 'en/ay', 'ja/b', 'en/b', 'en/ch', 'ja/d', 'en/d', 'en/dh', 'en/dx', 'ja/r', 'en/eh', 'en/er', 'zh/ei', 'en/ey', 'zh/f', 'en/f', 'en/g', 'en/hh', 'zh/h', 'ja/h', 'en/ih', 'en/iy', 'ja/i', 'zh/i', 'en/jh', 'zh/k', 'en/k', 'en/l', 'zh/l', 'en/m', 'zh/m', 'ja/m', 'zh/n', 'ja/n', 'en/n', 'en/ng', 'en/ow', 'zh/ou', 'en/oy', 'en/p', 'zh/p', 'en/r', 'zh/s', 'ja/s', 'en/s', 'en/sh', 'en/t', 'zh/t', 'en/th', 'en/uh', 'en/uw', 'en/v', 'en/w', 'en/y', 'ja/z', 'en/z', 'en/zh', 'ja/N', 'ja/a', 'zh/a', 'ja/by', 'ja/ch', 'ja/cl', 'ja/dy', 'ja/e', 'ja/f', 'ja/g', 'ja/gw', 'ja/gy', 'ja/hy', 'ja/j', 'zh/g', 'ja/k', 'ja/kw', 'ja/ky', 'ja/my', 'ja/ny', 'ja/o', 'ja/p', 'zh/b', 'ja/py', 'ja/ry', 'ja/sh', 'zh/x', 'ja/t', 'zh/d', 'ja/ts', 'zh/c', 'ja/ty', 'ja/u', 'ja/v', 'ja/w', 'ja/y', 'zh/an', 'zh/ang', 'zh/ch', 'zh/e', 'zh/en', 'zh/eng', 'zh/er', 'zh/i0', 'zh/ia', 'zh/ian', 'zh/iang', 'zh/iao', 'zh/ie', 'zh/in', 'zh/ing', 'zh/io', 'zh/iong', 'zh/ir', 'zh/iu', 'zh/j', 'zh/o', 'zh/ong', 'zh/q', 'zh/r', 'zh/sh', 'zh/u', 'zh/ua', 'zh/uai', 'zh/uan', 'zh/uang', 'zh/ueng', 'zh/ui', 'zh/um', 'zh/un', 'zh/uo', 'zh/v', 'zh/van', 'zh/ve', 'zh/vn', 'zh/w', 'zh/y', 'zh/y0', 'zh/z', 'zh/zh']
+    AP -> 1
+    EP -> 2
+    GS -> 3
+    SP -> 4
+    en/_r -> 5
+== /content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/dsvariance/0102_qixuan_muon1_multivar.phonemes.json (149 phonemes) ==
+['AP', 'EP', 'GS', 'SP', 'en/_r', 'en/aa', 'en/ae', 'en/ah', 'en/ao', 'en/aw', 'zh/ao', 'en/ax', 'zh/ai', 'en/ay', 'en/b', 'ja/b', 'en/ch', 'en/d', 'ja/d', 'en/dh', 'ja/r', 'en/dx', 'en/eh', 'en/er', 'zh/ei', 'en/ey', 'zh/f', 'en/f', 'en/g', 'zh/h', 'en/hh', 'ja/h', 'en/ih', 'en/iy', 'zh/i', 'ja/i', 'en/jh', 'zh/k', 'en/k', 'en/l', 'zh/l', 'en/m', 'zh/m', 'ja/m', 'en/n', 'zh/n', 'ja/n', 'en/ng', 'zh/ou', 'en/ow', 'en/oy', 'en/p', 'zh/p', 'en/r', 'ja/s', 'zh/s', 'en/s', 'en/sh', 'en/t', 'zh/t', 'en/th', 'en/uh', 'en/uw', 'en/v', 'en/w', 'en/y', 'en/z', 'ja/z', 'en/zh', 'ja/N', 'ja/a', 'zh/a', 'ja/by', 'ja/ch', 'ja/cl', 'ja/dy', 'ja/e', 'ja/f', 'ja/g', 'ja/gw', 'ja/gy', 'ja/hy', 'ja/j', 'ja/k', 'zh/g', 'ja/kw', 'ja/ky', 'ja/my', 'ja/ny', 'ja/o', 'zh/b', 'ja/p', 'ja/py', 'ja/ry', 'zh/x', 'ja/sh', 'zh/d', 'ja/t', 'ja/ts', 'zh/c', 'ja/ty', 'ja/u', 'ja/v', 'ja/w', 'ja/y', 'zh/an', 'zh/ang', 'zh/ch', 'zh/e', 'zh/en', 'zh/eng', 'zh/er', 'zh/i0', 'zh/ia', 'zh/ian', 'zh/iang', 'zh/iao', 'zh/ie', 'zh/in', 'zh/ing', 'zh/io', 'zh/iong', 'zh/ir', 'zh/iu', 'zh/j', 'zh/o', 'zh/ong', 'zh/q', 'zh/r', 'zh/sh', 'zh/u', 'zh/ua', 'zh/uai', 'zh/uan', 'zh/uang', 'zh/ueng', 'zh/ui', 'zh/um', 'zh/un', 'zh/uo', 'zh/v', 'zh/van', 'zh/ve', 'zh/vn', 'zh/w', 'zh/y', 'zh/y0', 'zh/z', 'zh/zh']
+    AP -> 1
+    EP -> 2
+    GS -> 3
+    SP -> 4
+    en/_r -> 5
+== /content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/dsdur/0102_qixuan_newdict_dur.phonemes.json (149 phonemes) ==
+['AP', 'EP', 'GS', 'SP', 'zh/r', 'en/_r', 'en/r', 'en/zh', 'ja/a', 'en/ah', 'zh/a', 'en/aa', 'ja/e', 'en/eh', 'en/ae', 'zh/ie', 'en/ao', 'ja/o', 'zh/o', 'zh/ao', 'en/aw', 'en/ax', 'zh/e', 'en/ay', 'zh/ai', 'ja/b', 'en/b', 'ja/by', 'en/ch', 'zh/q', 'en/d', 'ja/dy', 'ja/d', 'en/dh', 'ja/r', 'ja/ry', 'en/dx', 'en/er', 'zh/er', 'zh/ei', 'en/ey', 'zh/f', 'ja/f', 'en/f', 'en/g', 'ja/g', 'ja/gy', 'ja/gw', 'ja/hy', 'en/hh', 'zh/h', 'ja/h', 'ja/i', 'en/ih', 'zh/i', 'en/iy', 'en/jh', 'ja/j', 'zh/k', 'en/k', 'en/l', 'zh/l', 'ja/my', 'en/m', 'ja/m', 'zh/m', 'zh/n', 'ja/n', 'en/n', 'ja/ny', 'en/ng', 'zh/ou', 'en/ow', 'en/oy', 'zh/p', 'en/p', 'zh/s', 'en/s', 'ja/s', 'zh/sh', 'en/sh', 'zh/t', 'en/t', 'en/th', 'zh/u', 'ja/u', 'en/uw', 'en/uh', 'en/v', 'zh/w', 'ja/w', 'en/w', 'en/y', 'zh/y', 'ja/y', 'ja/z', 'en/z', 'ja/N', 'zh/j', 'ja/ch', 'ja/cl', 'zh/g', 'ja/k', 'ja/kw', 'ja/ky', 'zh/b', 'ja/py', 'ja/p', 'zh/x', 'ja/sh', 'ja/ty', 'ja/t', 'zh/d', 'ja/ts', 'zh/c', 'ja/v', 'zh/an', 'zh/ang', 'zh/ch', 'zh/en', 'zh/eng', 'zh/i0', 'zh/ia', 'zh/ian', 'zh/iang', 'zh/iao', 'zh/in', 'zh/ing', 'zh/io', 'zh/iong', 'zh/ir', 'zh/iu', 'zh/ong', 'zh/ua', 'zh/uai', 'zh/uan', 'zh/uang', 'zh/ueng', 'zh/ui', 'zh/um', 'zh/un', 'zh/uo', 'zh/v', 'zh/van', 'zh/ve', 'zh/vn', 'zh/y0', 'zh/z', 'zh/zh']
+    AP -> 1
+    EP -> 2
+    GS -> 3
+    SP -> 4
+    zh/r -> 5
+== /content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/dspitch/0102_qixuan_muon1_pitch.phonemes.json (149 phonemes) ==
+['AP', 'GS', 'SP', 'EP', 'ja/cl', 'en/_r', 'en/zh', 'en/r', 'zh/r', 'en/aa', 'ja/a', 'zh/a', 'en/ah', 'en/ae', 'en/eh', 'ja/e', 'zh/ie', 'zh/io', 'en/ao', 'ja/o', 'zh/o', 'zh/ao', 'en/aw', 'en/ax', 'zh/e', 'zh/ai', 'en/ay', 'ja/v', 'ja/by', 'en/b', 'ja/b', 'en/ch', 'zh/q', 'en/d', 'ja/d', 'ja/dy', 'en/dh', 'ja/r', 'en/dx', 'ja/ry', 'zh/er', 'en/er', 'en/ey', 'zh/ei', 'en/f', 'zh/f', 'ja/f', 'ja/gw', 'ja/gy', 'en/g', 'ja/g', 'ja/h', 'ja/hy', 'zh/h', 'en/hh', 'en/ih', 'ja/i', 'en/iy', 'zh/i', 'en/jh', 'ja/j', 'zh/k', 'en/k', 'en/l', 'zh/l', 'ja/m', 'ja/my', 'en/m', 'zh/m', 'en/n', 'zh/n', 'ja/n', 'ja/ny', 'zh/um', 'en/ng', 'zh/ou', 'en/ow', 'en/oy', 'zh/p', 'en/p', 'en/s', 'zh/s', 'ja/s', 'zh/sh', 'en/sh', 'zh/t', 'en/t', 'en/th', 'en/uh', 'zh/u', 'en/uw', 'ja/u', 'en/v', 'ja/w', 'zh/w', 'en/w', 'en/y', 'zh/y', 'ja/y', 'ja/z', 'en/z', 'ja/N', 'zh/j', 'ja/ch', 'ja/kw', 'ja/ky', 'zh/g', 'ja/k', 'ja/p', 'ja/py', 'zh/b', 'ja/sh', 'zh/x', 'ja/ty', 'ja/t', 'zh/d', 'zh/c', 'ja/ts', 'zh/an', 'zh/ang', 'zh/ch', 'zh/en', 'zh/ueng', 'zh/eng', 'zh/i0', 'zh/ia', 'zh/ian', 'zh/iang', 'zh/iao', 'zh/in', 'zh/ing', 'zh/iong', 'zh/ir', 'zh/iu', 'zh/ong', 'zh/ua', 'zh/uai', 'zh/uan', 'zh/uang', 'zh/ui', 'zh/un', 'zh/uo', 'zh/v', 'zh/van', 'zh/ve', 'zh/vn', 'zh/y0', 'zh/z', 'zh/zh']
+    AP -> 1
+    GS -> 2
+    SP -> 2
+    EP -> 2
+    ja/cl -> 2
+== languages ==
+/content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/0101_qixuan_muon1_acoustic.languages.json -> ['en', 'ja', 'zh']
+/content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/dsvariance/0102_qixuan_muon1_multivar.languages.json -> ['en', 'ja', 'zh']
+/content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/dsdur/0102_qixuan_newdict_dur.languages.json -> ['en', 'ja', 'zh']
+/content/voicebanks/Qixuan_v2.7.0_DiffSinger_OpenUtau/dspitch/0102_qixuan_muon1_pitch.languages.json -> ['en', 'ja', 'zh']
+INSPECT-BANK-DONE

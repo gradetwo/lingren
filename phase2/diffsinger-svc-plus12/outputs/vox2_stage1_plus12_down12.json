@@ -1,0 +1,17 @@
+{
+ "track": "vox2",
+ "tool": "librosa.effects.pitch_shift",
+ "librosa_version": "0.11.0",
+ "shift_semitones": -12,
+ "bins_per_octave": 12,
+ "formant_preserved": false,
+ "sr": 44100,
+ "duration_s": 166.843,
+ "peak_before_shift": 0.89,
+ "rms_before_shift": 0.0405,
+ "peak_after_shift_before_norm": 0.4441,
+ "gain_to_0.89": 2.0041,
+ "peak_normalized": 0.89,
+ "shift_s": 1.3,
+ "source": "vox2_stage1_plus12.wav"
+}

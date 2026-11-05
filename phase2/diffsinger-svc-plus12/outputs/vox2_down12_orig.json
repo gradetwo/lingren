@@ -1,0 +1,14 @@
+{
+ "track": "vox2",
+ "wav": "/content/stage1_plus12/vox2_stage1_plus12_down12.wav",
+ "sr": 44100,
+ "duration_s": 166.843,
+ "n_notes": 151,
+ "detected": 121,
+ "dev_median_semitones": 0.035,
+ "dev_p90_abs_semitones": 8.077,
+ "over_pm0_5_frac": 0.306,
+ "voiced_frame_frac": 0.525,
+ "ltas_centroid_hz": 2689.1,
+ "ltas_peak_200_4000_hz": 279.9
+}

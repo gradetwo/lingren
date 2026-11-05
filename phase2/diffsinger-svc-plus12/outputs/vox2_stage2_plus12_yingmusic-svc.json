@@ -1,0 +1,22 @@
+{
+ "track": "vox2",
+ "svc": "yingmusic",
+ "prompt": "groupyell",
+ "prompt_wav": "groupyell_24k.wav",
+ "diffusion_steps": 100,
+ "fp16": true,
+ "stage": "plus12",
+ "semi_tone_shift_requested": 0,
+ "auto_pitch_shift_semitones": 0,
+ "shift_verified_zero": true,
+ "rtf": 0.8501338168282631,
+ "runtime_s": 142.0,
+ "status": "ok",
+ "duration_s": 166.835,
+ "peak_raw": 1.0,
+ "rms_raw": 0.1098,
+ "gain_to_0.89": 0.89,
+ "sr_delivered": 44100,
+ "raw_output": "./outputs/ds_twostage_plus12/groupyell_24k_vox2_stage1_plus12_down12_0.wav",
+ "source": "vox2_stage1_plus12_down12.wav"
+}

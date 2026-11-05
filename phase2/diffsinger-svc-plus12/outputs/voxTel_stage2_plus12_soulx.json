@@ -1,0 +1,14 @@
+{
+ "track": "voxTel",
+ "wav": "/content/stage2_plus12/voxTel_stage2_plus12_soulx-svc.wav",
+ "sr": 48000,
+ "duration_s": 45.683,
+ "n_notes": 99,
+ "detected": 87,
+ "dev_median_semitones": 0.077,
+ "dev_p90_abs_semitones": 10.228,
+ "over_pm0_5_frac": 0.368,
+ "voiced_frame_frac": 0.595,
+ "ltas_centroid_hz": 3380.5,
+ "ltas_peak_200_4000_hz": 234.4
+}

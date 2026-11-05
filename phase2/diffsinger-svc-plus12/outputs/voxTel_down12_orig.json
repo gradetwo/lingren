@@ -1,0 +1,14 @@
+{
+ "track": "voxTel",
+ "wav": "/content/stage1_plus12/voxTel_stage1_plus12_down12.wav",
+ "sr": 44100,
+ "duration_s": 45.683,
+ "n_notes": 99,
+ "detected": 81,
+ "dev_median_semitones": -0.017,
+ "dev_p90_abs_semitones": 1.344,
+ "over_pm0_5_frac": 0.272,
+ "voiced_frame_frac": 0.59,
+ "ltas_centroid_hz": 2542.6,
+ "ltas_peak_200_4000_hz": 323.0
+}

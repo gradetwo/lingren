@@ -1,0 +1,22 @@
+{
+ "track": "vox",
+ "svc": "yingmusic",
+ "prompt": "bard_growl",
+ "prompt_wav": "bard_growl_24k.wav",
+ "diffusion_steps": 100,
+ "fp16": true,
+ "stage": "plus12",
+ "semi_tone_shift_requested": 0,
+ "auto_pitch_shift_semitones": 0,
+ "shift_verified_zero": true,
+ "rtf": 0.5890791114559503,
+ "runtime_s": 105.9,
+ "status": "ok",
+ "duration_s": 179.432,
+ "peak_raw": 1.0,
+ "rms_raw": 0.2299,
+ "gain_to_0.89": 0.89,
+ "sr_delivered": 44100,
+ "raw_output": "./outputs/ds_twostage_plus12/bard_growl_24k_vox_stage1_plus12_down12_0.wav",
+ "source": "vox_stage1_plus12_down12.wav"
+}

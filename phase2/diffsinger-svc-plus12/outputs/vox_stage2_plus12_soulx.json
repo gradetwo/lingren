@@ -1,0 +1,14 @@
+{
+ "track": "vox",
+ "wav": "/content/stage2_plus12/vox_stage2_plus12_soulx-svc.wav",
+ "sr": 48000,
+ "duration_s": 179.443,
+ "n_notes": 335,
+ "detected": 296,
+ "dev_median_semitones": 0.08,
+ "dev_p90_abs_semitones": 10.997,
+ "over_pm0_5_frac": 0.345,
+ "voiced_frame_frac": 0.573,
+ "ltas_centroid_hz": 3509.9,
+ "ltas_peak_200_4000_hz": 363.3
+}

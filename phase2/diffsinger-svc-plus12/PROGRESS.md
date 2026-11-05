@@ -1,0 +1,23 @@
+# +12 半音对照试验 · 进度
+
+- 2026-11-05 21:31：任务开始。原报告与脚本已读。本地谱子 vocal_scores.json 已确认（5 轨，685 音）。
+- 2026-11-05 21:33：`colab sessions` 查不到 ds-svc-l4（服务端无活动会话），本地状态已剪除一条 stale。正在核查是本地状态丢失还是服务端真已回收；若真已回收，需重建 L4 会话＋重搭环境（声库／权重／venv 均在会话盘上，随会话消失）。
+- 2026-11-05 21:36：三查确认 ds-svc-l4 已死：服务端 `colab sessions` 无活动会话；本地 sessions.json 为 {}；auth 正常（gradetwo@gmail.com，59 分钟有效）。会话 20:49 后失活，盘上环境（声库／声码器／SoulX／YingMusic／venv／量测脚本）随会话消失。只能重建：新开同名 L4 会话＋重跑共享 setup 脚本＋重下载 DiffSinger 专属件。
+- 2026-11-05 21:40：新 L4 会话 ds-svc-l4 已建（READY）。SoulX-Singer 已克隆到 /content/soulx。
+- 2026-11-05 21:42：共享 setup 脚本已上传并 detached 跑（日志 /content/setup_plus12.log）。HF 权重地址已核：SoulX model-svc.pt＋model.pt（字节数与脚本注释一致）；绮萱 zip（401 MB）与声码器 zip（52 MB）下载地址已钉死。
+- 2026-11-05 21:47：setup 到 §3（转录链依赖），§1 nms 已过，1 进程在跑。移调谱 vocal_scores_plus12.json 已生成（4 轨新音区 44–58）。移调脚本 shift_down12.py（librosa 相位声码器，-12，不保共振峰）与量测脚本 f0_measure.py（pyworld dio＋stonemask，中间 50% 帧中位）已写好。三段运行脚本（stage1＋SoulX 变体＋YingMusic 变体 semi_tone_shift=0）已写好。
+- 2026-11-05 21:50：setup 完成，SVC-ENV-CHECK-OK（§1–§6 全过，0 进程残留）。移调谱已验：4 轨恰好 +12，pitch_name 跟随，其余字段逐音相同，vox3 不动。
+- 2026-11-05 21:52：下载阶段已 detached 跑（日志 /content/rebuild_downloads.log）：绮萱 401 MB＋声码器 52 MB＋SoulX 权重 5.6 GB＋YingMusic 代码／检查点／ying_venv。声库音素探查脚本 inspect_bank.py 已写好（待声库落地后跑，核音素命名再重建 map）。
+- 2026-11-05 22:00：下载重跑已通（BANK 跳过，VOCODER-OK，.oudep 解包修好），现正下 SoulX 权重 5.6 GB。移调脚本（librosa -12，产物 _down12.wav）与量测脚本（pyworld dio＋stonemask，LTAS Welch）已核对接口，与两段 runner 一致。
+- 2026-11-05 22:05：试验文件全传上会话（sing_qixuan.py、两谱、3 个 prompt wav、inspect/build/run/shift/f0 脚本）。注意：Wang 21:46 另派音库对照试验（换低音男声库重做 stage1，只第一阶段），与本试验同会话 ds-svc-l4 并行；Wang 21:51 定该试验音库优先级为曲风＞性别＞音区。本试验路径（stage1_plus12／stage2_plus12／prep_tgt_plus12_*／svc_out_plus12_*）与对方试验不重叠，不抢会话（做完不关会话）。
+- 2026-11-05 22:05：map 重建脚本已按原研究 build_ds.py 修正（Style.NORMAL、ü->v、音素名加 zh//en/ 前缀、英文只留三词）；run_stage1_plus12.sh 已修（sing_qixuan.py 写死输出名，跑后改名成 _stage1_plus12）。
+- 2026-11-05 22:12：下载阶段收尾 REBUILD-DOWNLOADS-DONE，但 §4 ying_venv 的 requirements 装失败：上游 requirements.txt 前三行是 nightly torch（--pre，cu126），uv 拒装，致 numpy 缺失。已修：跳过上游 nightly 行，改装其余 29 行（含 torch==2.4.0／torchvision==0.19.0／torchaudio==2.4.0，与已装版本一致，属 no-op），detached 在装（日志 /content/ying_reqs_install.log）。
+- 2026-11-05 22:20：声库音素表已探明（acoustic 149 音素，zh//en//ja/ 前缀，SP 在表；dsconfig：max_depth 0.6、44.1k、hop 512、128 mel）。表里无 "en/|"，map 英文去 "|"（与原研究一致，片段分支行为不变）。venv 已补 pypinyin 0.55.0＋onnxruntime-gpu 1.31.1（CUDA 可用）。map 构建在跑（修过 lyric=null 一处）。
+- 2026-11-05 22:20：YingMusic 依赖在装（29 行，日志 /content/ying_reqs_install.log，已解析到 webrtcvad 等包）。
+- 2026-11-05 22:22：MAP-OK（zh=93，en=3；que/xue 的 zh/ue 已按 j/q/x 后读 üe 修成 zh/ve）。第一阶段已启动（STAGE1LAUNCHED，日志 /content/stage1_plus12.log）：8 会话加载，probe 首 4 音音高正确（凛 D3／冬 D3／将 D#3／至 C3＝原谱+12）。YingMusic 29 行依赖装完（torchvision 0.19.0 等，待验 import）。
+- 2026-11-05 22:35：第一段量测完成（STAGE1-PLUS12-MEASURE-DONE）。检查点结论：4/4 轨下移后偏差中位 |值| ≤0.04 半音（vox -0.002、voxTel -0.017、vox2 +0.035、vox4 +0.027），全部落在 ±0.5 内——检查点通过，进第二段。细节：移调前（对 +12 谱）检出率 95%/95%/93%/65%，中位 -0.041/-0.048/-0.031/+0.032；下移后检出率 84%/82%/80%/72%，中位如上；但下移后 |偏差| p90 变宽（vox 4.88、vox2 8.08、vox4 14.12 半音），超 ±0.5 占比 27–33%（中位好、尾部宽，下移的相位声码器代价）。LTAS 质心下移后约减半（vox 5370→2615 Hz，约 -12.3 半音），共振峰随之下移符合预期。原版对照：检出率 17%/15%/14%/37%，中位 +1.22/+5.68/+1.90/+1.39。
+- 2026-11-05 22:35：YingMusic 语义已验（mm4.py preprocess_voice_conversion）：semi_tone_shift=None 才自动（base×自适应+3.5 再离散化），传 0 即强制 0，日志会打 "automatic pitch shift 0 semi tones"，sidecar 正则可验。
+- 2026-11-05 22:40：SoulX 第二段重跑：RMVPE 权重已补（181,184,272 字节，pipeline 在 vocal_sep=False／midi_transcribe=False 下只用 RMVPE）。PRECHECK-OK，3 个 prompt prep 全过（bard_growl／bard_scream／groupyell），现正 prep 4 条下移后目标轨。
+- 2026-11-05 22:50：SoulX 第二段全绿（voxTel 41s／vox 74s／vox2 84s／vox4 57s；48k 收集 4 轨全 OK，时长与第一阶段逐位一致，原始峰值均为 1.0，归一增益 0.58–0.76）。YingMusic venv 已验（torch 2.4.0+cu121、numpy 1.26.4、cuda True、my_inference 可 import），第二段已启动（扩散 100 步，semi_tone_shift=0）。
+- 2026-11-05 23:05：第二段量测完成（STAGE2-PLUS12-MEASURE-DONE）。SoulX：4/4 中位 +0.08～+0.15 半音（在 ±0.5 内），检出 72–88%。YingMusic（移调固定 0，已验）：voxTel +1.24、vox2 +0.78、vox4 +0.27（较原版 +25/+7.6/+9.3 大幅改善），但 vox 仍 +12.06（八度错，移调 fix 治不了——源在模型对下移后暗音色的 f0 处理，不在自动移调）；YingMusic 有声帧占比亦偏低（33–53% 对 SoulX 48–63%）。试验两段全跑完，现正回传产物写报告。
+- 2026-11-05 23:15：全部产物已回传本地并验过（20 份 wav：采样率／时长／峰值与 sidecar 一致；32 份 JSON）。REPORT-plus12.md 已写。原版 LTAS 用同一方法对原版已提交 wav 本地重算（numpy Welch 校验与会话量测一致）。现提交到分支（不推）。

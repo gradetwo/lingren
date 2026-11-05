@@ -1,0 +1,421 @@
+{
+ "track": "voxTel",
+ "sr": 44100,
+ "dur_policy": "score",
+ "steps": 20,
+ "depth": 0.6,
+ "expr": 1.0,
+ "duration_s": 45.683,
+ "peak_raw": 0.1783,
+ "peak_normalized": 0.89,
+ "phrases": [
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 160,
+   "dur_ratio_pred_over_score": 1.341,
+   "pitch_dev_median_semitones": 0.121,
+   "pitch_dev_p90_abs_semitones": 0.151,
+   "pitch_pred_range_midi": [
+    47.95,
+    52.25
+   ],
+   "breathiness_range": [
+    -72.886,
+    -31.735
+   ],
+   "voicing_range": [
+    -96.0,
+    -29.544
+   ],
+   "render_s": 1.1,
+   "phrase": 0,
+   "start_s": 0.0,
+   "lyric": "凛冬将至"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 10,
+   "n_frames": 146,
+   "dur_ratio_pred_over_score": 1.603,
+   "pitch_dev_median_semitones": 0.018,
+   "pitch_dev_p90_abs_semitones": 0.033,
+   "pitch_pred_range_midi": [
+    46.84,
+    50.16
+   ],
+   "breathiness_range": [
+    -74.76,
+    -36.6
+   ],
+   "voicing_range": [
+    -86.303,
+    -36.516
+   ],
+   "render_s": 0.5,
+   "phrase": 1,
+   "start_s": 3.15,
+   "lyric": "Win-terIsCom-ing"
+  },
+  {
+   "n_notes": 4,
+   "n_tokens": 8,
+   "n_frames": 160,
+   "dur_ratio_pred_over_score": 1.341,
+   "pitch_dev_median_semitones": 0.08,
+   "pitch_dev_p90_abs_semitones": 0.153,
+   "pitch_pred_range_midi": [
+    47.65,
+    52.04
+   ],
+   "breathiness_range": [
+    -70.054,
+    -33.893
+   ],
+   "voicing_range": [
+    -96.0,
+    -29.529
+   ],
+   "render_s": 0.5,
+   "phrase": 2,
+   "start_s": 6.35,
+   "lyric": "凛冬将至"
+  },
+  {
+   "n_notes": 7,
+   "n_tokens": 14,
+   "n_frames": 233,
+   "dur_ratio_pred_over_score": 1.154,
+   "pitch_dev_median_semitones": 0.133,
+   "pitch_dev_p90_abs_semitones": 0.603,
+   "pitch_pred_range_midi": [
+    49.83,
+    53.96
+   ],
+   "breathiness_range": [
+    -77.841,
+    -30.683
+   ],
+   "voicing_range": [
+    -95.51,
+    -26.102
+   ],
+   "render_s": 0.7,
+   "phrase": 3,
+   "start_s": 12.75,
+   "lyric": "昨日你信誓旦旦"
+  },
+  {
+   "n_notes": 15,
+   "n_tokens": 29,
+   "n_frames": 303,
+   "dur_ratio_pred_over_score": 1.045,
+   "pitch_dev_median_semitones": 0.177,
+   "pitch_dev_p90_abs_semitones": 0.367,
+   "pitch_pred_range_midi": [
+    45.9,
+    53.44
+   ],
+   "breathiness_range": [
+    -83.225,
+    -30.897
+   ],
+   "voicing_range": [
+    -95.964,
+    -28.428
+   ],
+   "render_s": 0.8,
+   "phrase": 4,
+   "start_s": 15.95,
+   "lyric": "长期主义是寒冬里唯一正确"
+  },
+  {
+   "n_notes": 8,
+   "n_tokens": 16,
+   "n_frames": 276,
+   "dur_ratio_pred_over_score": 1.235,
+   "pitch_dev_median_semitones": 0.097,
+   "pitch_dev_p90_abs_semitones": 0.54,
+   "pitch_pred_range_midi": [
+    47.52,
+    53.23
+   ],
+   "breathiness_range": [
+    -78.507,
+    -26.659
+   ],
+   "voicing_range": [
+    -95.848,
+    -26.791
+   ],
+   "render_s": 0.7,
+   "phrase": 5,
+   "start_s": 19.15,
+   "lyric": "今日你却追着问我"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 316,
+   "dur_ratio_pred_over_score": 1.136,
+   "pitch_dev_median_semitones": 0.018,
+   "pitch_dev_p90_abs_semitones": 0.428,
+   "pitch_pred_range_midi": [
+    44.82,
+    52.59
+   ],
+   "breathiness_range": [
+    -72.629,
+    -32.541
+   ],
+   "voicing_range": [
+    -96.0,
+    -30.248
+   ],
+   "render_s": 0.8,
+   "phrase": 6,
+   "start_s": 22.35,
+   "lyric": "拿什么盈利什么时候盈利"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 21,
+   "n_frames": 267,
+   "dur_ratio_pred_over_score": 1.066,
+   "pitch_dev_median_semitones": 0.32,
+   "pitch_dev_p90_abs_semitones": 0.519,
+   "pitch_pred_range_midi": [
+    49.81,
+    53.98
+   ],
+   "breathiness_range": [
+    -75.324,
+    -32.925
+   ],
+   "voicing_range": [
+    -96.0,
+    -25.951
+   ],
+   "render_s": 0.7,
+   "phrase": 7,
+   "start_s": 31.95,
+   "lyric": "村口算命瞎子二锅头喝高"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 26,
+   "dur_ratio_pred_over_score": 1.78,
+   "pitch_dev_median_semitones": 0.908,
+   "pitch_dev_p90_abs_semitones": 0.908,
+   "pitch_pred_range_midi": [
+    51.98,
+    53.04
+   ],
+   "breathiness_range": [
+    -60.489,
+    -30.801
+   ],
+   "voicing_range": [
+    -96.0,
+    -36.228
+   ],
+   "render_s": 0.3,
+   "phrase": 8,
+   "start_s": 35.15,
+   "lyric": "世"
+  },
+  {
+   "n_notes": 2,
+   "n_tokens": 4,
+   "n_frames": 38,
+   "dur_ratio_pred_over_score": 1.301,
+   "pitch_dev_median_semitones": 0.29,
+   "pitch_dev_p90_abs_semitones": 0.327,
+   "pitch_pred_range_midi": [
+    49.94,
+    51.51
+   ],
+   "breathiness_range": [
+    -76.741,
+    -41.675
+   ],
+   "voicing_range": [
+    -96.0,
+    -35.421
+   ],
+   "render_s": 0.4,
+   "phrase": 9,
+   "start_s": 35.19,
+   "lyric": "了说"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 26,
+   "dur_ratio_pred_over_score": 1.729,
+   "pitch_dev_median_semitones": 0.635,
+   "pitch_dev_p90_abs_semitones": 0.635,
+   "pitch_pred_range_midi": [
+    52.3,
+    52.66
+   ],
+   "breathiness_range": [
+    -84.396,
+    -39.461
+   ],
+   "voicing_range": [
+    -96.0,
+    -85.602
+   ],
+   "render_s": 0.3,
+   "phrase": 10,
+   "start_s": 35.47,
+   "lyric": "界"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 19,
+   "dur_ratio_pred_over_score": 1.725,
+   "pitch_dev_median_semitones": 0.355,
+   "pitch_dev_p90_abs_semitones": 0.355,
+   "pitch_pred_range_midi": [
+    48.22,
+    48.39
+   ],
+   "breathiness_range": [
+    -67.187,
+    -48.88
+   ],
+   "voicing_range": [
+    -95.629,
+    -48.205
+   ],
+   "render_s": 0.3,
+   "phrase": 11,
+   "start_s": 35.67,
+   "lyric": "疯"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 23,
+   "dur_ratio_pred_over_score": 1.809,
+   "pitch_dev_median_semitones": 0.876,
+   "pitch_dev_p90_abs_semitones": 0.876,
+   "pitch_pred_range_midi": [
+    53.16,
+    53.92
+   ],
+   "breathiness_range": [
+    -67.587,
+    -39.699
+   ],
+   "voicing_range": [
+    -96.0,
+    -81.024
+   ],
+   "render_s": 0.3,
+   "phrase": 12,
+   "start_s": 35.79,
+   "lyric": "上"
+  },
+  {
+   "n_notes": 1,
+   "n_tokens": 2,
+   "n_frames": 67,
+   "dur_ratio_pred_over_score": 1.894,
+   "pitch_dev_median_semitones": 0.387,
+   "pitch_dev_p90_abs_semitones": 0.387,
+   "pitch_pred_range_midi": [
+    46.03,
+    46.51
+   ],
+   "breathiness_range": [
+    -73.406,
+    -50.478
+   ],
+   "voicing_range": [
+    -96.0,
+    -70.953
+   ],
+   "render_s": 0.4,
+   "phrase": 13,
+   "start_s": 35.91,
+   "lyric": "话"
+  },
+  {
+   "n_notes": 6,
+   "n_tokens": 12,
+   "n_frames": 195,
+   "dur_ratio_pred_over_score": 1.351,
+   "pitch_dev_median_semitones": 0.118,
+   "pitch_dev_p90_abs_semitones": 0.375,
+   "pitch_pred_range_midi": [
+    46.68,
+    53.3
+   ],
+   "breathiness_range": [
+    -67.249,
+    -31.469
+   ],
+   "voicing_range": [
+    -96.0,
+    -26.51
+   ],
+   "render_s": 0.6,
+   "phrase": 14,
+   "start_s": 36.07,
+   "lyric": "的一切人和事"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 340,
+   "dur_ratio_pred_over_score": 1.248,
+   "pitch_dev_median_semitones": 0.261,
+   "pitch_dev_p90_abs_semitones": 0.484,
+   "pitch_pred_range_midi": [
+    46.89,
+    53.42
+   ],
+   "breathiness_range": [
+    -81.37,
+    -32.721
+   ],
+   "voicing_range": [
+    -95.843,
+    -29.397
+   ],
+   "render_s": 0.8,
+   "phrase": 15,
+   "start_s": 38.35,
+   "lyric": "都是一条时间上的抛物线"
+  },
+  {
+   "n_notes": 11,
+   "n_tokens": 22,
+   "n_frames": 295,
+   "dur_ratio_pred_over_score": 1.319,
+   "pitch_dev_median_semitones": 0.149,
+   "pitch_dev_p90_abs_semitones": 0.286,
+   "pitch_pred_range_midi": [
+    46.7,
+    53.14
+   ],
+   "breathiness_range": [
+    -82.164,
+    -32.694
+   ],
+   "voicing_range": [
+    -96.0,
+    -26.52
+   ],
+   "render_s": 0.7,
+   "phrase": 16,
+   "start_s": 41.55,
+   "lyric": "朋友圈里自我感动打鸡血"
+  }
+ ]
+}

@@ -1,0 +1,251 @@
+stage1 imports OK
+ort providers: ['TensorrtExecutionProvider', 'CUDAExecutionProvider', 'CPUExecutionProvider']
+=== probe voxTel 前 4 音（烟囱：声库＋map＋声码器链路）===
+[0;93m2026-11-05 14:05:58.549911279 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:58.550113534 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph1 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:58.550664149 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph4 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:58.553410647 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph5 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:58.560076884 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:05:58.560110590 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:05:58.909836226 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 6 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:58.912944424 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:05:58.912974868 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:05:59.051784923 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:05:59.051828907 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:05:59.237905322 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:59.240745844 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:59.246452754 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:05:59.246496638 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:05:59.411940006 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:05:59.411975832 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:05:59.511590379 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 4 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:59.514429901 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:05:59.516605837 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:05:59.516631608 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+bank loaded (8 sessions)
+PROBE: voxTel 前 4 音： [('凛', 'D3', 0.383), ('冬', 'D3', 0.383), ('将', 'D#3', 0.383), ('至', 'C3', 0.703)]
+PROBE sidecar: {"n_notes": 4, "n_tokens": 8, "n_frames": 160, "dur_ratio_pred_over_score": 1.341, "pitch_dev_median_semitones": 0.086, "pitch_dev_p90_abs_semitones": 0.143, "pitch_pred_range_midi": [47.75, 52.07], "breathiness_range": [-72.107, -36.083], "voicing_range": [-96.0, -30.214], "render_s": 1.8}
+PROBE wav: 81920 samples = 1.86s, peak=0.1672
+=== stage1+12 vox ===
+[0;93m2026-11-05 14:06:03.668300884 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:03.668511735 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph1 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:03.669047432 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph4 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:03.671803119 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph5 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:03.678528897 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:03.678572366 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:03.945416097 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 6 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:03.948292254 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:03.948341987 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:04.098833957 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:04.098883040 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:04.289410951 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:04.292253674 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:04.297947878 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:04.297975212 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:04.468208093 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:04.468254926 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:04.571270518 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 4 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:04.574163682 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:04.576395929 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:04.576422644 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+bank loaded (8 sessions)
+vox: 335 音 -> 50 句
+  句 1/50：4 音，1.7s，耗时 1s，音高偏差中位 -0.025 半音
+  句 2/50：2 音，1.0s，耗时 0s，音高偏差中位 0.172 半音
+  句 3/50：4 音，1.4s，耗时 0s，音高偏差中位 0.269 半音
+  句 4/50：4 音，1.6s，耗时 0s，音高偏差中位 0.326 半音
+  句 5/50：4 音，1.5s，耗时 0s，音高偏差中位 0.105 半音
+  句 6/50：4 音，1.5s，耗时 0s，音高偏差中位 0.186 半音
+  句 7/50：11 音，3.1s，耗时 1s，音高偏差中位 0.124 半音
+  句 8/50：8 音，3.0s，耗时 1s，音高偏差中位 0.18 半音
+  句 9/50：8 音，3.0s，耗时 1s，音高偏差中位 0.217 半音
+  句 10/50：11 音，3.1s，耗时 1s，音高偏差中位 0.118 半音
+  句 11/50：10 音，3.6s，耗时 1s，音高偏差中位 0.068 半音
+  句 12/50：6 音，2.6s，耗时 1s，音高偏差中位 0.032 半音
+  句 13/50：5 音，2.2s，耗时 1s，音高偏差中位 0.481 半音
+  句 14/50：8 音，3.3s，耗时 1s，音高偏差中位 0.315 半音
+  句 15/50：11 音，4.3s，耗时 1s，音高偏差中位 0.197 半音
+  句 16/50：16 音，6.1s，耗时 1s，音高偏差中位 0.257 半音
+  句 17/50：4 音，1.9s，耗时 1s，音高偏差中位 0.083 半音
+  句 18/50：4 音，1.7s，耗时 1s，音高偏差中位 -0.017 半音
+  句 19/50：4 音，1.9s，耗时 1s，音高偏差中位 0.083 半音
+  句 20/50：4 音，1.7s，耗时 1s，音高偏差中位 -0.031 半音
+  句 21/50：7 音，2.7s，耗时 1s，音高偏差中位 0.094 半音
+  句 22/50：15 音，3.5s，耗时 1s，音高偏差中位 0.118 半音
+  句 23/50：8 音，3.2s，耗时 1s，音高偏差中位 0.102 半音
+  句 24/50：11 音，3.7s，耗时 1s，音高偏差中位 0.039 半音
+  句 25/50：2 音，1.0s，耗时 0s，音高偏差中位 0.086 半音
+  句 26/50：4 音，1.4s，耗时 0s，音高偏差中位 0.206 半音
+  句 27/50：4 音，1.6s，耗时 0s，音高偏差中位 0.226 半音
+  句 28/50：11 音，3.1s，耗时 1s，音高偏差中位 0.268 半音
+  句 29/50：1 音，0.3s，耗时 0s，音高偏差中位 0.752 半音
+  句 30/50：2 音，0.4s，耗时 0s，音高偏差中位 0.136 半音
+  句 31/50：1 音，0.3s，耗时 0s，音高偏差中位 0.287 半音
+  句 32/50：1 音，0.2s，耗时 0s，音高偏差中位 0.488 半音
+  句 33/50：1 音，0.3s，耗时 0s，音高偏差中位 0.847 半音
+  句 34/50：1 音，0.8s，耗时 0s，音高偏差中位 0.153 半音
+  句 35/50：6 音，2.3s，耗时 1s，音高偏差中位 0.196 半音
+  句 36/50：11 音，3.9s，耗时 1s，音高偏差中位 0.332 半音
+  句 37/50：11 音，3.4s，耗时 1s，音高偏差中位 0.165 半音
+  句 38/50：4 音，1.5s，耗时 1s，音高偏差中位 0.06 半音
+  句 39/50：4 音，1.5s，耗时 0s，音高偏差中位 0.215 半音
+  句 40/50：11 音，3.1s，耗时 1s，音高偏差中位 0.125 半音
+  句 41/50：8 音，3.0s，耗时 1s，音高偏差中位 0.194 半音
+  句 42/50：8 音，3.0s，耗时 1s，音高偏差中位 0.222 半音
+  句 43/50：11 音，3.1s，耗时 1s，音高偏差中位 0.139 半音
+  句 44/50：10 音，3.6s，耗时 1s，音高偏差中位 0.073 半音
+  句 45/50：6 音，2.6s，耗时 1s，音高偏差中位 0.055 半音
+  句 46/50：5 音，2.2s，耗时 1s，音高偏差中位 0.417 半音
+  句 47/50：8 音，3.3s，耗时 1s，音高偏差中位 0.345 半音
+  句 48/50：11 音，4.3s，耗时 1s，音高偏差中位 0.223 半音
+  句 49/50：16 音，6.1s，耗时 1s，音高偏差中位 0.299 半音
+  句 50/50：4 音，2.1s，耗时 1s，音高偏差中位 0.1 半音
+写 /content/stage1_plus12/vox_stage1_diffsinger.wav（179.44s，原始峰值 0.1988 -> 归一 0.89）
+写 /content/stage1_plus12/vox_stage1_diffsinger.json
+-rw-r--r-- 1 root root    22247 Nov  5 14:06 /content/stage1_plus12/vox_stage1_plus12.json
+-rw-r--r-- 1 root root 15826918 Nov  5 14:06 /content/stage1_plus12/vox_stage1_plus12.wav
+=== stage1+12 voxTel ===
+[0;93m2026-11-05 14:06:37.444521080 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:37.444723639 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph1 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:37.445249106 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph4 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:37.448009411 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph5 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:37.454527852 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:37.454556681 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:37.717139350 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 6 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:37.720098310 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:37.720129576 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:37.869640805 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:37.869691206 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:38.055862702 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:38.058811798 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:38.064740375 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:38.064775809 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:38.229129616 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:38.229172841 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:38.328269825 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 4 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:38.331135340 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:38.333257597 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:38.333279702 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+bank loaded (8 sessions)
+voxTel: 99 音 -> 17 句
+  句 1/17：4 音，1.9s，耗时 1s，音高偏差中位 0.121 半音
+  句 2/17：4 音，1.7s，耗时 1s，音高偏差中位 0.018 半音
+  句 3/17：4 音，1.9s，耗时 1s，音高偏差中位 0.08 半音
+  句 4/17：7 音，2.7s，耗时 1s，音高偏差中位 0.133 半音
+  句 5/17：15 音，3.5s，耗时 1s，音高偏差中位 0.177 半音
+  句 6/17：8 音，3.2s，耗时 1s，音高偏差中位 0.097 半音
+  句 7/17：11 音，3.7s，耗时 1s，音高偏差中位 0.018 半音
+  句 8/17：11 音，3.1s，耗时 1s，音高偏差中位 0.32 半音
+  句 9/17：1 音，0.3s，耗时 0s，音高偏差中位 0.908 半音
+  句 10/17：2 音，0.4s，耗时 0s，音高偏差中位 0.29 半音
+  句 11/17：1 音，0.3s，耗时 0s，音高偏差中位 0.635 半音
+  句 12/17：1 音，0.2s，耗时 0s，音高偏差中位 0.355 半音
+  句 13/17：1 音，0.3s，耗时 0s，音高偏差中位 0.876 半音
+  句 14/17：1 音，0.8s，耗时 0s，音高偏差中位 0.387 半音
+  句 15/17：6 音，2.3s，耗时 1s，音高偏差中位 0.118 半音
+  句 16/17：11 音，3.9s，耗时 1s，音高偏差中位 0.261 半音
+  句 17/17：11 音，3.4s，耗时 1s，音高偏差中位 0.149 半音
+写 /content/stage1_plus12/voxTel_stage1_diffsinger.wav（45.68s，原始峰值 0.1783 -> 归一 0.89）
+写 /content/stage1_plus12/voxTel_stage1_diffsinger.json
+-rw-r--r-- 1 root root    7645 Nov  5 14:06 /content/stage1_plus12/voxTel_stage1_plus12.json
+-rw-r--r-- 1 root root 4029286 Nov  5 14:06 /content/stage1_plus12/voxTel_stage1_plus12.wav
+=== stage1+12 vox2 ===
+[0;93m2026-11-05 14:06:49.899371046 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:49.899584017 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph1 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:49.900105828 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph4 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:49.902849012 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph5 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:49.909456035 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:49.909485617 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:50.171390516 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 6 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:50.174278675 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:50.174326378 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:50.322887009 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:50.322935075 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:50.505334228 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:50.508257113 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:50.514297877 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:50.514351054 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:50.675329955 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:50.675376874 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:06:50.772475606 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 4 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:50.775291592 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:06:50.777426563 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:06:50.777448999 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+bank loaded (8 sessions)
+vox2: 151 音 -> 22 句
+  句 1/22：4 音，1.7s，耗时 1s，音高偏差中位 0.074 半音
+  句 2/22：4 音，1.6s，耗时 0s，音高偏差中位 0.238 半音
+  句 3/22：4 音，1.5s，耗时 0s，音高偏差中位 0.328 半音
+  句 4/22：4 音，1.5s，耗时 0s，音高偏差中位 0.178 半音
+  句 5/22：4 音，1.5s，耗时 0s，音高偏差中位 0.172 半音
+  句 6/22：4 音，1.5s，耗时 0s，音高偏差中位 0.06 半音
+  句 7/22：11 音，4.3s，耗时 1s，音高偏差中位 0.232 半音
+  句 8/22：16 音，6.1s，耗时 1s，音高偏差中位 0.316 半音
+  句 9/22：4 音，1.9s，耗时 1s，音高偏差中位 0.085 半音
+  句 10/22：4 音，1.7s，耗时 1s，音高偏差中位 0.004 半音
+  句 11/22：15 音，3.5s，耗时 1s，音高偏差中位 0.109 半音
+  句 12/22：11 音，3.7s，耗时 1s，音高偏差中位 0.022 半音
+  句 13/22：2 音，1.0s，耗时 0s，音高偏差中位 0.119 半音
+  句 14/22：4 音，1.6s，耗时 0s，音高偏差中位 0.23 半音
+  句 15/22：11 音，3.9s，耗时 1s，音高偏差中位 0.179 半音
+  句 16/22：4 音，1.5s，耗时 0s，音高偏差中位 0.016 半音
+  句 17/22：4 音，1.5s，耗时 0s，音高偏差中位 0.172 半音
+  句 18/22：4 音，1.5s，耗时 0s，音高偏差中位 0.287 半音
+  句 19/22：4 音，1.5s，耗时 0s，音高偏差中位 0.134 半音
+  句 20/22：6 音，2.6s，耗时 1s，音高偏差中位 0.032 半音
+  句 21/22：11 音，4.3s，耗时 1s，音高偏差中位 0.201 半音
+  句 22/22：16 音，6.1s，耗时 1s，音高偏差中位 0.252 半音
+写 /content/stage1_plus12/vox2_stage1_diffsinger.wav（166.84s，原始峰值 0.2184 -> 归一 0.89）
+写 /content/stage1_plus12/vox2_stage1_diffsinger.json
+-rw-r--r-- 1 root root     9901 Nov  5 14:07 /content/stage1_plus12/vox2_stage1_plus12.json
+-rw-r--r-- 1 root root 14715598 Nov  5 14:07 /content/stage1_plus12/vox2_stage1_plus12.wav
+=== stage1+12 vox4 ===
+[0;93m2026-11-05 14:07:05.751424722 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:05.751650041 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph1 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:05.752172782 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph sub_graph4 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:05.754958996 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph5 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:05.761774628 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:07:05.761804688 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:07:06.023400044 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 6 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:06.026328801 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:07:06.026360307 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:07:06.172729453 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:07:06.172775986 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:07:06.354794160 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 7 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:06.357660079 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:06.363527573 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:07:06.363561240 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:07:06.526039818 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:07:06.526084737 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+[0;93m2026-11-05 14:07:06.623541877 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 4 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:06.626412348 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 24 Memcpy nodes are added to the graph sub_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-11-05 14:07:06.628594063 [W:onnxruntime:, session_state.cc:1598 VerifyEachNodeIsAssignedToAnEp] Some nodes were not assigned to the preferred execution providers which may or may not have an negative impact on performance. e.g. ORT explicitly assigns shape related ops to CPU to improve perf.[m
+[0;93m2026-11-05 14:07:06.628615856 [W:onnxruntime:, session_state.cc:1600 VerifyEachNodeIsAssignedToAnEp] Rerunning with verbose output on a non-minimal build will show node assignments.[m
+bank loaded (8 sessions)
+vox4: 54 音 -> 10 句
+  句 1/10：4 音，1.5s，耗时 1s，音高偏差中位 0.435 半音
+  句 2/10：4 音，1.5s，耗时 0s，音高偏差中位 0.205 半音
+  句 3/10：4 音，1.5s，耗时 0s，音高偏差中位 0.152 半音
+  句 4/10：4 音，1.5s，耗时 0s，音高偏差中位 0.17 半音
+  句 5/10：11 音，3.1s，耗时 1s，音高偏差中位 0.085 半音
+  句 6/10：4 音，1.5s，耗时 0s，音高偏差中位 0.024 半音
+  句 7/10：4 音，1.5s，耗时 0s，音高偏差中位 0.484 半音
+  句 8/10：4 音，1.5s，耗时 0s，音高偏差中位 0.006 半音
+  句 9/10：4 音，1.5s，耗时 0s，音高偏差中位 0.118 半音
+  句 10/10：11 音，3.1s，耗时 1s，音高偏差中位 0.109 半音
+写 /content/stage1_plus12/vox4_stage1_diffsinger.wav（141.40s，原始峰值 0.1159 -> 归一 0.89）
+写 /content/stage1_plus12/vox4_stage1_diffsinger.json
+-rw-r--r-- 1 root root     4566 Nov  5 14:07 /content/stage1_plus12/vox4_stage1_plus12.json
+-rw-r--r-- 1 root root 12471790 Nov  5 14:07 /content/stage1_plus12/vox4_stage1_plus12.wav
+total 46004
+drwxr-xr-x 2 root root     4096 Nov  5 14:07 .
+drwxr-xr-x 1 root root     4096 Nov  5 14:05 ..
+-rw-r--r-- 1 root root     9901 Nov  5 14:07 vox2_stage1_plus12.json
+-rw-r--r-- 1 root root 14715598 Nov  5 14:07 vox2_stage1_plus12.wav
+-rw-r--r-- 1 root root     4566 Nov  5 14:07 vox4_stage1_plus12.json
+-rw-r--r-- 1 root root 12471790 Nov  5 14:07 vox4_stage1_plus12.wav
+-rw-r--r-- 1 root root    22247 Nov  5 14:06 vox_stage1_plus12.json
+-rw-r--r-- 1 root root 15826918 Nov  5 14:06 vox_stage1_plus12.wav
+-rw-r--r-- 1 root root     7645 Nov  5 14:06 voxTel_stage1_plus12.json
+-rw-r--r-- 1 root root  4029286 Nov  5 14:06 voxTel_stage1_plus12.wav
+STAGE1-PLUS12-DONE

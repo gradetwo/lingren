@@ -1,0 +1,17 @@
+{
+ "track": "vox4",
+ "tool": "librosa.effects.pitch_shift",
+ "librosa_version": "0.11.0",
+ "shift_semitones": -12,
+ "bins_per_octave": 12,
+ "formant_preserved": false,
+ "sr": 44100,
+ "duration_s": 141.403,
+ "peak_before_shift": 0.89,
+ "rms_before_shift": 0.0517,
+ "peak_after_shift_before_norm": 0.5575,
+ "gain_to_0.89": 1.5963,
+ "peak_normalized": 0.89,
+ "shift_s": 1.1,
+ "source": "vox4_stage1_plus12.wav"
+}

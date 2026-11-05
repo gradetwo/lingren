@@ -1,0 +1,14 @@
+{
+ "track": "vox2",
+ "wav": "/content/stage2_ying_plus12/vox2_stage2_plus12_yingmusic-svc.wav",
+ "sr": 44100,
+ "duration_s": 166.835,
+ "n_notes": 151,
+ "detected": 118,
+ "dev_median_semitones": 0.777,
+ "dev_p90_abs_semitones": 12.386,
+ "over_pm0_5_frac": 0.559,
+ "voiced_frame_frac": 0.43,
+ "ltas_centroid_hz": 3761.9,
+ "ltas_peak_200_4000_hz": 1485.8
+}

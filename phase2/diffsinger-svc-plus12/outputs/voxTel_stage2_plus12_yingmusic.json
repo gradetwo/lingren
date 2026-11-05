@@ -1,0 +1,14 @@
+{
+ "track": "voxTel",
+ "wav": "/content/stage2_ying_plus12/voxTel_stage2_plus12_yingmusic-svc.wav",
+ "sr": 44100,
+ "duration_s": 45.674,
+ "n_notes": 99,
+ "detected": 64,
+ "dev_median_semitones": 1.236,
+ "dev_p90_abs_semitones": 12.986,
+ "over_pm0_5_frac": 0.609,
+ "voiced_frame_frac": 0.328,
+ "ltas_centroid_hz": 3853.8,
+ "ltas_peak_200_4000_hz": 333.8
+}

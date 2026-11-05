@@ -1,0 +1,89 @@
+python: /content/lindong_venv/bin/python3
+torch 2.10.0+cu128 cuda True
+/content/lindong_venv/lib/python3.13/site-packages/pyworld/__init__.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+PRECHECK-OK
+=== prep prompts ===
+/content/lindong_venv/lib/python3.13/site-packages/pyworld/__init__.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[f0 extraction] init success: device=cuda model_path=pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt is_half=False input_sr=16000 target_sr=24000 hop_size=480 thred=0.03
+[f0 extraction] process: start: /content/prep_bard_growl/vocal.wav
+[f0 extraction] process: done: frames=381 voiced_ratio=0.753 time=1.272s
+PREP-OK bard_growl
+/content/lindong_venv/lib/python3.13/site-packages/pyworld/__init__.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[f0 extraction] init success: device=cuda model_path=pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt is_half=False input_sr=16000 target_sr=24000 hop_size=480 thred=0.03
+[f0 extraction] process: start: /content/prep_bard_scream/vocal.wav
+[f0 extraction] process: done: frames=309 voiced_ratio=0.900 time=0.511s
+PREP-OK bard_scream
+/content/lindong_venv/lib/python3.13/site-packages/pyworld/__init__.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[f0 extraction] init success: device=cuda model_path=pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt is_half=False input_sr=16000 target_sr=24000 hop_size=480 thred=0.03
+[f0 extraction] process: start: /content/prep_groupyell/vocal.wav
+[f0 extraction] process: done: frames=775 voiced_ratio=0.730 time=0.596s
+PREP-OK groupyell
+=== prep targets (+12 down-shifted wavs) ===
+/content/lindong_venv/lib/python3.13/site-packages/pyworld/__init__.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[f0 extraction] init success: device=cuda model_path=pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt is_half=False input_sr=16000 target_sr=24000 hop_size=480 thred=0.03
+[f0 extraction] process: start: /content/prep_tgt_plus12_vox/vocal.wav
+[f0 extraction] process: done: frames=8973 voiced_ratio=0.392 time=1.236s
+PREP-OK tgt_plus12_vox
+/content/lindong_venv/lib/python3.13/site-packages/pyworld/__init__.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[f0 extraction] init success: device=cuda model_path=pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt is_half=False input_sr=16000 target_sr=24000 hop_size=480 thred=0.03
+[f0 extraction] process: start: /content/prep_tgt_plus12_voxTel/vocal.wav
+[f0 extraction] process: done: frames=2285 voiced_ratio=0.463 time=0.609s
+PREP-OK tgt_plus12_voxTel
+/content/lindong_venv/lib/python3.13/site-packages/pyworld/__init__.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[f0 extraction] init success: device=cuda model_path=pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt is_half=False input_sr=16000 target_sr=24000 hop_size=480 thred=0.03
+[f0 extraction] process: start: /content/prep_tgt_plus12_vox2/vocal.wav
+[f0 extraction] process: done: frames=8343 voiced_ratio=0.203 time=1.107s
+PREP-OK tgt_plus12_vox2
+/content/lindong_venv/lib/python3.13/site-packages/pyworld/__init__.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[f0 extraction] init success: device=cuda model_path=pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt is_half=False input_sr=16000 target_sr=24000 hop_size=480 thred=0.03
+[f0 extraction] process: start: /content/prep_tgt_plus12_vox4/vocal.wav
+[f0 extraction] process: done: frames=7071 voiced_ratio=0.077 time=0.997s
+PREP-OK tgt_plus12_vox4
+=== SVC runs ===
+Model initialized.
+Model parameters: 698.317314 M
+Model converted to FP16 (mel kept in FP32).
+Model checkpoint loaded.
+Inferring segments (SVC):   0%|          | 0/3 [00:00<?, ?it/s]The attention layers in this model are transitioning from computing the RoPE embeddings internally through `position_ids` (2D tensor with the indexes of the tokens), to using externally computed `position_embeddings` (Tuple of tensors, containing cos and sin). In v4.46 `position_ids` will be removed and `position_embeddings` will be mandatory.
+Inferring segments (SVC):  33%|███▎      | 1/3 [00:06<00:12,  6.10s/it]Inferring segments (SVC):  67%|██████▋   | 2/3 [00:11<00:05,  5.87s/it]Inferring segments (SVC): 100%|██████████| 3/3 [00:18<00:00,  6.40s/it]Inferring segments (SVC): 100%|██████████| 3/3 [00:18<00:00,  6.28s/it]
+Generated audio saved to /content/svc_out_plus12_voxTel__bard_growl/generated.wav
+SVC-OK voxTel bard_growl time=41s
+Model initialized.
+Model parameters: 698.317314 M
+Model converted to FP16 (mel kept in FP32).
+Model checkpoint loaded.
+Inferring segments (SVC):   0%|          | 0/10 [00:00<?, ?it/s]The attention layers in this model are transitioning from computing the RoPE embeddings internally through `position_ids` (2D tensor with the indexes of the tokens), to using externally computed `position_embeddings` (Tuple of tensors, containing cos and sin). In v4.46 `position_ids` will be removed and `position_embeddings` will be mandatory.
+Inferring segments (SVC):  10%|█         | 1/10 [00:05<00:53,  5.99s/it]Inferring segments (SVC):  20%|██        | 2/10 [00:10<00:41,  5.13s/it]Inferring segments (SVC):  30%|███       | 3/10 [00:16<00:38,  5.43s/it]Inferring segments (SVC):  40%|████      | 4/10 [00:21<00:32,  5.34s/it]Inferring segments (SVC):  50%|█████     | 5/10 [00:26<00:25,  5.19s/it]Inferring segments (SVC):  60%|██████    | 6/10 [00:31<00:20,  5.09s/it]Inferring segments (SVC):  70%|███████   | 7/10 [00:37<00:15,  5.33s/it]Inferring segments (SVC):  80%|████████  | 8/10 [00:44<00:11,  5.98s/it]Inferring segments (SVC):  90%|█████████ | 9/10 [00:51<00:06,  6.40s/it]Inferring segments (SVC): 100%|██████████| 10/10 [00:55<00:00,  5.57s/it]Inferring segments (SVC): 100%|██████████| 10/10 [00:55<00:00,  5.55s/it]
+Generated audio saved to /content/svc_out_plus12_vox__bard_growl/generated.wav
+SVC-OK vox bard_growl time=74s
+Model initialized.
+Model parameters: 698.317314 M
+Model converted to FP16 (mel kept in FP32).
+Model checkpoint loaded.
+Inferring segments (SVC):   0%|          | 0/7 [00:00<?, ?it/s]The attention layers in this model are transitioning from computing the RoPE embeddings internally through `position_ids` (2D tensor with the indexes of the tokens), to using externally computed `position_embeddings` (Tuple of tensors, containing cos and sin). In v4.46 `position_ids` will be removed and `position_embeddings` will be mandatory.
+Inferring segments (SVC):  14%|█▍        | 1/7 [00:11<01:07, 11.28s/it]Inferring segments (SVC):  29%|██▊       | 2/7 [00:22<00:56, 11.35s/it]Inferring segments (SVC):  43%|████▎     | 3/7 [00:33<00:43, 10.94s/it]Inferring segments (SVC):  57%|█████▋    | 4/7 [00:39<00:27,  9.27s/it]Inferring segments (SVC):  71%|███████▏  | 5/7 [00:49<00:18,  9.41s/it]Inferring segments (SVC):  86%|████████▌ | 6/7 [00:59<00:09,  9.72s/it]Inferring segments (SVC): 100%|██████████| 7/7 [01:05<00:00,  8.29s/it]Inferring segments (SVC): 100%|██████████| 7/7 [01:05<00:00,  9.31s/it]
+Generated audio saved to /content/svc_out_plus12_vox2__groupyell/generated.wav
+SVC-OK vox2 groupyell time=84s
+Model initialized.
+Model parameters: 698.317314 M
+Model converted to FP16 (mel kept in FP32).
+Model checkpoint loaded.
+Inferring segments (SVC):   0%|          | 0/4 [00:00<?, ?it/s]The attention layers in this model are transitioning from computing the RoPE embeddings internally through `position_ids` (2D tensor with the indexes of the tokens), to using externally computed `position_embeddings` (Tuple of tensors, containing cos and sin). In v4.46 `position_ids` will be removed and `position_embeddings` will be mandatory.
+Inferring segments (SVC):  25%|██▌       | 1/4 [00:09<00:27,  9.04s/it]Inferring segments (SVC):  50%|█████     | 2/4 [00:25<00:27, 13.59s/it]Inferring segments (SVC):  75%|███████▌  | 3/4 [00:32<00:10, 10.52s/it]Inferring segments (SVC): 100%|██████████| 4/4 [00:38<00:00,  8.51s/it]Inferring segments (SVC): 100%|██████████| 4/4 [00:38<00:00,  9.53s/it]
+Generated audio saved to /content/svc_out_plus12_vox4__groupyell/generated.wav
+SVC-OK vox4 groupyell time=57s
+=== collect 24k -> 48k + normalize + sidecar ===
+COLLECT vox OK dur 179.443 raw_peak 1.0 gain 0.5835
+COLLECT voxTel OK dur 45.683 raw_peak 1.0 gain 0.681
+COLLECT vox2 OK dur 166.843 raw_peak 1.0 gain 0.756
+COLLECT vox4 OK dur 141.403 raw_peak 1.0 gain 0.6315
+STAGE2-PLUS12-SOULX-COLLECT-DONE
+STAGE2-PLUS12-SOULX-DONE
