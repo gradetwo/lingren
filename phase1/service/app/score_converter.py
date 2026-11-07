@@ -396,6 +396,9 @@ def write_midi_file(path, notes: list[tuple], bpm: float,
               + (1).to_bytes(2, "big") + ppq.to_bytes(2, "big"))
     Path(path).write_bytes(header + b"MTrk" + len(track).to_bytes(4, "big")
                            + bytes(track))
+
+
+def score_onsets_seconds(score: ScoreIn) -> list[float]:
     """Score-clock onset per note (rests included, ties included)."""
     return [float(n.start_s) for n in sorted(score.notes,
                                              key=lambda n: n.start_s)]
