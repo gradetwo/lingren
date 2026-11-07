@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -37,6 +38,7 @@ from pathlib import Path
 from ..schemas import PartIn
 from ..score_converter import score_lyrics_text, score_to_yue2_abc
 from .base import AdapterError, BaseAdapter
+from .svc_post import apply_svc_post
 
 _DRIVER = Path(__file__).resolve().parent.parent / "yue2_driver.py"
 
@@ -76,11 +78,6 @@ class YuE2Adapter(BaseAdapter):
                 "options.yue2_style.")
         if not _has_sung_notes(part):
             raise AdapterError("score has no sung notes")
-        if opts.get("svc", False):
-            raise AdapterError(
-                "options.svc is not wired yet (lands in step 5 of "
-                "DESIGN-four-pipelines.md section 12); run with "
-                "svc off for now")
         abc = score_to_yue2_abc(
             part.score, key=str(opts.get("yue2_key", "C")),
             transpose=12, ins_abc=opts.get("ins_abc"),
@@ -93,6 +90,7 @@ class YuE2Adapter(BaseAdapter):
         n_bars = max(1, int((max(n.start_s + n.dur_s
                                 for n in part.score.notes)
                              / (4 * 60.0 / part.score.bpm)) + 0.999))
+        dry_path = workdir / f"yue2_{part.label}_dry.wav"
         cmd = [sys.executable, str(_DRIVER),
                "--repo", _env("YUE2_REPO"),
                "--model", os.environ.get("YUE2_MODEL", "m-a-p/YuE2-3B"),
@@ -118,7 +116,7 @@ class YuE2Adapter(BaseAdapter):
                "--repetition-penalty", str(opts.get(
                    "yue2_repetition_penalty",
                    DEFAULTS["repetition_penalty"])),
-               "--out", str(out_path),
+               "--out", str(dry_path),
                "--workdir", str(workdir / f"yue2_run_{part.label}")]
         proc = subprocess.run(cmd, capture_output=True, text=True,
                               timeout=3600)
@@ -135,8 +133,21 @@ class YuE2Adapter(BaseAdapter):
             raise AdapterError(
                 "YuE2 driver failed (exit %s): %s"
                 % (proc.returncode, (proc.stderr or proc.stdout)[-2000:]))
+        dry_sr = int(summary.get("sr", 44100))
+        dry_dur = summary.get("duration_s")
+        if opts.get("svc", False):
+            svc_info = apply_svc_post(
+                dry_path, voice, out_path,
+                workdir / f"yue2_svc_{part.label}", seed)
+            out_sr = int(svc_info.get("sample_rate") or 24000)
+            out_dur = svc_info.get("duration_s")
+        else:
+            shutil.copyfile(dry_path, out_path)
+            svc_info = None
+            out_sr, out_dur = dry_sr, dry_dur
         info = {"adapter": "yue2", "seed": seed,
-                "duration_s": summary.get("duration_s"),
+                "duration_s": out_dur,
+                "dry_duration_s": dry_dur,
                 "gen_duration_s": summary.get("gen_duration_s"),
                 "bars": n_bars,
                 "notes": len(part.score.notes),
@@ -151,5 +162,5 @@ class YuE2Adapter(BaseAdapter):
                 "repetition_penalty": opts.get(
                     "yue2_repetition_penalty",
                     DEFAULTS["repetition_penalty"]),
-                "svc": False}
-        return out_path, int(summary.get("sr", 44100)), info
+                "svc": svc_info}
+        return out_path, out_sr, info

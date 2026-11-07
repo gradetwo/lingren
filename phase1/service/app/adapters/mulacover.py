@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -46,6 +47,7 @@ from ..score_converter import (
     PPQ, chords_to_midi_notes, derive_chords, score_lyrics_text,
     score_to_midi_notes, stretch_midi_notes, write_midi_file)
 from .base import AdapterError, BaseAdapter
+from .svc_post import apply_svc_post
 
 _DRIVER = Path(__file__).resolve().parent.parent / "mulacover_driver.py"
 
@@ -149,11 +151,6 @@ class MuLaCoverAdapter(BaseAdapter):
         if not any(n.lyric not in ("", "<SP>") and n.midi > 0
                    for n in part.score.notes):
             raise AdapterError("score has no sung notes")
-        if opts.get("svc", False):
-            raise AdapterError(
-                "options.svc is not wired yet (lands in step 5 of "
-                "DESIGN-four-pipelines.md section 12); run with "
-                "svc off for now")
         transpose = 12 if opts.get("transpose12", False) else 0
         beat = 60.0 / part.score.bpm
         bar_s = 4 * beat
@@ -233,6 +230,7 @@ class MuLaCoverAdapter(BaseAdapter):
                     "span_s": span_s, "segments": manifest_segments}
         manifest_path = seg_dir / "manifest.json"
         manifest_path.write_text(json.dumps(manifest, indent=2))
+        dry_path = workdir / f"mc_{part.label}_dry.wav"
         cmd = [sys.executable, str(_DRIVER),
                "--repo", _env("MULACOVER_REPO"),
                "--model-path", _env("MULACOVER_MODEL_PATH"),
@@ -245,7 +243,7 @@ class MuLaCoverAdapter(BaseAdapter):
                "--cfg-scale", str(opts.get(
                    "mulacover_cfg_scale", DEFAULTS["cfg_scale"])),
                "--manifest", str(manifest_path),
-               "--out", str(out_path),
+               "--out", str(dry_path),
                "--workdir", str(workdir / f"mc_run_{part.label}")]
         proc = subprocess.run(cmd, capture_output=True, text=True,
                               timeout=3600)
@@ -262,8 +260,21 @@ class MuLaCoverAdapter(BaseAdapter):
             raise AdapterError(
                 "MuLaCover driver failed (exit %s): %s"
                 % (proc.returncode, (proc.stderr or proc.stdout)[-2000:]))
+        dry_sr = int(summary.get("sr", 44100))
+        dry_dur = summary.get("duration_s")
+        if opts.get("svc", False):
+            svc_info = apply_svc_post(
+                dry_path, voice, out_path,
+                workdir / f"mc_svc_{part.label}", seed)
+            out_sr = int(svc_info.get("sample_rate") or 24000)
+            out_dur = svc_info.get("duration_s")
+        else:
+            shutil.copyfile(dry_path, out_path)
+            svc_info = None
+            out_sr, out_dur = dry_sr, dry_dur
         info = {"adapter": "mulacover", "seed": seed,
-                "duration_s": summary.get("duration_s"),
+                "duration_s": out_dur,
+                "dry_duration_s": dry_dur,
                 "peak": summary.get("peak"),
                 "bars": n_bars,
                 "segments": summary.get("segments"),
@@ -274,5 +285,5 @@ class MuLaCoverAdapter(BaseAdapter):
                 "temperature": opts.get("mulacover_temperature",
                                         DEFAULTS["temperature"]),
                 "topk": opts.get("mulacover_topk", DEFAULTS["topk"]),
-                "svc": False}
-        return out_path, int(summary.get("sr", 44100)), info
+                "svc": svc_info}
+        return out_path, out_sr, info

@@ -215,15 +215,80 @@ def test_yue2_style_missing_fails_loudly(tmp_path):
                                  tmp_path)
 
 
-def test_yue2_svc_not_wired_yet(tmp_path):
-    # Step 5 wires the SVC post-process; until then svc=True must
-    # fail loudly, never silently generate without SVC.
-    store = _store_with_voice(tmp_path)
+def test_yue2_svc_off_does_not_read_svc_env(tmp_path, monkeypatch):
+    # svc off: the SVC env is never read and no voice is needed.
+    import app.adapters.yue2 as yue2_mod
+    fake = tmp_path / "fake_yue2_driver.py"
+    fake.write_text(_FAKE_YUE2_DRIVER)
+    monkeypatch.setattr(yue2_mod, "_DRIVER", fake)
+    monkeypatch.delenv("SVC_REPO", raising=False)
+    monkeypatch.setenv("YUE2_REPO", "/fake/repo")
     part = _part("yue2", [_note("啊", 64, 0.0, 0.5)],
-                 options={"svc": True, "yue2_style": "x"})
-    with pytest.raises(AdapterError, match="not wired yet"):
-        YuE2Adapter().synthesize(part, store.voices["v"], 42,
-                                 tmp_path / "o.wav", tmp_path)
+                 options={"yue2_style": "x"})
+    _, sr, info = YuE2Adapter().synthesize(
+        part, None, 42, tmp_path / "o.wav", tmp_path)
+    assert sr == 44100 and info["svc"] is None
+
+
+_FAKE_YUE2_DRIVER = '''\
+import argparse, json
+import numpy as np, soundfile as sf
+ap = argparse.ArgumentParser()
+ap.add_argument("--out", required=True)
+args, _ = ap.parse_known_args()
+sr = 44100
+t = np.arange(2 * sr) / sr
+sf.write(args.out, (0.5 * np.sin(2 * np.pi * 220 * t)).astype(np.float32), sr)
+print(json.dumps({"out": args.out, "sr": sr, "duration_s": 2.0,
+                  "gen_duration_s": 1.0, "model": "m-a-p/YuE2-3B",
+                  "model_revision": "x"}))
+'''
+
+
+def _fake_apply_svc(dry_path, voice, out_path, workdir, seed):
+    import soundfile as sf
+    data, sr = sf.read(str(dry_path), dtype="float32")
+    sf.write(str(out_path), data, 24000)
+    return {"svc": True, "target_voice_id": voice.get("voice_id"),
+            "target_duration_s": 3.0, "target_sr": 24000,
+            "source_sr": sr, "source_duration_s": 2.0, "seed": seed,
+            "pitch_shift": 0, "auto_shift": False, "duration_s": 2.0,
+            "sample_rate": 24000, "peak": 0.5}
+
+
+def test_yue2_svc_on_calls_post_process(tmp_path, monkeypatch):
+    import app.adapters.yue2 as yue2_mod
+    fake = tmp_path / "fake_yue2_driver.py"
+    fake.write_text(_FAKE_YUE2_DRIVER)
+    monkeypatch.setattr(yue2_mod, "_DRIVER", fake)
+    monkeypatch.setattr(yue2_mod, "apply_svc_post", _fake_apply_svc)
+    monkeypatch.setenv("YUE2_REPO", "/fake/repo")
+    part = _part("yue2", [_note("啊", 64, 0.0, 0.5)],
+                 options={"yue2_style": "x", "svc": True})
+    voice = {"voice_id": "v", "audio_path": "/fake/prompt.wav"}
+    _, sr, info = YuE2Adapter().synthesize(
+        part, voice, 42, tmp_path / "o.wav", tmp_path)
+    assert sr == 24000
+    assert info["svc"]["svc"] is True
+    assert info["svc"]["target_voice_id"] == "v"
+    assert info["duration_s"] == 2.0
+
+
+def test_mulacover_svc_on_calls_post_process(tmp_path, monkeypatch):
+    import app.adapters.mulacover as mc_mod
+    fake = tmp_path / "fake_mc_driver.py"
+    fake.write_text(_FAKE_MC_DRIVER)
+    monkeypatch.setattr(mc_mod, "_DRIVER", fake)
+    monkeypatch.setattr(mc_mod, "apply_svc_post", _fake_apply_svc)
+    monkeypatch.setenv("MULACOVER_REPO", "/fake/repo")
+    monkeypatch.setenv("MULACOVER_MODEL_PATH", "/fake/ckpt")
+    part = _part("mulacover", [_note("啊", 64, 0.0, 0.5)],
+                 options={"tags": "x", "svc": True})
+    voice = {"voice_id": "v", "audio_path": "/fake/prompt.wav"}
+    _, sr, info = MuLaCoverAdapter().synthesize(
+        part, voice, 42, tmp_path / "o.wav", tmp_path)
+    assert sr == 24000
+    assert info["svc"]["svc"] is True
 
 
 @pytest.mark.skipif(
@@ -440,9 +505,86 @@ def test_mulacover_segmentation_and_manifest(tmp_path, monkeypatch):
     assert len(seg0_ch) == 12 * 3  # 12 bars x triad
 
 
-def test_mulacover_svc_not_wired_yet(tmp_path):
-    part = _part("mulacover", [_note("啊", 64, 0.0, 0.5)],
-                 options={"tags": "x", "svc": True})
-    with pytest.raises(AdapterError, match="not wired yet"):
-        MuLaCoverAdapter().synthesize(part, {"audio_path": "/x.wav"},
-                                      42, tmp_path / "o.wav", tmp_path)
+def test_svc_post_validations(tmp_path, monkeypatch):
+    """SVC target checks live in adapters/svc_post.py: >30 s target
+    fails loudly, missing reference audio fails loudly, missing
+    SVC_REPO fails loudly."""
+    import app.adapters.svc_post as svc_mod
+
+    def _wav(path, seconds, sr=24000):
+        t = np.arange(int(seconds * sr)) / sr
+        sf.write(str(path),
+                 (0.3 * np.sin(2 * np.pi * 220 * t)).astype(np.float32),
+                 sr)
+
+    dry = tmp_path / "dry.wav"
+    _wav(dry, 2.0, sr=44100)
+    long_target = tmp_path / "long.wav"
+    _wav(long_target, 31.0)
+    monkeypatch.setenv("SVC_REPO", "/fake/repo")
+    voice = {"voice_id": "v", "audio_path": str(long_target)}
+    with pytest.raises(AdapterError, match="over the 30 s cap"):
+        svc_mod.apply_svc_post(dry, voice, tmp_path / "o.wav",
+                               tmp_path / "w", 42)
+    with pytest.raises(AdapterError, match="reference audio"):
+        svc_mod.apply_svc_post(dry, {"voice_id": "v"},
+                               tmp_path / "o.wav", tmp_path / "w", 42)
+    monkeypatch.delenv("SVC_REPO")
+    short_target = tmp_path / "short.wav"
+    _wav(short_target, 3.0)
+    voice = {"voice_id": "v", "audio_path": str(short_target)}
+    with pytest.raises(AdapterError,
+                       match="missing environment variable SVC_REPO"):
+        svc_mod.apply_svc_post(dry, voice, tmp_path / "o.wav",
+                               tmp_path / "w", 42)
+
+
+def test_svc_post_happy_path_with_fake_driver(tmp_path, monkeypatch):
+    """apply_svc_post with a fake svc driver: resamples to 24 kHz,
+    passes pitch_shift 0 / no auto-shift / fp16-on-cuda, returns
+    the target duration and the driver summary."""
+    import app.adapters.svc_post as svc_mod
+    fake = tmp_path / "fake_svc_driver.py"
+    fake.write_text(_FAKE_SVC_DRIVER)
+    monkeypatch.setattr(svc_mod, "_DRIVER", fake)
+    monkeypatch.setenv("SVC_REPO", "/fake/repo")
+    monkeypatch.setenv("SVC_DEVICE", "cuda")
+
+    def _wav(path, seconds, sr):
+        t = np.arange(int(seconds * sr)) / sr
+        sf.write(str(path),
+                 (0.3 * np.sin(2 * np.pi * 220 * t)).astype(np.float32),
+                 sr)
+
+    dry = tmp_path / "dry.wav"
+    _wav(dry, 2.0, 44100)
+    target = tmp_path / "target.wav"
+    _wav(target, 3.0, 24000)
+    info = svc_mod.apply_svc_post(
+        dry, {"voice_id": "v", "audio_path": str(target)},
+        tmp_path / "o.wav", tmp_path / "w", 42)
+    assert info["svc"] is True
+    assert info["target_duration_s"] == 3.0
+    assert info["pitch_shift"] == 0 and info["auto_shift"] is False
+    assert info["sample_rate"] == 24000
+    out_info = sf.info(str(tmp_path / "o.wav"))
+    assert out_info.samplerate == 24000
+
+
+_FAKE_SVC_DRIVER = '''\
+import argparse, json
+import soundfile as sf
+ap = argparse.ArgumentParser()
+ap.add_argument("--source", required=True)
+ap.add_argument("--timbre", required=True)
+ap.add_argument("--out", required=True)
+ap.add_argument("--pitch-shift", type=int, default=0)
+args, _ = ap.parse_known_args()
+assert args.pitch_shift == 0, "SVC pitch_shift must be 0"
+data, sr = sf.read(args.source, dtype="float32")
+assert sr == 24000, f"SVC source must be 24 kHz, got {sr}"
+sf.write(args.out, data, sr)
+print(json.dumps({"out": args.out, "sr": sr,
+                  "duration_s": round(len(data) / sr, 4),
+                  "peak": 0.5, "clipped_samples": 0}))
+'''
