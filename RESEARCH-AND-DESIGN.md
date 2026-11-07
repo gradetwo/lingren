@@ -7,8 +7,9 @@
 ## 0. 结论先行
 
 - 服务形态：一个独立 FastAPI 服务，同一套代码，三种部署（本地 macOS、Colab 远端、Docker Linux GPU）。
-- 模型：双适配器。SoulX-Singer 作默认模型，VocalRender 作音质选项。
+- 模型：四适配器（2026-11-07 起，见 §13）。SoulX-Singer、VocalRender、YuE2、MuLaCover 全进 `PartIn.model`；默认模型是 YuE2（Wang 2026-11-07 定，此前默认 SoulX）。
 - 选 SoulX 作默认的理由只有一条，而且是决定性的：它遵守乐谱时钟。VocalRender 不接受逐音符时长，输出时值由模型自己定。
+- 上一条是 2026-11-02 的定夺。2026-11-07 Wang 改定默认走 YuE2（见 §13）：默认模型的取舍不再只看时钟——四条管线各有长短，默认值是调用方不传 model 时的落点，显式传 model 仍可走 SoulX（时钟最准）或 VocalRender。
 - macOS 本地：v1 只做 PyTorch MPS，不做 MLX。MLX 是二期移植项，不是开关。
 - 远端：Colab 会话内跑服务，cloudflared 隧道暴露。开发期用 quick tunnel，固定使用期切 named tunnel。
 - Docker 是三期，只面向 Linux GPU 服务器。macOS 上 Docker 没有 GPU 直通，Docker 模式永远不是 macOS 本地路径。
@@ -44,8 +45,10 @@
 
 ### 1.3 不在 v1 范围的模型
 
-- SoulX-Singer-SVC（2026-03 发布，歌声转换，音频到音频，无需歌词与 MIDI）：与本项目目标不同（本项目是乐谱到歌声），列为后续扩展候选，不进 v1。
-- 其他 SVS（DiffSinger、TCSinger 2 等）：不列入 v1。双模型已经覆盖「时钟准」与「音质」两个极点，再加模型只加适配器成本，不加架构成本。
+- SoulX-Singer-SVC（2026-03 发布，歌声转换，音频到音频，无需歌词与 MIDI）：与本项目目标不同（本项目是乐谱到歌声），列为后续扩展候选，不进 v1。但 2026-11-07 起，SVC 以可选后处理（`part.options.svc`）接在 YuE2/MuLaCover 干声之后，见 §13；它不是独立的合成管线。
+- 其他 SVS（TCSinger 2 等）：不列入 v1。双模型已经覆盖「时钟准」与「音质」两个极点，再加模型只加适配器成本，不加架构成本。
+- DiffSinger：不在可用管线内（见 §13 与 §11）。DiffSinger + SVC 两段管线位于 lingren 仓库分支 `lingren-diffsinger-svc-twostage`，尖端 `8ad4180`，代码提交后即停下来，不合入 main（Wang 2026-11-07 15:10 定）。
+- YuE2 与 MuLaCover：2026-11-07 已接入（见 §13），不再属本节的「不在范围」。
 
 ## 2. macOS 本地：MLX 是否更好
 
@@ -178,6 +181,7 @@ Colab CLI 会话内跑 FastAPI 服务，cloudflared 隧道把端口暴露成公�
 ## 10. 待 Wang 定夺
 
 - 问题：默认模型是否定 SoulX。选项：SoulX 默认，VocalRender 作音质选项；或反过来。建议：SoulX 默认。理由：时钟准是 DAW 的硬需求，音质是可选项。
+  - 已定（Wang 2026-11-07）：默认走 YuE2，四条管线全进 `PartIn.model`（`soulx` / `vocalrender` / `yue2` / `mulacover`，另有测试用 `stub`）。见 §13。老调用方不传 `model` 时，以前走 SoulX，现在走 YuE2——行为变化，提交说明与服务 README 醒目处均已写明。
 - 问题：macOS 本地 v1 是否只做 MPS，MLX 留二期。选项：只做 MPS；或 v1 就投 MLX 移植。建议：只做 MPS。理由：移植以周计，先让服务跑通，再决定值不值得移植。
 - 问题：远端地址开发期是否接受 quick tunnel 轮换。选项：开发期 quick，固定使用期切 named；或直接上 named。建议：开发期 quick。理由：named 需要 Cloudflare 账号与域名配置，开发期不值得先付这个成本。
 - 问题：声音库口径是否只收用户自有或授权参考音。选项：只收自有或授权；或不设限。建议：只收自有或授权。理由：SoulX 官方 disclaimer 同款口径， impersonation 风险不由服务背。
@@ -274,3 +278,62 @@ Colab CLI 会话内跑 FastAPI 服务，cloudflared 隧道把端口暴露成公�
 - 本任务只做服务侧：转录端点 ＋ 作业 ＋ 回执 ＋ 客户端方法（LingrenClient.transcribe／poll／fetch_midi／fetch_receipt，stdlib 同款）。
 - 回执音符格式刻意贴近夜半的音符字段（instrument、pitch（MIDI）、start_s、end_s），未来 MCP 工具可 1:1 映射，不另设转换层。
 - 后续项（不硬做）：夜半 MCP 工具（例如 transcribe_audio 提交 ＋ 转录结果导入：MIDI 走现有 import_midi 路径，或音符走 edit_notes）；sheets 格式（MusicXML／PDF，需 MuseScore 4+，服务侧不装）；流式进度推送（v1 只有轮询 progress 块数）；断点续跑（NeuralNote 有，伶人 v1 没有）。
+
+## 13. 四条管线（2026-11-07，分支 lingren-svs-four-pipelines）
+
+定夺：Wang 2026-11-07 15:16（四条管线进 `PartIn.model`）、15:17（默认走 YuE2；文档注明 DiffSinger 所在分支）、15:20（YuE2/MuLaCover 之后 SVC 作可选参数，默认不接）。完整设计见 `phase1/service/DESIGN-four-pipelines.md`；本节只记每条管线的利／弊／问题与证据出处，不写无来源的定性。
+
+行为变化（提交说明与服务 README 醒目处均写明）：`PartIn.model` 默认值 `'soulx'` → `'yue2'`；`vocalrender` 由占位变为可用；新增 `yue2`、`mulacover`；未知 `model` 仍大声失败。端点、请求形状、回执形状、takes 门、SoulX 适配器行为、`stub` 均不变。
+
+### 13.1 SoulX（行为不变）
+
+- 利：干声中位偏差约 0 音分。民谣 v2 A 版 SVC 干声中位偏差 −0.006 半音，B 版 +0.004 半音，漏音均为 0，过门全过（`~/workspace/song-folk-two/work/deliver-folk-vocal/rejected-v2/NOTE-folk-a-dry-v2.md`、`NOTE-folk-b-dry-v2.md`）。
+- 利：时值准。v2 B 版 F0 轮廓互相关 5 个 30 秒窗口 −5、+5、+10、−10、−10 毫秒，中位 −5.0 毫秒（同上）。
+- 弊：只换音色不改唱法。v1 否决原因原文：“SVC 只换音色，不改唱法，源表演唱法错了，后面救不回来”（`rejected-v1/REJECTED-v1.md`）。
+- 弊：v1 被 Wang 耳验否决（2026-11-06 19:34，原话“老管线一塌糊涂”；美声唱法）。v2 被 Wang 耳验否决（2026-11-06 20:58，原话“老管线唱法人有问题 不能用”），v2 已用参考歌手本人（宋冬野《安和桥》、木小雅《可能否》）作 SVS prompt 与 SVC 目标，过门全过仍判不可用（`rejected-v2/REJECTED-v2.md`）。
+- 问题：需 prompt 音频与 prompt meta。女声 pitch_shift +3 惯例已证伪（+3 得中位偏差 +2.944 半音，改 0 后得 −0.006 半音；全程用 0 完成）。
+
+### 13.2 VocalRender（2026-11-07 由占位变为可用）
+
+- 形态：VR 直出（prompt 音频作 `--prompt_audio`，48 kHz 直出），从 `phase2/service/` 原样移植（`app/adapters/vocalrender.py` + `app/vr_driver.py`，只改 import 路径与注册，不改逻辑）。民谣试听跑的 VR→SVC 链路是歌曲制作层面的组合，不是服务适配器形态。
+- 利：B 版时序门全过、0 错音（`folk-b-vr-svc/vr_ref_v3_gate.json`、`svc_measure.json`）；A 版纠音后参考音 gate PASS（`deliver-folk-vocal/rejected-vr/vr_reference_gate.json`）。
+- 利：服务侧端到端已跑通（Colab L4，作业 `e1b68cd64b394d9b`，约 140 秒，4/4 遍首试通过；`phase2/vr-adapter/REPORT.md` §2）。
+- 弊：A 版 VR 唱错 46 音（|偏差| > 1 半音，集中在 seg04 14 音、seg06 10 音、seg07 11 音），须逐音移调纠正后才 0 错音（`folk-a-vr-svc/PROGRESS.md` 21:45 节）。
+- 弊：时光切片 C 通过率 73.3%（检出 11/15 < 80% 门），未通过；尾部时序漂移约 0.3 秒（时光 stage 1b 报告）。
+- 问题：VR 自定时值压缩真实存在（服务侧端到端：乐谱 4.5 秒 → 输出 4.16/4.0 秒）。放置必须用回执实测起点，不能按乐谱硬贴（`jobs.py` 的 `_alignment` 已有 `vocalrender` 的 `rescaled` 模式）。
+- 问题：B 版 SVC 曾因 prompt 文件用错整轮失败（227.02 秒整首 Demucs 分离人声作 prompt，全是 50 Hz 嗡鸣；换 14.5 秒 clip 重跑后 10/10 成功）。教训：prompt 文件的时长与哈希须核对。
+
+### 13.3 YuE2（2026-11-07 新增，默认直出干声）
+
+- 配方（写死为默认值）：原生 ABC（Vocal +12 移调、Ins 默认休止）、Demucs 4.1.0 分离出干声；采样参数 cot=melody、cfg 1.0、temp 1.0、top_p 0.95、top_k 100、rep 1.2。组合控制反效果已证实，适配器不提供“一键全开”组合。
+- 利：原生 ABC 是唯一有效的单变量（时长比 0.884→1.005，覆盖 72.0%→100.0%（132/132），中位起音误差 171→107.5 毫秒）；八度杠杆两段都成立（r3 −7.5 音分，r4 +0.9 音分）；r4 第二段 identity 读法五项全过（5/5）。
+- 弊：整曲五版全败（轮廓相关最好一致 r 约 0.40，门要求 r > 0.5）；早期干声时间压缩约 0.80；尾部与段间静音区噪声（Wang 2026-11-06 20:56 耳验）。
+- 问题：第一段高音压扁在第二段未复现（r3 自 MIDI 60 起一路变扁，r4 同音区全程平坦），音区上限给不出；是否追第一段压扁（同段重 roll 换 seed），待 Wang 定。控制面只有六项（风格文本、歌词文本、ABC 谱、cot 模式、seed、采样参数），无时长参数、无伴奏音频输入、无参考音频输入、无音素对齐通道、无 BPM 字段、无负 prompt 字段。seed 方差大。
+- 局限：单次调用生成整个 part，不按段切分；超过约 108 秒输出的时长保真度未测；生成本身不需要 voice（SVC 开关打开时才需要）。
+
+### 13.4 MuLaCover（2026-11-07 新增，默认直出干声）
+
+- 配方（写死为默认值）：new-control（拉伸 ×1.5 旋律+和弦 MIDI、cfg 2.5、temp 1.0、topk 250、seed 42）；和弦默认按设计 §5.2 规则从谱子推导，`options.chords` 可覆盖；按段生成（每段至多 12 小节，4/4 假设）再拼接（照抄 `seggen_splice.py` 的方法）；tags 必填，无通用默认值。
+- 配方保留说明：拉伸 ×1.5 的时长效应已被证伪（新控制组输出由基线 68.16 秒缩到 52.32 秒），配方保留是因为组合实测最佳（轮廓 r 0.332，全系列最高），不是因为每个成分都证实有效。
+- 利：谱内覆盖率高（A 93.2%，B 95.2%）；B 版音高基本是对的（线性 warp 后中位偏差 −59.9 音分）；按段生成后拼接整轨覆盖 95.8%，时长比 1.000，过 3/5 门。
+- 弊：A 版中位偏差 −1200.9 音分（低一个八度唱）；四轮调参 13 臂无一过 2/5 门，轮廓 r 全系列最高仍是 0.332，离 0.5 的门差一倍；时长自决、输出短（A 0.57、B 0.53）；按段拼接未解决旋律跟随（拼接整轨轮廓 r 0.199）。
+- 问题：条件软性（交叉注意力门初始化为 0，只在后 8 层注入符号条件）；seed 方差压倒变量效应；无 BPM 输入（MIDI 路径下传 `--bpm` 直接报错）；无音区／八度参数；无音素对齐通道；无参考音频音色输入。
+- 未定项：移调 +12 是否试，待 Wang 定；适配器只留 `transpose12` 开关，默认关。
+
+### 13.5 SVC 可选后处理（YuE2 / MuLaCover，默认不接）
+
+- 开关 `part.options.svc`（bool，默认 `false`）。只对 `yue2` 与 `mulacover` 生效；`soulx` 与 `vocalrender` 传此开关时忽略（不报错）。
+- 目标音色走 voice 注册机制（`part.voice_id` 的参考音频）；校验大声失败：voice 不存在、voice 无参考音频、参考音频时长 > 30 秒。SVC 参数写死：pitch_shift 0、auto_shift 关、fp16 按设备。
+- 调用复用 `phase2/service/app/svc_prompt_driver.py` 的调用形状（子进程驱动，`preprocess.pipeline` + `cli.inference_svc`），但只做前三步，不做第 4 步 prompt-meta 转录（输出是 wav，不是 prompt 对）。
+
+### 13.6 未接入 / 已封存
+
+- DiffSinger 不是第五条可用管线。DiffSinger + SVC 两段管线位于 lingren 仓库分支 `lingren-diffsinger-svc-twostage`，尖端 `8ad4180`（时光 stage 1b VR 标签与 sidecar），代码提交后即停下来，不合入 main（Wang 2026-11-07 15:10 定）。本项不碰该分支。
+
+### 13.7 未决 / 未测
+
+- YuE2 第一段高音压扁是否追（同段重 roll 换 seed 看复现性），待 Wang 定；适配器不做逐音补偿。
+- MuLaCover 移调 +12 是否试，待 Wang 定；适配器只留开关，默认关。
+- YuE2 单次调用超过约 108 秒输出的时长保真度未测；MuLaCover 按段挑优（多 seed 选最优）不在 v1。
+- VR 试点耳验结论未出（两份 PROGRESS 均写“待 Wang 耳验”）；SVC 验证小样的耳验结论由 Wang 定。
+- Yeban 侧 MCP 工具（`synthesize_singing` / `svs_job`）透传新 model 值是另一步，不在本项；Yeban 侧若有调用方省略 `model`，默认改动会使它改走 YuE2，须在该步里处理。
