@@ -28,21 +28,12 @@ from .adapters.stub import StubAdapter
 MAX_TAKE_ATTEMPTS = 3
 
 
-class _VocalRenderPending:
-    """Phase 2 placeholder: patch validation is done (see patches/),
-    service wiring is not. Failing loudly beats returning fake audio."""
-
-    name = "vocalrender"
-
-    def synthesize(self, *a, **k):
-        raise AdapterError(
-            "VocalRender service adapter is Phase 2 (patch validation done, "
-            "wiring pending). Use model='soulx' in Phase 1.")
-
-
 def _adapters() -> dict:
-    return {"soulx": SoulXAdapter(), "vocalrender": _VocalRenderPending(),
-            "stub": StubAdapter()}
+    # Registration lands progressively as each adapter lands (steps
+    # 2-4 of DESIGN-four-pipelines.md section 12); the finished
+    # registry is soulx, vocalrender, yue2, mulacover + stub.
+    # The _VocalRenderPending placeholder is gone (step 2).
+    return {"soulx": SoulXAdapter(), "stub": StubAdapter()}
 
 
 class JobStore:
@@ -146,12 +137,19 @@ class JobStore:
 
     def _run_part(self, job: dict, part: PartIn, adapters: dict,
                   job_dir: Path) -> dict:
-        voice = self.voices.get(part.voice_id)
-        if voice is None:
-            raise AdapterError(f"unknown voice_id {part.voice_id!r}")
+        # Adapter first, then voice: YuE2/MuLaCover generation needs
+        # no voice (their needs_voice hook returns False unless the
+        # SVC switch is on), so an unknown voice_id must not fail
+        # them. SoulX/VocalRender keep the old behaviour (voice
+        # required, same error text).
         adapter = adapters.get(part.model)
         if adapter is None:
             raise AdapterError(f"unknown model {part.model!r}")
+        nv = getattr(adapter, "needs_voice", True)
+        needs_voice = nv(part) if callable(nv) else bool(nv)
+        voice = self.voices.get(part.voice_id)
+        if needs_voice and voice is None:
+            raise AdapterError(f"unknown voice_id {part.voice_id!r}")
         workdir = job_dir / f"work_{part.label}"
         workdir.mkdir(parents=True, exist_ok=True)
         seeds = part.seeds or list(range(part.takes))
