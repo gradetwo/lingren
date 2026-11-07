@@ -12,9 +12,26 @@ patches/05-vocalrender-note-tokens.md before use).
 
 from __future__ import annotations
 
+import math
 import re
 
 from .schemas import ScoreIn
+
+
+def n_bars_for_span(span_s: float, bar_s: float) -> int:
+    """Whole bars spanned by span_s (4/4 assumed by callers).
+
+    An exact multiple of bar_s is that many bars, not one more.
+    Two kinds of noise must not add a phantom bar: float residue
+    (e.g. 101.8182 / 3.63636... == 28.000005) and the input data's
+    own rounding (score times are routinely rounded to 4 decimals,
+    so a span can sit ~20 us past the bar line). Both are far below
+    1 ms, while a genuine partial bar is at least a 16th note
+    (~0.23 s at 66 BPM), so an overshoot under 1 ms is treated as
+    rounding noise. The span itself is unchanged -- only the bar
+    count is affected, so no audio is lost.
+    """
+    return max(1, math.ceil((span_s - 1e-3) / bar_s))
 
 _CJK = re.compile(r"[\u4e00-\u9fff]")
 
@@ -293,7 +310,7 @@ def derive_chords(score: ScoreIn) -> list[dict]:
     if not sung:
         raise ValueError("score has no sung notes; cannot derive chords")
     last_end = max(n.start_s + n.dur_s for n in sung)
-    n_bars = max(1, int(last_end / bar_s) + (1 if last_end % bar_s else 0))
+    n_bars = n_bars_for_span(last_end, bar_s)
     chords = []
     prev = None
     for bar in range(n_bars):

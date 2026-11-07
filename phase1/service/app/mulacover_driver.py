@@ -140,7 +140,11 @@ def _splice(dry_slots: list, span_s: float, out_path: Path) -> list[dict]:
         else:
             stretched = stretched[:n_slot]
         o0 = int(round(s0 * sr))
-        canvas[o0:o0 + n_slot] += stretched
+        # Clamp the write to the canvas: a slot that ends past the
+        # span (e.g. a stale manifest) must truncate, never crash.
+        n_write = min(n_slot, len(canvas) - o0)
+        if n_write > 0:
+            canvas[o0:o0 + n_write] += stretched[:n_write]
         report.append({"bars": item["bars"],
                        "dry_dur_s": round(len(d) / sr, 2),
                        "voiced_span_s": [round(v0, 2), round(v1, 2)],

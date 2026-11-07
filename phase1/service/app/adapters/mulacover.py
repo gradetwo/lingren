@@ -44,8 +44,9 @@ from pathlib import Path
 
 from ..schemas import PartIn
 from ..score_converter import (
-    PPQ, chords_to_midi_notes, derive_chords, score_lyrics_text,
-    score_to_midi_notes, stretch_midi_notes, write_midi_file)
+    PPQ, chords_to_midi_notes, derive_chords, n_bars_for_span,
+    score_lyrics_text, score_to_midi_notes, stretch_midi_notes,
+    write_midi_file)
 from .base import AdapterError, BaseAdapter
 from .svc_post import apply_svc_post
 
@@ -155,8 +156,7 @@ class MuLaCoverAdapter(BaseAdapter):
         beat = 60.0 / part.score.bpm
         bar_s = 4 * beat
         span_s = max(n.start_s + n.dur_s for n in part.score.notes)
-        n_bars = max(1, int(span_s / bar_s)
-                     + (1 if span_s % bar_s else 0))
+        n_bars = n_bars_for_span(span_s, bar_s)
         melody = score_to_midi_notes(part.score, transpose=transpose)
         if opts.get("chords") is not None:
             chords = _validate_chords_table(opts["chords"], n_bars)

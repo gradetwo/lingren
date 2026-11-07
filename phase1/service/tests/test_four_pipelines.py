@@ -588,3 +588,72 @@ print(json.dumps({"out": args.out, "sr": sr,
                   "duration_s": round(len(data) / sr, 4),
                   "peak": 0.5, "clipped_samples": 0}))
 '''
+
+
+# --- regression: float-residue phantom bar (smoke 2026-11-07) ----------
+# The folk segment spans exactly 28 bars (101.8182 s at 66 BPM), but
+# 101.8182 / 3.63636... == 28.000000000000004 in float, so the old
+# `int(span/bar) + (1 if span % bar else 0)` counted 29 bars. The
+# last MuLaCover segment then got slot [87.27, 105.45] (5 bars, past
+# the span) and the splice crashed adding a longer stretched slot
+# into a shorter canvas window (job fe6b9282019948a6).
+
+
+def test_n_bars_for_span_exact_multiple():
+    from app.score_converter import n_bars_for_span
+    bar = 4 * 60.0 / 66.0
+    assert n_bars_for_span(101.8182, bar) == 28
+    assert n_bars_for_span(28 * bar, bar) == 28
+    assert n_bars_for_span(28.5 * bar, bar) == 29
+    assert n_bars_for_span(101.8182 + 0.5, bar) == 29
+    assert n_bars_for_span(0.5, bar) == 1
+    assert n_bars_for_span(bar, bar) == 1
+
+
+def test_derive_chords_exact_28_bars_not_29():
+    from app.score_converter import derive_chords
+    score = ScoreIn(bpm=66.0, notes=[
+        _note("假", 62, 0.0, 0.5),
+        _note("路", 55, 100.9091, 0.9091)])
+    chords = derive_chords(score)
+    assert len(chords) == 28
+    assert chords[-1]["bar"] == 27
+
+
+def test_mulacover_splice_clamps_slot_past_span(tmp_path, monkeypatch):
+    import types
+    import app.mulacover_driver as mc_drv
+    sr = 44100
+    dur = 2.0
+    t = np.arange(int(sr * dur)) / sr
+    wav = np.stack([0.3 * np.sin(2 * np.pi * 440 * t)] * 2, axis=1)
+    dry = tmp_path / "dry.wav"
+    sf.write(str(dry), wav, sr)
+    # Fake pyworld: voiced between 0.1 s and 1.9 s.
+    pw_fake = types.ModuleType("pyworld")
+
+    def _dio(mono, sr_, frame_period=5.0, f0_floor=50, f0_ceil=800):
+        n = max(1, int(len(mono) / (sr_ * frame_period / 1000.0)))
+        tt = np.arange(n) * (frame_period / 1000.0)
+        f0 = np.where((tt >= 0.1) & (tt <= 1.9), 220.0, 0.0)
+        return f0, tt
+
+    pw_fake.dio = _dio
+    pw_fake.stonemask = lambda mono, f0, tt, sr_: f0
+    lr_fake = types.ModuleType("librosa")
+    lr_fake.resample = lambda y, orig_sr, target_sr: y
+    lr_eff = types.ModuleType("librosa.effects")
+    lr_eff.time_stretch = lambda y, rate: y
+    lr_fake.effects = lr_eff
+    monkeypatch.setitem(sys.modules, "pyworld", pw_fake)
+    monkeypatch.setitem(sys.modules, "librosa", lr_fake)
+    monkeypatch.setitem(sys.modules, "librosa.effects", lr_eff)
+    out = tmp_path / "out.wav"
+    report, out_sr, peak = mc_drv._splice(
+        [{"dry": str(dry), "slot": [87.2727, 105.4545],
+          "bars": [24, 29]}],
+        101.8182, out)
+    assert out_sr == sr
+    assert abs(sf.info(str(out)).duration - 101.8182) < 0.01
+    assert peak > 0
+    assert report[0]["bars"] == [24, 29]
