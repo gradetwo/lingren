@@ -101,7 +101,12 @@ voice 参考音频；校验响亮失败（voice 不存在、voice 无参考音�
 参考音频 > 30 秒）。SVC 参数写死：pitch_shift 0、auto_shift 关、
 fp16 按设备。环境变量（开关打开时才必填）：`SVC_REPO`、
 `SVC_MODEL_PATH`（默认 `pretrained_models/SoulX-Singer/model-svc.pt`，
-相对 `SVC_REPO`）、`SVC_DEVICE`（默认 `cuda`）。回执
+相对 `SVC_REPO`）、`SVC_DEVICE`（默认 `cuda`）。可选
+`SVC_PYTHON`：SoulX 两个子进程用的解释器，默认服务进程自己的
+解释器；服务跑在 YuE2 环境（torch/transformers 太新，SoulX 自带
+llama.py 的旧调用签名与新版 transformers 不兼容）时，指向一个按
+SoulX requirements 钉死版本的 venv（torch 2.2.0、transformers
+4.41.2）。回执
 `adapter_info.svc` 记 `svc: true` 与目标 voice_id、时长、seed。
 
 ## 未接入 / 已封存

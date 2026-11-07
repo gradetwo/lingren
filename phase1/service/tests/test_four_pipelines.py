@@ -657,3 +657,14 @@ def test_mulacover_splice_clamps_slot_past_span(tmp_path, monkeypatch):
     assert abs(sf.info(str(out)).duration - 101.8182) < 0.01
     assert peak > 0
     assert report[0]["bars"] == [24, 29]
+
+
+def test_svc_python_env_override(monkeypatch):
+    import importlib
+    import app.svc_driver as svc_mod
+    monkeypatch.setenv("SVC_PYTHON", "/usr/bin/python3-soulx")
+    importlib.reload(svc_mod)
+    assert svc_mod._PYTHON == "/usr/bin/python3-soulx"
+    monkeypatch.delenv("SVC_PYTHON")
+    importlib.reload(svc_mod)
+    assert svc_mod._PYTHON == sys.executable

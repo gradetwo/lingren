@@ -32,6 +32,16 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Interpreter for the SoulX subprocesses (preprocess + inference).
+# Default is this process's interpreter. Set SVC_PYTHON to a
+# SoulX-pinned interpreter when the service runs in an env whose
+# torch/transformers are too new for SoulX's vendored llama.py
+# (newer transformers' LlamaAttention.forward requires a
+# position_embeddings argument the vendored call site does not
+# pass -- TypeError at inference). The service process itself is
+# unaffected; only the two SoulX steps run under SVC_PYTHON.
+_PYTHON = os.environ.get("SVC_PYTHON", sys.executable)
+
 
 def _resolve(path: str, repo: Path) -> Path:
     p = Path(path)
@@ -134,7 +144,7 @@ def main() -> int:
                    "expandable_segments:True")
 
     def pipeline(audio: str, save_dir: Path, step: str) -> None:
-        _run([sys.executable, "-m", "preprocess.pipeline",
+        _run([_PYTHON, "-m", "preprocess.pipeline",
               "--audio_path", audio, "--save_dir", str(save_dir),
               "--language", "Mandarin", "--device", args.device,
               "--vocal_sep", "False",
@@ -150,7 +160,7 @@ def main() -> int:
     _require(prep_timbre / "vocal.wav", "prep_timbre")
     _require(prep_timbre / "vocal_f0.npy", "prep_timbre")
     # 3. SVC: source performance -> timbre voice.
-    svc_cmd = [sys.executable, "-m", "cli.inference_svc",
+    svc_cmd = [_PYTHON, "-m", "cli.inference_svc",
                "--device", args.device,
                "--model_path", str(model_path),
                "--config", str(config),
