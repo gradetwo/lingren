@@ -22,6 +22,7 @@ from .gate import check_pair
 from .schemas import PartIn, SynthesizeIn
 from .adapters.base import AdapterError
 from .adapters.vocalrender import VocalRenderAdapter
+from .adapters.yue2 import YuE2Adapter
 from .adapters.soulx import SoulXAdapter
 from .adapters.stub import StubAdapter
 
@@ -34,6 +35,7 @@ def _adapters() -> dict:
     # registry is soulx, vocalrender, yue2, mulacover + stub.
     return {"soulx": SoulXAdapter(),
             "vocalrender": VocalRenderAdapter(),
+            "yue2": YuE2Adapter(),
             "stub": StubAdapter()}
 
 
