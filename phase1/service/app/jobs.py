@@ -20,8 +20,8 @@ import soundfile as sf
 from .alignment import align_to_score, detect_candidates
 from .gate import check_pair
 from .schemas import PartIn, SynthesizeIn
-from .score_converter import score_onsets_seconds
 from .adapters.base import AdapterError
+from .adapters.vocalrender import VocalRenderAdapter
 from .adapters.soulx import SoulXAdapter
 from .adapters.stub import StubAdapter
 
@@ -32,8 +32,9 @@ def _adapters() -> dict:
     # Registration lands progressively as each adapter lands (steps
     # 2-4 of DESIGN-four-pipelines.md section 12); the finished
     # registry is soulx, vocalrender, yue2, mulacover + stub.
-    # The _VocalRenderPending placeholder is gone (step 2).
-    return {"soulx": SoulXAdapter(), "stub": StubAdapter()}
+    return {"soulx": SoulXAdapter(),
+            "vocalrender": VocalRenderAdapter(),
+            "stub": StubAdapter()}
 
 
 class JobStore:
@@ -200,25 +201,52 @@ class JobStore:
                 "gate_pairwise": gate_pairwise}
 
     @staticmethod
+    def _is_rest(note) -> bool:
+        return note.lyric in ("", "<SP>") or note.midi <= 0
+
+    @staticmethod
     def _alignment(part: PartIn, mono, sr: int) -> list[dict]:
-        """Measured onsets vs score onsets.
+        """Measured onsets vs score onsets, one entry per score note.
+
+        Entry keys: score_onset_s, measured_onset_s, deviation_ms,
+        lyric, ignored. Sung notes get ignored=False. Rest (SP) notes
+        have no sung onset: they are reported as ignored=True with
+        measured_onset_s=None and deviation_ms=None, and they consume
+        no detection candidate -- assigning a neighbour syllable's
+        onset to a rest (the old Phase 1 behaviour) would misplace
+        both. Alignment therefore runs over sung notes only, then
+        re-expands to the full note list. (Ported from
+        phase2/service/app/jobs.py with the VocalRender adapter.)
 
         SoulX: placement stays on the score clock; deviations are
-        validation data. VocalRender (Phase 2): these measured onsets
-        ARE the placement data (first syllable anchors the score start).
+        validation data (mode "score"). VocalRender: these measured
+        onsets ARE the placement data (mode "rescaled"); Yeban places
+        by measured onset, and skips ignored (SP) entries.
         """
         try:
             cands = detect_candidates(mono, sr)
-            onsets = score_onsets_seconds(part.score)
             notes = sorted(part.score.notes, key=lambda n: n.start_s)
-            total = max((n.start_s + n.dur_s for n in notes), default=0.0)
+            sung = [n for n in notes if not JobStore._is_rest(n)]
+            total = max((n.start_s + n.dur_s for n in sung), default=0.0)
             mode = "rescaled" if part.model == "vocalrender" else "score"
-            aligned = align_to_score(cands, onsets, total, mode=mode)
-            # Carry the lyric so consumers can ignore rests (SP) when
-            # placing: rests have no sung onset, their assigned candidate
-            # is a neighbouring syllable's at best.
-            for entry, note in zip(aligned, notes):
-                entry["lyric"] = note.lyric
-            return aligned
+            sung_onsets = [float(n.start_s) for n in sung]
+            aligned = align_to_score(cands, sung_onsets, total,
+                                     mode=mode) if sung else []
+            out: list[dict] = []
+            sung_iter = iter(aligned)
+            for note in notes:
+                if JobStore._is_rest(note):
+                    out.append({"score_onset_s": round(float(note.start_s),
+                                                      4),
+                                "measured_onset_s": None,
+                                "deviation_ms": None,
+                                "lyric": note.lyric,
+                                "ignored": True})
+                else:
+                    entry = next(sung_iter)
+                    entry["lyric"] = note.lyric
+                    entry["ignored"] = False
+                    out.append(entry)
+            return out
         except Exception as e:
             return [{"error": f"alignment failed: {e}"}]
